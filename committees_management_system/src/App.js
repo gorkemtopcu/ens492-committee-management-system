@@ -15,7 +15,7 @@ import AssignmentsManagement from './pages/Management/AssignmentsManagement';
 import MailingListsManagement from './pages/Management/MailingListsManagement';
 import NotFoundPage from './pages/NotFoundPage';
 import ListMeeting from './pages/Meeting/ListMeeting';
-import MeetingNotes from './pages/Meeting/CreateMeetingNotes';
+import CreateMeetingNotes from './pages/Meeting/CreateMeetingNotes';
 
 function Dashboard() {
   return null;
