@@ -41,7 +41,7 @@ const CommitteesManagement = () => {
       searchable: true,
     },
     {
-      title: 'CommitteeManagement',
+      title: 'Committee Management',
       dataIndex: 'committeeName',
       key: 'committeeName',
       searchable: true,
