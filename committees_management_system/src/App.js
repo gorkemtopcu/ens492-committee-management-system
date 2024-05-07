@@ -24,7 +24,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/admin" element={<MainLayout />}>
+        <Route path="/" element={<MainLayout />}>
           <Route index element={<Dashboard />} />
           <Route path="program-instructor" element={<ProgramInstructor />} />
           <Route path="count-membership" element={<CountMembership />} />
