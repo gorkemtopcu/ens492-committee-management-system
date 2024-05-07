@@ -3,7 +3,7 @@ import React from 'react';
 const MailingListsManagement = () => {
     return (
         <div>
-            <h1>MailingListsManagement</h1>
+            <h1>Mailing Lists Management</h1>
         </div>
     );
 };

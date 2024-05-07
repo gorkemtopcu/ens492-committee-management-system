@@ -3,7 +3,7 @@ import React from 'react';
 const CommitteesAssignment = () => {
     return (
         <div>
-            <h1>CommitteesAssignment</h1>
+            <h1>Committees Assignment</h1>
         </div>
     );
 };
