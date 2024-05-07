@@ -1,7 +1,7 @@
 import React from 'react';
 import { List } from 'antd';
 
-const Picker = ({ title, items, onChange }) => {
+const Picker = ({ title, items, selected, onChange }) => {
   function handleClick(item) {
     onChange(item);
   }
@@ -14,7 +14,10 @@ const Picker = ({ title, items, onChange }) => {
         bordered
         dataSource={items}
         renderItem={item => (
-          <List.Item onClick={() => handleClick(item)}>
+          <List.Item
+            onClick={() => handleClick(item)}
+            style={{ backgroundColor: selected === item ? '#e6f7ff' : 'inherit', cursor: 'pointer' }} // Highlight selected item
+          >
             {item}
           </List.Item>
         )}

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Table, Input, Space, Button, Modal } from 'antd';
-import axios from 'axios'; // Import axios for making HTTP requests
 import TableSearch from '../../components/TableSearch';
-import committeesData from '../../lists/report_lists/committees.json';
+import Header from '../../components/Header';
+import Committees from 'data/report/committees.json';
+import COLORS from 'constants/ColorConstants';
 
 const CommitteesManagement = () => {
-  const [data, setData] = useState(committeesData);
+  const [data, setData] = useState(Committees);
 
   const handleDelete = (record) => {
     Modal.confirm({
@@ -17,19 +18,17 @@ const CommitteesManagement = () => {
       onOk() {
         const updatedData = data.filter(item => item.id !== record.id);
         setData(updatedData);
-        updateJsonFile(updatedData); // Update JSON file
+        updateJsonFile(updatedData);
       },
     });
   }
 
   const updateJsonFile = (updatedData) => {
-    // Update the JSON file directly
     localStorage.setItem('committeesData', JSON.stringify(updatedData));
     console.log('JSON file updated successfully');
   };
 
   const handleEdit = (record) => {
-    // Implement the handleEdit functionality here
     console.log('Editing:', record);
   };
 
@@ -52,13 +51,18 @@ const CommitteesManagement = () => {
       render: (text, record) => (
         <Space size="middle">
           <Button type="primary" onClick={() => handleEdit(record)}>Edit</Button>
-          <Button type="danger" onClick={() => handleDelete(record)}>Delete</Button>
+          <Button type="default" style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }} onClick={() => handleDelete(record)}>Delete</Button>
         </Space>
       ),
     },
   ];
 
-  return <TableSearch columns={columns} data={data} />; // Pass updated data here
+  return (
+    <div>
+      <Header title="Committees Management" />
+      <TableSearch columns={columns} data={data} />
+    </div>
+  );
 };
 
 export default CommitteesManagement;
