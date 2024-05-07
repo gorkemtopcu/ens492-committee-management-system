@@ -161,7 +161,23 @@ const MainLayout = () => {
                             height: 64,
                         }}
                     />
-
+                    <div className="d-flex gap-3 align-items-center">
+                        <div className="position-relative">
+                            <IoMdNotifications className="fs-4" />
+                            <span className="badge bg-warning rounded-circle p-1 position-absolute"> 3</span>
+                        </div>
+                        <div>
+                            <div className="d-flex gap-3 align-items-center">
+                                <img width={32}
+                                    height={32}
+                                    src="https://img.freepik.com/free-icon/user_318-563642.jpg?w=360" alt="" />
+                            </div>
+                        </div>
+                        <div>
+                            <h5 className="text-dark"> Username</h5>
+                            <p className="mb-0"> username@sabanciuniv.edu</p>
+                        </div>
+                    </div>
                 </Header>
                 <Content
                     style={{
