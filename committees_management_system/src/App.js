@@ -14,6 +14,8 @@ import MembersManagement from './pages/MembersManagement';
 import AssignmentsManagement from './pages/AssignmentsManagement';
 import MailingListsManagement from './pages/MailingListsManagement';
 import NotFoundPage from './pages/NotFoundPage';
+import ListMeeting from './pages/ListMeeting';
+import MeetingNotes from './pages/MeetingNotes';
 
 function Dashboard() {
   return null;
@@ -40,6 +42,11 @@ function App() {
             <Route path="mgmt-members" element={<MembersManagement />} />
             <Route path="mgmt-assignments" element={<AssignmentsManagement />} />
             <Route path="mgmt-mailing" element={<MailingListsManagement />} />
+          </Route>
+          <Route path="meeting/*" element={<div>Management</div>}>
+            <Route index element={<div>Meeting</div>} />
+            <Route path="list-meeting" element={<ListMeeting />} />
+            <Route path="meeting-notes" element={<MeetingNotes />} />
           </Route>
           <Route path="*" element={<NotFoundPage />} />
         </Route>

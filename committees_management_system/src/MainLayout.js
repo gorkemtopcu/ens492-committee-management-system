@@ -127,6 +127,23 @@ const MainLayout = () => {
                                 },
                             ]
                         },
+                        {
+                            key: 'meeting',
+                            icon: <FaCartPlus />,
+                            label: 'Meetings',
+                            children: [
+                                {
+                                    key: 'list-meeting',
+                                    icon: <FaCartPlus />,
+                                    label: 'List Meetings',
+                                },
+                                {
+                                    key: 'meeting-notes',
+                                    icon: <FaCartPlus />,
+                                    label: 'Create Meeting Notes',
+                                },
+                            ]
+                        },
                     ]}
                 />
             </Sider>
