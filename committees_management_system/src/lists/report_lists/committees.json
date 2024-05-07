@@ -1,0 +1,23 @@
+[
+  {
+    "id": 1,
+    "committeeName": "Finance Committee",
+    "description": "Responsible for financial matters",
+    "chairperson": "John Doe",
+    "members": ["Alice", "Bob", "Charlie"]
+  },
+  {
+    "id": 2,
+    "committeeName": "Marketing Committee",
+    "description": "Handles marketing activities",
+    "chairperson": "Jane Smith",
+    "members": ["David", "Eva", "Frank"]
+  },
+  {
+    "id": 3,
+    "committeeName": "Technology Committee",
+    "description": "Focuses on technology-related tasks",
+    "chairperson": "Mike Johnson",
+    "members": ["Grace", "Henry", "Ivy"]
+  }
+]
