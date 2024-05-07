@@ -147,10 +147,10 @@ const MainLayout = () => {
                     ]}
                 />
             </Sider>
-            <Layout style={{ marginLeft: collapsed ? 80 : 250 }}>
+            <Layout style={{ marginLeft: collapsed ? 80 : 250}}>
                 <Header
                     className="d-flex justify-content-between ps-2 pe-5"
-                    style={{ padding: 0, background: colorBgContainer }}>
+                    style={{ padding: 0, background: colorBgContainer}}>
                     <Button
                         type="text"
                         icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
@@ -161,7 +161,7 @@ const MainLayout = () => {
                             height: 64,
                         }}
                     />
-                    <div className="d-flex gap-3 align-items-center">
+                    <div className="d-flex gap-3 align-items-center"  style={{ marginTop: '40px' }}>
                         <div className="position-relative">
                             <IoMdNotifications className="fs-4" />
                             <span className="badge bg-warning rounded-circle p-1 position-absolute"> 3</span>
