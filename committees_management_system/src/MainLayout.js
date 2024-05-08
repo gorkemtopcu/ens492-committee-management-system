@@ -28,7 +28,7 @@ const MainLayout = () => {
         <Layout style={{ minHeight: '100vh' }}>
             <Sider
                 trigger={null} collapsible collapsed={collapsed}
-                width={200}
+                width={275}
                 style={{
                     overflow: 'auto',
                     height: '100vh',

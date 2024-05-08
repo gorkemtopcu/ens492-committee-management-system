@@ -1,8 +1,7 @@
-// constants/ColorConstants.js
-
 const COLORS = {
-    PRIMARY: '#367FA9',
+    PRIMARY: '#1677FF',
     ONPRIMARY: '#FFFFFF',
+    PRIMARYCONTAINER: '#e6f7ff',
     SECONDARY: '#555555',
     BACKGROUND: '#FFFFFF',
     SURFACE: '#ECF0F5',

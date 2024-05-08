@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Table, Input, Space, Button, Modal } from 'antd';
-import TableSearch from '../../components/TableSearch';
-import Header from '../../components/Header';
-import Committees from 'data/report/committees.json';
-import COLORS from 'constants/ColorConstants';
+import { Space, Button, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import Committees from 'assets/jsons/report/committees.json';
+import COLORS from 'product/constants/ColorConstants';
+import { Header } from 'antd/es/layout/layout';
+import TableSearch from 'product/components/TableSearch';
 
 const CommitteesManagement = () => {
   const [data, setData] = useState(Committees);
@@ -48,7 +49,7 @@ const CommitteesManagement = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (
+      render: (record) => (
         <Space size="middle">
           <Button type="primary" onClick={() => handleEdit(record)}>Edit</Button>
           <Button type="default" style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }} onClick={() => handleDelete(record)}>Delete</Button>
@@ -60,6 +61,9 @@ const CommitteesManagement = () => {
   return (
     <div>
       <Header title="Committees Management" />
+      <div style={{ marginBottom: '20px' }}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={() => console.log('Add new committee clicked')}>Add New Committee</Button>
+      </div>
       <TableSearch columns={columns} data={data} />
     </div>
   );

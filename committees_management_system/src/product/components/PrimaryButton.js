@@ -1,9 +1,10 @@
 import React from 'react';
+import { Button } from 'antd';
 import COLORS from '../constants/ColorConstants';
 
 const PrimaryButton = ({ title, onClick, isEnabled }) => {
     return (
-        <button
+        <Button
             onClick={onClick}
             disabled={!isEnabled}
             style={{
@@ -13,9 +14,10 @@ const PrimaryButton = ({ title, onClick, isEnabled }) => {
                 padding: '8px 16px',
                 backgroundColor: isEnabled ? COLORS.PRIMARY : COLORS.DISABLED,
                 color: isEnabled ? COLORS.ONPRIMARY : COLORS.SECONDARY,
+                borderColor: isEnabled ? COLORS.PRIMARY : COLORS.DISABLED,
             }}>
             {title}
-        </button>
+        </Button>
     );
 };
 

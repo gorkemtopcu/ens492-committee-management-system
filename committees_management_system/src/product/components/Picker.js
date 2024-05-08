@@ -1,5 +1,6 @@
 import React from 'react';
 import { List } from 'antd';
+import COLORS from 'constants/ColorConstants';
 
 const Picker = ({ title, items, selected, onChange }) => {
   function handleClick(item) {
@@ -16,7 +17,7 @@ const Picker = ({ title, items, selected, onChange }) => {
         renderItem={item => (
           <List.Item
             onClick={() => handleClick(item)}
-            style={{ backgroundColor: selected === item ? '#e6f7ff' : 'inherit', cursor: 'pointer' }} // Highlight selected item
+            style={{ backgroundColor: selected === item ? COLORS.PRIMARYCONTAINER : 'inherit', cursor: 'pointer' }}
           >
             {item}
           </List.Item>
