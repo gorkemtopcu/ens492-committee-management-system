@@ -3,19 +3,19 @@ import './App.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import MainLayout from './MainLayout';
-import ProgramInstructor from './pages/Report/ProgramInstructor';
-import CountMembership from './pages/Report/CountMembership';
-import CommitteesAssignment from './pages/Report/CommitteesAssignment';
-import Committees from './pages/Report/Committees';
-import MeetingParticipation from './pages/Report/MeetingParticipation';
-import CommitteeAnnouncement from './pages/Report/CommitteeAnnouncement';
-import MembersManagement from './pages/Management/MembersManagement';
-import CommitteesManagement from './pages/Management/CommitteesManagement';
-import AssignmentsManagement from './pages/Management/AssignmentsManagement';
-import MailingListsManagement from './pages/Management/MailingListsManagement';
-import NotFoundPage from './pages/NotFoundPage';
-import ListMeeting from './pages/Meeting/ListMeeting';
-import CreateMeetingNotes from './pages/Meeting/CreateMeetingNotes';
+import ProgramInstructor from 'feature/Report/ProgramInstructor';
+import CountMembership from 'feature/Report/CountMembership';
+import CommitteesAssignment from 'feature/Report/CommitteesAssignment';
+import Committees from 'feature/Report/Committees';
+import MeetingParticipation from 'feature/Report/MeetingParticipation';
+import CommitteeAnnouncement from 'feature/Report/CommitteeAnnouncement';
+import MembersManagement from 'feature/Management/MembersManagement';
+import CommitteesManagement from 'feature/Management/CommitteesManagement';
+import AssignmentsManagement from 'feature/Management/AssignmentsManagement';
+import MailingListsManagement from 'feature/Management/MailingListsManagement';
+import NotFoundPage from 'feature/NotFoundPage';
+import ListMeeting from 'feature/Meeting/ListMeeting';
+import CreateMeetingNotes from 'feature/Meeting/CreateMeetingNotes';
 
 function Dashboard() {
   return null;
