@@ -23,7 +23,7 @@ const TableSearch = ({ columns, data }) => {
         <Input
           placeholder={`Search ${dataIndex}`}
           value={selectedKeys[0]}
-          onChange={(e) =>  setSelectedKeys(e.target.value ? [e.target.value] : [])}
+          onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => handleSearch(selectedKeys, confirm, dataIndex)}
           style={{ width: 188, marginBottom: 8, display: 'block' }}
         />
@@ -36,7 +36,7 @@ const TableSearch = ({ columns, data }) => {
         : '',
     render: (text) =>
       searchedColumn === dataIndex ? (
-        <span style={{ fontWeight: 'bold'}}>{text}</span>
+        <span>{text}</span>
       ) : (
         text
       ),
@@ -54,15 +54,15 @@ const TableSearch = ({ columns, data }) => {
 
   const filteredData = searchText
     ? data.filter((record) =>
-        columns.some(
-          (col) =>
-            col.searchable &&
-            record[col.dataIndex]
-              .toString()
-              .toLowerCase()
-              .includes(searchText.toLowerCase())
-        )
+      columns.some(
+        (col) =>
+          col.searchable &&
+          record[col.dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(searchText.toLowerCase())
       )
+    )
     : data;
 
   return <Table columns={columnsWithSearch} dataSource={filteredData} />;

@@ -1,7 +1,8 @@
 import React from 'react';
 import { List } from 'antd';
+import COLORS from 'constants/ColorConstants';
 
-const Picker = ({ title, items, onChange }) => {
+const Picker = ({ title, items, selected, onChange }) => {
   function handleClick(item) {
     onChange(item);
   }
@@ -14,7 +15,10 @@ const Picker = ({ title, items, onChange }) => {
         bordered
         dataSource={items}
         renderItem={item => (
-          <List.Item onClick={() => handleClick(item)}>
+          <List.Item
+            onClick={() => handleClick(item)}
+            style={{ backgroundColor: selected === item ? COLORS.PRIMARYCONTAINER : 'inherit', cursor: 'pointer' }}
+          >
             {item}
           </List.Item>
         )}

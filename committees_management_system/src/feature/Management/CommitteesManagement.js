@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Table, Input, Space, Button, Modal } from 'antd';
-import axios from 'axios'; // Import axios for making HTTP requests
-import TableSearch from '../../components/TableSearch';
-import committeesData from '../../lists/report_lists/committees.json';
+import { Space, Button, Modal } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+import Committees from 'assets/jsons/report/committees.json';
+import COLORS from 'product/constants/ColorConstants';
+import { Header } from 'antd/es/layout/layout';
+import TableSearch from 'product/components/TableSearch';
 
 const CommitteesManagement = () => {
-  const [data, setData] = useState(committeesData);
+  const [data, setData] = useState(Committees);
 
   const handleDelete = (record) => {
     Modal.confirm({
@@ -17,19 +19,17 @@ const CommitteesManagement = () => {
       onOk() {
         const updatedData = data.filter(item => item.id !== record.id);
         setData(updatedData);
-        updateJsonFile(updatedData); // Update JSON file
+        updateJsonFile(updatedData);
       },
     });
   }
 
   const updateJsonFile = (updatedData) => {
-    // Update the JSON file directly
     localStorage.setItem('committeesData', JSON.stringify(updatedData));
     console.log('JSON file updated successfully');
   };
 
   const handleEdit = (record) => {
-    // Implement the handleEdit functionality here
     console.log('Editing:', record);
   };
 
@@ -49,16 +49,24 @@ const CommitteesManagement = () => {
     {
       title: 'Action',
       key: 'action',
-      render: (text, record) => (
+      render: (record) => (
         <Space size="middle">
           <Button type="primary" onClick={() => handleEdit(record)}>Edit</Button>
-          <Button type="danger" onClick={() => handleDelete(record)}>Delete</Button>
+          <Button type="default" style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }} onClick={() => handleDelete(record)}>Delete</Button>
         </Space>
       ),
     },
   ];
 
-  return <TableSearch columns={columns} data={data} />; // Pass updated data here
+  return (
+    <div>
+      <Header title="Committees Management" />
+      <div style={{ marginBottom: '20px' }}>
+        <Button type="primary" icon={<PlusOutlined />} onClick={() => console.log('Add new committee clicked')}>Add New Committee</Button>
+      </div>
+      <TableSearch columns={columns} data={data} />
+    </div>
+  );
 };
 
 export default CommitteesManagement;
