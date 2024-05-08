@@ -57,5 +57,4 @@ const ProgramInstructor = () => {
         </div>
     );
 };
-
 export default ProgramInstructor;
