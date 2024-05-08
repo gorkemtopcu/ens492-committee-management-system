@@ -48,7 +48,7 @@ const ProgramInstructor = () => {
         disabled={!isButtonEnabled} 
         style={{ 
             width: '100px', 
-            bottom: '5px', 
+            bottom: '5px',
             left: '20px', 
             padding: '8px 16px',
             backgroundColor: isButtonEnabled ? '#3fdf22' : '#cccccc', // White color when enabled, grey color when disabled
