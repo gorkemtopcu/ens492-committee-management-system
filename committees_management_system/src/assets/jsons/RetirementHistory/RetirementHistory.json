@@ -1,0 +1,36 @@
+[
+    {
+        "id": 1,
+        "facultyMember": "John Doe",
+        "email": "john.doe@example.com",
+        "program": "Computer Science",
+        "duration": "5 years",
+        "startedAt": "2020-08-15",
+        "expectedRetirement": "2050-08-15",
+        "status": "Active",
+        "relateddocuments": "Empty"
+
+    },
+    {
+        "id": 2,
+        "facultyMember": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "program": "Engineering",
+        "duration": "7 years",
+        "startedAt": "2018-03-20",
+        "expectedRetirement": "2045-03-20",
+        "status": "Active",
+        "relateddocuments": "Empty"
+    },
+    {
+        "id": 3,
+        "facultyMember": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "program": "Mathematics",
+        "duration": "4 years",
+        "startedAt": "2022-01-10",
+        "expectedRetirement": "2046-01-10",
+        "status": "Active",
+        "relateddocuments": "Empty"
+    }
+]
