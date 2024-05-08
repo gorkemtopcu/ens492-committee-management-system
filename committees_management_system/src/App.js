@@ -17,10 +17,6 @@ import NotFoundPage from 'feature/NotFoundPage';
 import ListMeeting from 'feature/Meeting/ListMeeting';
 import CreateMeetingNotes from 'feature/Meeting/CreateMeetingNotes';
 
-function Dashboard() {
-  return null;
-}
-
 
 function App() {
   return (

@@ -32,18 +32,18 @@ const ProgramInstructor = () => {
   return (
     <div>
       <Header title="Program/Term Select" />
-      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '50px', marginTop: '20px' }}> {/* Align pickers to the left */}
+      <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '50px', marginBottom: "50px" }}>
         <Picker
           title="Select Program"
           items={Programs}
           onChange={handleProgramChange}
-          selected={selectedProgram} // Pass selectedProgram as prop to highlight the selected program
+          selected={selectedProgram}
         />
         <Picker
           title="Select Term"
           items={Terms}
           onChange={handleTermChange}
-          selected={selectedTerm} // Pass selectedTerm as prop to highlight the selected term
+          selected={selectedTerm}
         />
       </div>
 
