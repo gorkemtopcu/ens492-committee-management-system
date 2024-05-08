@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Picker from '../../components/Picker';
-import PrimaryButton from '../../components/PrimaryButton';
-import Header from '../../components/Header';
-import Programs from '../../data/report/programs.json'; // Corrected import path
-import Terms from '../../data/report/terms.json'; // Corrected import path
+import Programs from 'assets/jsons/report/programs.json';
+import Terms from 'assets/jsons/report/terms.json';
+import Header from 'product/components/Header';
+import Picker from 'product/components/Picker';
+import PrimaryButton from 'product/components/PrimaryButton';
 
 const ProgramInstructor = () => {
   // Define state for the selected programs and term

@@ -1,6 +1,6 @@
 import React from 'react';
 import { List } from 'antd';
-import COLORS from 'constants/ColorConstants';
+import COLORS from '../constants/ColorConstants';
 
 const Picker = ({ title, items, selected, onChange }) => {
   function handleClick(item) {
