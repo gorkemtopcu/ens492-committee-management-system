@@ -9,10 +9,6 @@ const MembersManagement = () => {
     const handleEdit = (record) => {
         // Define your handleEdit logic here
     };
-
-    const handleDelete = (record) => {
-        // Define your handleDelete logic here
-    };
     const fields = [columnMapping.id, columnMapping.facultyMember, columnMapping.email, columnMapping.program, columnMapping.exclude, columnMapping.action(handleEdit, null)];
 
     return (
