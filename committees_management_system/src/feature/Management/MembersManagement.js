@@ -1,12 +1,11 @@
 import Header from 'product/components/Header';
 import TableSearch from 'product/components/TableSearch';
 import React from 'react';
-import { generateColumns } from 'product/constants/ColumnMapping';
+import { columnMapping } from 'product/constants/ColumnMapping';
 import MemberManagement from 'assets/jsons/Management/MemberManagement.json';
 
 
 const MembersManagement = () => {
-    const fields = ['id', 'facultyMember', 'email', 'program', 'exclude', 'action'];
     const handleEdit = (record) => {
         // Define your handleEdit logic here
     };
@@ -14,11 +13,12 @@ const MembersManagement = () => {
     const handleDelete = (record) => {
         // Define your handleDelete logic here
     };
+    const fields = [columnMapping.id, columnMapping.facultyMember, columnMapping.email, columnMapping.program, columnMapping.exclude, columnMapping.action(handleEdit, handleDelete, true, false)];
 
     return (
         <div>
             <Header title="Members Management"/>
-            <TableSearch columns={generateColumns(fields, handleEdit, handleDelete, true, false)} data={MemberManagement} />
+            <TableSearch columns={fields} data={MemberManagement} />
         </div>
     );
 };

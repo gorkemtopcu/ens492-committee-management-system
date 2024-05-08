@@ -1,21 +1,12 @@
 import React, { useState } from 'react';
-import {
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    UploadOutlined,
-    UserOutlined,
-    VideoCameraOutlined,
-} from '@ant-design/icons';
+
 import { Outlet } from "react-router-dom";
 import { Layout, Menu, Button, theme } from 'antd';
-import { AiOutlineDashboard, AiOutlineSetting, AiOutlineUser } from 'react-icons/ai';
 import { useNavigate } from "react-router-dom";
-import { FaCartPlus } from "react-icons/fa";
 import { IoMdNotifications } from "react-icons/io";
-import { BiCategoryAlt } from "react-icons/bi";
-import { BsListOl } from "react-icons/bs";
-import { FiTruck } from "react-icons/fi";
-import { HiLogout } from "react-icons/hi";
+import CommitteeRoutes from './product/constants/Routes';
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+
 const { Header, Sider, Content } = Layout;
 
 const MainLayout = () => {
@@ -50,96 +41,7 @@ const MainLayout = () => {
                         navigate(key);
                         console.log(key);
                     }}
-                    items={[
-                        {
-                            key: 'reports-do',
-                            icon: <AiOutlineUser />,
-                            label: 'Reports (DO)',
-                            children: [
-                                {
-                                    key: 'program-instructor',
-                                    icon: <AiOutlineUser />,
-                                    label: 'Program & Instructor',
-                                },
-                                {
-                                    key: 'count-membership',
-                                    icon: <AiOutlineUser />,
-                                    label: 'Count of Membership',
-                                },
-                                {
-                                    key: 'committees',
-                                    icon: <AiOutlineUser />,
-                                    label: 'Committees',
-                                },
-                                {
-                                    key: 'committees-assignment',
-                                    icon: <AiOutlineUser />,
-                                    label: 'Committees Assignment',
-                                },
-                                {
-                                    key: 'meeting-participation',
-                                    icon: <AiOutlineUser />,
-                                    label: 'Meeting Participation',
-                                }
-                            ]
-                        },
-                        {
-                            key: 'reports',
-                            icon: <FaCartPlus />,
-                            label: 'Reports',
-                            children: [
-                                {
-                                    key: 'committee-announcement',
-                                    icon: <FaCartPlus />,
-                                    label: 'Committee Announcement',
-                                },
-                            ]
-                        },
-                        {
-                            key: 'management',
-                            icon: <FaCartPlus />,
-                            label: 'Management',
-                            children: [
-                                {
-                                    key: 'mgmt-committees',
-                                    icon: <FaCartPlus />,
-                                    label: 'Committees',
-                                },
-                                {
-                                    key: 'mgmt-members',
-                                    icon: <FaCartPlus />,
-                                    label: 'Members',
-                                },
-                                {
-                                    key: 'mgmt-assignments',
-                                    icon: <FaCartPlus />,
-                                    label: 'Assignments',
-                                },
-                                {
-                                    key: 'mgmt-mailing',
-                                    icon: <FaCartPlus />,
-                                    label: 'Mailing Lists',
-                                },
-                            ]
-                        },
-                        {
-                            key: 'meeting',
-                            icon: <FaCartPlus />,
-                            label: 'Meetings',
-                            children: [
-                                {
-                                    key: 'list-meeting',
-                                    icon: <FaCartPlus />,
-                                    label: 'List Meetings',
-                                },
-                                {
-                                    key: 'create-meeting-notes',
-                                    icon: <FaCartPlus />,
-                                    label: 'Create Meeting Notes',
-                                },
-                            ]
-                        },
-                    ]}
+                    items={CommitteeRoutes}
                 />
             </Sider>
             <Layout style={{ marginLeft: collapsed ? 80 : 250 }}>
