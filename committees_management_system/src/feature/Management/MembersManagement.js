@@ -19,15 +19,34 @@ const MembersManagement = () => {
         setModalVisible(true);
     };
 
-
     const handleCancel = () => {
         setPopupTitle(null);
         setInitialValues(null);
         setModalVisible(false);
     };
 
-    const handleAddMember = (values) => {
-        handleCancel();
+    const handleEditMember = (values) => {
+        if (!values) {
+            return;
+          }
+      
+        const updatedMember = {
+            ...initialValues,
+            facultyMember: values.facultyMember,
+            email: values.email,
+            program: values.program,
+            exclude: values.exclude === "Yes" ? true : false,
+        };
+      
+          const updatedData = data.map(item => {
+            if (item.id === initialValues.id) {
+              return updatedMember;
+            }
+            return item;
+          });
+      
+          setData(updatedData);
+          handleCancel();
     };
 
     const toggleStatus = () => {
@@ -46,13 +65,13 @@ const MembersManagement = () => {
     return (
         <div>
             <Header title="Members Management" />
-            <TableSearch columns={fields} data={MemberManagement} />
+            <TableSearch columns={fields} data={data} />
             <PopupForm
                 title={popupTitle}
                 open={modalVisible}
                 initialValues={initialValues} // Pass initialValues to PopupForm
                 onCancel={handleCancel}
-                onFinish={handleAddMember}
+                onFinish={handleEditMember}
                 fields={[
                     { name: 'facultyMember', label: 'Member Name', type: 'text', required: true },
                     { name: 'email', label: 'Email of User', type: 'text', required: false },
