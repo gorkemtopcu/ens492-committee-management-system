@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Modal, Form, Input, Select } from 'antd';
 
 const { Option } = Select;
 
 const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) => {
     const [form] = Form.useForm();
+
+    useEffect(() => {
+        if (open && initialValues) {
+            form.setFieldsValue(initialValues);
+        }
+    }, [open, initialValues, form]);
 
     const handleOnFinish = (values) => {
         form.resetFields();
@@ -26,7 +32,6 @@ const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) =
             <Form
                 form={form}
                 name="popupForm"
-                initialValues={initialValues}
                 onFinish={handleOnFinish}
             >
                 {fields.map((field) => (
