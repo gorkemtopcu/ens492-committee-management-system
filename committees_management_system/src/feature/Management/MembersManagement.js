@@ -40,7 +40,7 @@ const MembersManagement = () => {
         columnMapping.email,
         columnMapping.program,
         columnMapping.exclude,
-        columnMapping.action(handleEdit, null, true, false),
+        columnMapping.action(handleEdit, null),
     ];
 
     return (
