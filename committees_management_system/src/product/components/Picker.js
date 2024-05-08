@@ -8,7 +8,7 @@ const Picker = ({ title, items, selected, onChange }) => {
   }
 
   return (
-    <div>
+    <div style={{ border: `1px solid ${COLORS.DARKER_BORDER}` }}> {/* Adjusted border color */}
       <h3>{title}</h3>
       <List
         size="small"
@@ -17,12 +17,21 @@ const Picker = ({ title, items, selected, onChange }) => {
         renderItem={item => (
           <List.Item
             onClick={() => handleClick(item)}
-            style={{ backgroundColor: selected === item ? COLORS.PRIMARYCONTAINER : 'inherit', cursor: 'pointer' }}
+            style={{
+              backgroundColor: selected === item ? COLORS.PRIMARYCONTAINER : 'inherit',
+              cursor: 'pointer',
+            }}
           >
             {item}
           </List.Item>
         )}
-        style={{ maxHeight: '50vh', minHeight: '50vh', minWidth: '30vh', overflow: 'auto', maxWidth: '20vw' }}
+        style={{
+          maxHeight: '50vh',
+          minHeight: '50vh',
+          minWidth: '30vh',
+          overflow: 'auto',
+          maxWidth: '20vw'
+        }}
       />
     </div>
   );

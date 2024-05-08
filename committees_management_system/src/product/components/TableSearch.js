@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Table, Input, Space } from 'antd';
+import { Table, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
 
 const TableSearch = ({ columns, data }) => {
@@ -10,11 +10,6 @@ const TableSearch = ({ columns, data }) => {
     confirm();
     setSearchText(selectedKeys[0]);
     setSearchedColumn(dataIndex);
-  };
-
-  const handleReset = (clearFilters) => {
-    clearFilters();
-    setSearchText('');
   };
 
   const getColumnSearchProps = (dataIndex) => ({
