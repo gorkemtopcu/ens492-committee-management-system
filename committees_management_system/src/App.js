@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 import MainLayout from './MainLayout';
 import ProgramInstructor from 'feature/Report/ProgramInstructor';
-import CountMembership from 'feature/Report/CountMembership';
 import CommitteesAssignment from 'feature/Report/CommitteesAssignment';
 import Committees from 'feature/Report/Committees';
 import MeetingParticipation from 'feature/Report/MeetingParticipation';
@@ -16,7 +15,8 @@ import MailingListsManagement from 'feature/Management/MailingListsManagement';
 import NotFoundPage from 'feature/NotFoundPage';
 import ListMeeting from 'feature/Meeting/ListMeeting';
 import CreateMeetingNotes from 'feature/Meeting/CreateMeetingNotes';
-
+import MainCommitee from 'feature/MemberTrackingSystem/MainCommitee';
+import RetirementHistory from 'feature/MemberTrackingSystem/RetirementHistory';
 
 function App() {
   return (
@@ -24,7 +24,6 @@ function App() {
       <Routes>
         <Route path="/" element={<MainLayout />}>
           <Route path="program-instructor" element={<ProgramInstructor />} />
-          <Route path="count-membership" element={<CountMembership />} />
           <Route path="committees" element={<Committees />} />
           <Route path="committees-assignment" element={<CommitteesAssignment />} />
           <Route path="meeting-participation" element={<MeetingParticipation />} />
@@ -34,6 +33,8 @@ function App() {
           <Route path="mgmt-assignments" element={<AssignmentsManagement />} />
           <Route path="mgmt-mailing" element={<MailingListsManagement />} />
           <Route path="list-meeting" element={<ListMeeting />} />
+          <Route path="main-commitee" element={< MainCommitee/>} />
+          <Route path="retirement-history" element={< RetirementHistory/>} />
           <Route path="create-meeting-notes" element={<CreateMeetingNotes />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>

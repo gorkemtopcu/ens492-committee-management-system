@@ -59,14 +59,4 @@ const columnMapping = {
     }),
 };
 
-// Function to generate columns based on mapping
-const generateColumns = (fields, handleEdit, handleDelete, includeEdit, includeDelete) => {
-    return fields.map(field => {
-        if (field === 'action') {
-            return columnMapping[field](handleEdit, handleDelete, includeEdit, includeDelete);
-        }
-        return columnMapping[field];
-    });
-};
-
-export { generateColumns };
+export { columnMapping };
