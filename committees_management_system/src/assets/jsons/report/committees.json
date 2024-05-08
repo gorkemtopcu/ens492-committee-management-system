@@ -1,23 +1,82 @@
 [
   {
     "id": 1,
-    "committeeName": "Finance Committee",
-    "description": "Responsible for financial matters",
-    "chairperson": "John Doe",
-    "members": ["Alice", "Bob", "Charlie"]
+    "committee": "Finance Committee",
+    "category": "Elected / Appointed",
+    "about": "Responsible for financial matters",
+    "email_list_address": "finance@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
   },
   {
     "id": 2,
-    "committeeName": "Marketing Committee",
-    "description": "Handles marketing activities",
-    "chairperson": "Jane Smith",
-    "members": ["David", "Eva", "Frank"]
+    "committee": "Marketing Committee",
+    "category": "Programs",
+    "about": "Responsible for marketing activities",
+    "email_list_address": "marketing@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
   },
   {
     "id": 3,
-    "committeeName": "Technology Committee",
-    "description": "Focuses on technology-related tasks",
-    "chairperson": "Mike Johnson",
-    "members": ["Grace", "Henry", "Ivy"]
+    "committee": "Technology Committee",
+    "category": "FENS",
+    "about": "Responsible for technology development",
+    "email_list_address": "technology@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
+  },
+  {
+    "id": 4,
+    "committee": "Human Resources Committee",
+    "category": "SU",
+    "about": "Responsible for HR matters",
+    "email_list_address": "hr@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
+  },
+  {
+    "id": 5,
+    "committee": "Operations Committee",
+    "category": "Elected / Appointed",
+    "about": "Responsible for operational activities",
+    "email_list_address": "operations@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
+  },
+  {
+    "id": 6,
+    "committee": "Research Committee",
+    "category": "Programs",
+    "about": "Responsible for research initiatives",
+    "email_list_address": "research@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
+  },
+  {
+    "id": 7,
+    "committee": "Education Committee",
+    "category": "FENS",
+    "about": "Responsible for educational programs",
+    "email_list_address": "education@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
+  },
+  {
+    "id": 8,
+    "committee": "Quality Assurance Committee",
+    "category": "SU",
+    "about": "Responsible for ensuring quality standards",
+    "email_list_address": "qa@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
+  },
+  {
+    "id": 9,
+    "committee": "Sustainability Committee",
+    "category": "Elected / Appointed",
+    "about": "Responsible for sustainability initiatives",
+    "email_list_address": "sustainability@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
+  },
+  {
+    "id": 10,
+    "committee": "Diversity and Inclusion Committee",
+    "category": "Programs",
+    "about": "Responsible for diversity and inclusion efforts",
+    "email_list_address": "diversity@example.com",
+    "created_at": "2024-05-10T12:00:00Z"
   }
 ]

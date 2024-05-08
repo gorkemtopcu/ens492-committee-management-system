@@ -19,6 +19,7 @@ const MembersManagement = () => {
         setModalVisible(true);
     };
 
+
     const handleCancel = () => {
         setPopupTitle(null);
         setInitialValues(null);
@@ -44,7 +45,7 @@ const MembersManagement = () => {
 
     return (
         <div>
-            <Header title="Members Management"/>
+            <Header title="Members Management" />
             <TableSearch columns={fields} data={MemberManagement} />
             <PopupForm
                 title={popupTitle}

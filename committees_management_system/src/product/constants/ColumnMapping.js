@@ -11,6 +11,12 @@ const columnMapping = {
         key: 'id',
         searchable: true,
     },
+    committee: {
+        title: 'Committee',
+        dataIndex: 'committee',
+        key: 'committee',
+        searchable: true,
+    },
     facultyMember: {
         title: 'Faculty Member',
         dataIndex: 'facultyMember',
@@ -37,15 +43,15 @@ const columnMapping = {
             <span>{exclude ? 'Yes' : 'No'}</span>
         ),
     },
-    action: (handleEdit, handleDelete, includeEdit, includeDelete) => ({
+    action: (handleEdit, handleDelete) => ({
         title: 'Action',
         key: 'action',
         render: (record) => (
             <Space size="middle">
-                {includeEdit && (
+                {handleEdit !== null && (
                     <Button type="primary" onClick={() => handleEdit(record)}>Edit</Button>
                 )}
-                {includeDelete && (
+                {handleDelete !== null && (
                     <Button
                         type="default"
                         style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }}
