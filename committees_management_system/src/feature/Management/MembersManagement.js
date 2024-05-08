@@ -13,11 +13,11 @@ const MembersManagement = () => {
     const handleDelete = (record) => {
         // Define your handleDelete logic here
     };
-    const fields = [columnMapping.id, columnMapping.facultyMember, columnMapping.email, columnMapping.program, columnMapping.exclude, columnMapping.action(handleEdit, handleDelete, true, false)];
+    const fields = [columnMapping.id, columnMapping.facultyMember, columnMapping.email, columnMapping.program, columnMapping.exclude, columnMapping.action(handleEdit, null)];
 
     return (
         <div>
-            <Header title="Members Management"/>
+            <Header title="Members Management" />
             <TableSearch columns={fields} data={MemberManagement} />
         </div>
     );
