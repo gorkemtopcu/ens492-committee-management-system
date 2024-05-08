@@ -1,0 +1,24 @@
+[
+    {
+      "id": 1,
+      "facultyMember": "John Doe",
+      "email": "john.doe@sabanciuniv.edu",
+      "program": "Computer Science",
+      "exclude": false
+    },
+    {
+      "id": 2,
+      "facultyMember": "Jane Smith",
+      "email": "jane.smith@sabanciuniv.edu",
+      "program": "Engineering",
+      "exclude": true
+    },
+    {
+      "id": 3,
+      "facultyMember": "Alice Johnson",
+      "email": "alice.johnson@sabanciuniv.edu",
+      "program": "Business Administration",
+      "exclude": false
+    }
+  ]
+  
