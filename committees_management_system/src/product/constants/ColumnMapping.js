@@ -35,6 +35,24 @@ const columnMapping = {
         key: 'program',
         searchable: true,
     },
+    duration: {
+        title: 'Duration',
+        dataIndex: 'duration',
+        key: 'duration',
+        searchable: true,
+    },
+    startedAt: {
+        title: 'Started At',
+        dataIndex: 'startedAt',
+        key: 'startedAt',
+        searchable: true,
+    },
+    expectedRetirement: {
+        title: 'Expected Retirement',
+        dataIndex: 'expectedRetirement',
+        key: 'expectedRetirement',
+        searchable: true,
+    },
     exclude: {
         title: 'Exclude',
         dataIndex: 'exclude',
@@ -43,6 +61,19 @@ const columnMapping = {
             <span>{exclude ? 'Yes' : 'No'}</span>
         ),
     },
+    retire: (handleRetire) => ({
+        title: 'Retire',
+        key: 'retire',
+        render: (record) => (
+            <Button
+                type="default"
+                style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }}
+                onClick={() => handleRetire(record)}
+            >
+                Retire
+            </Button>
+        ),
+    }),
     action: (handleEdit, handleDelete) => ({
         title: 'Action',
         key: 'action',

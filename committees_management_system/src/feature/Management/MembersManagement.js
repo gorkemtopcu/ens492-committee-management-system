@@ -49,9 +49,6 @@ const MembersManagement = () => {
           handleCancel();
     };
 
-    const toggleStatus = () => {
-        setStatus(!status);
-    };
 
     const fields = [
         columnMapping.id,
