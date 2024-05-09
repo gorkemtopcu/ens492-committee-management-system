@@ -1,0 +1,74 @@
+[
+    {
+        "id": 1,
+        "facultyMember": "John Doe",
+        "email": "john.doe@example.com",
+        "program": "Computer Science"
+    },
+    {
+        "id": 2,
+        "facultyMember": "Jane Smith",
+        "email": "jane.smith@example.com",
+        "program": "Engineering"
+    },
+    {
+        "id": 3,
+        "facultyMember": "Alice Johnson",
+        "email": "alice.johnson@example.com",
+        "program": "Mathematics"
+    },
+    {
+        "id": 4,
+        "facultyMember": "Michael Brown",
+        "email": "michael.brown@example.com",
+        "program": "Physics"
+    },
+    {
+        "id": 5,
+        "facultyMember": "Emily Davis",
+        "email": "emily.davis@example.com",
+        "program": "Biology"
+    },
+    {
+        "id": 6,
+        "facultyMember": "William Wilson",
+        "email": "william.wilson@example.com",
+        "program": "Chemistry"
+    },
+    {
+        "id": 7,
+        "facultyMember": "Olivia Martinez",
+        "email": "olivia.martinez@example.com",
+        "program": "Economics"
+    },
+    {
+        "id": 8,
+        "facultyMember": "James Taylor",
+        "email": "james.taylor@example.com",
+        "program": "Psychology"
+    },
+    {
+        "id": 9,
+        "facultyMember": "Sophia Anderson",
+        "email": "sophia.anderson@example.com",
+        "program": "Political Science"
+    },
+    {
+        "id": 10,
+        "facultyMember": "Benjamin Thomas",
+        "email": "benjamin.thomas@example.com",
+        "program": "History"
+    },
+    {
+        "id": 11,
+        "facultyMember": "Emma Garcia",
+        "email": "emma.garcia@example.com",
+        "program": "Literature"
+    },
+    {
+        "id": 12,
+        "facultyMember": "Alexander Rodriguez",
+        "email": "alexander.rodriguez@example.com",
+        "program": "Sociology"
+    }
+]
