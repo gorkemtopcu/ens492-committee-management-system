@@ -4,9 +4,9 @@ const { Title } = Typography;
 
 
 
-const Search_Field = ({ options, onChange }) => (
+const Search_Field = ({ options, onChange, title }) => (
   <>
-    <Title level={4}>{options.length} Items</Title>
+    <Title level={4}>{options.length} {title}</Title>
     <Select
       mode="multiple"
       style={{

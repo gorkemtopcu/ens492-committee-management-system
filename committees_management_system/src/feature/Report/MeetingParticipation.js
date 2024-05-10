@@ -58,7 +58,7 @@ const MeetingParticipation = () => {
             <div style={{ gap: '50px', display: 'flex', justifyContent: 'flex-start', marginTop: "50px" }}>
                 <div style={{ flex: 1 }}>
                     
-                    <Search_Field options={namesOptions} onChange={handleChange} />
+                    <Search_Field options={namesOptions} onChange={handleChange} title="Faculty Members" />
                 </div>
                 <div style={{ flex: 1 }}>
                     <Picker
