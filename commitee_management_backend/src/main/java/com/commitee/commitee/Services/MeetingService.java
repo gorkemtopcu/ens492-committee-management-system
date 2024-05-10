@@ -23,4 +23,9 @@ public class MeetingService {
     public Meeting saveMeeting(Meeting meeting) {
         return meetingRepository.save(meeting);
     }
+
+    public List<Meeting> findByTerm(String term) {
+        return meetingRepository.findByTerm(term);
+    }
+
 }
