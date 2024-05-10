@@ -5,6 +5,12 @@ import COLORS from 'product/constants/ColorConstants';
 
 // Define your mapping object
 const columnMapping = {
+    suid: {
+        title: 'SU ID',
+        dataIndex: 'suid',
+        key: 'suid',
+        searchable: true,
+    },
     id: {
         title: 'ID',
         dataIndex: 'id',
@@ -15,6 +21,12 @@ const columnMapping = {
         title: 'Committee',
         dataIndex: 'committee',
         key: 'committee',
+        searchable: true,
+    },
+    fullName: {
+        title: 'Full Name',
+        dataIndex: 'fullName',
+        key: 'fullName',
         searchable: true,
     },
     facultyMember: {

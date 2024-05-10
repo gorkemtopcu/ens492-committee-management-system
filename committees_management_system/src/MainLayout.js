@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { Outlet } from "react-router-dom";
 import { Layout, Menu, Button, theme } from 'antd';
 import { useNavigate } from "react-router-dom";
@@ -28,10 +27,15 @@ const MainLayout = () => {
                 }}
             >
                 <div className="demo-logo-vertical">
-                    <h2 className="text-white fs-5 text-center py-3 mb-0">
-                        <span className="lg-logo"> Fens Committee </span>
-
-                    </h2>
+                    {collapsed ? (
+                        <h2 className="text-white fs-5 text-center py-3 mb-0">
+                            <span className="lg-logo"> FENS </span>
+                        </h2>
+                    ) : (
+                        <h2 className="text-white fs-5 text-center py-3 mb-0">
+                            <span className="lg-logo"> FENS Committee </span>
+                        </h2>
+                    )}
                 </div>
                 <Menu
                     theme="dark"
@@ -58,7 +62,7 @@ const MainLayout = () => {
                             height: 64,
                         }}
                     />
-                    <div className="d-flex gap-3 align-items-center" style={{ marginTop: '40px' }}>
+                    <div className="d-sm-flex gap-3 align-items-center" style={{ marginTop: '20px' }}>
                         <div className="position-relative">
                             <IoMdNotifications className="fs-4" />
                             <span className="badge bg-warning rounded-circle p-1 position-absolute"> 3</span>
@@ -70,9 +74,9 @@ const MainLayout = () => {
                                     src="https://img.freepik.com/free-icon/user_318-563642.jpg?w=360" alt="" />
                             </div>
                         </div>
-                        <div>
-                            <h5 className="text-dark"> Username</h5>
-                            <p className="mb-0"> username@sabanciuniv.edu</p>
+                        <div className="user-info">
+                        <h5 className="mb-0">Username</h5>
+                        <p className="mb-0">username@sabanciuniv.edu</p>
                         </div>
                     </div>
                 </Header>
