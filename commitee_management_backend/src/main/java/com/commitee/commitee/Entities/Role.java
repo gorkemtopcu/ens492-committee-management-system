@@ -27,6 +27,4 @@ public class Role {
     @Column(name = "display", columnDefinition = "TINYINT")
     private Boolean display;
 
-    // Constructors, getters, and setters
-    // Omitted for brevity
 }
