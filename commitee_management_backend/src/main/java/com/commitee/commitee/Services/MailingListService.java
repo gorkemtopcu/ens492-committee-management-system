@@ -24,5 +24,9 @@ public class MailingListService {
         return mailingListRepository.save(mailingList);
     }
 
+    public List<MailingList> getMailingListsByTerm(String term) {
+        return mailingListRepository.findByTerm(term);
+    }
+
     // Other methods for updating and deleting mailing lists can be added here
 }

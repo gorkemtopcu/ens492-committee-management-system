@@ -26,6 +26,13 @@ public class MailingListController {
         return new ResponseEntity<>(mailingLists, HttpStatus.OK);
     }
 
+    @GetMapping("/getByTerm/{term}")
+    public ResponseEntity<List<MailingList>> getMailingListsByTerm(@PathVariable String term)
+    {
+        List<MailingList> mailingLists = mailingListService.getMailingListsByTerm(term);
+        return new ResponseEntity<>(mailingLists, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<MailingList> createMailingList(@RequestBody MailingList mailingList) {
         MailingList savedMailingList = mailingListService.saveMailingList(mailingList);
