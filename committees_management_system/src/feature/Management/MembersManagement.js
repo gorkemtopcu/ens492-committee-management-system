@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
-import MemberManagement from 'assets/jsons/Management/MemberManagement.json';
 import PopupForm from 'product/components/PopupForm';
 import Header from 'product/components/Header';
+
 import UNIVERSITY_PROGRAMS from 'product/constants/ProgramConstants';
 
 const MembersManagement = () => {
-    const [data, setData] = useState(MemberManagement);
+    const [data, setData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [initialValues, setInitialValues] = useState(null);
     const [popupTitle, setPopupTitle] = useState(null);
     const [status, setStatus] = useState(true); // Boolean state for status
+
+    useEffect(() => {
+        fetchData();
+    }, []); // Fetch data on component mount
+
+    const fetchData = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/members/getAll');
+            setData(response.data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
 
     const handleEdit = (record) => {
         setPopupTitle("Edit Member");
@@ -28,8 +42,8 @@ const MembersManagement = () => {
     const handleEditMember = (values) => {
         if (!values) {
             return;
-          }
-      
+        }
+
         const updatedMember = {
             ...initialValues,
             facultyMember: values.facultyMember,
@@ -37,22 +51,21 @@ const MembersManagement = () => {
             program: values.program,
             exclude: values.exclude === "Yes" ? true : false,
         };
-      
-          const updatedData = data.map(item => {
+
+        const updatedData = data.map(item => {
             if (item.id === initialValues.id) {
-              return updatedMember;
+                return updatedMember;
             }
             return item;
-          });
-      
-          setData(updatedData);
-          handleCancel();
+        });
+
+        setData(updatedData);
+        handleCancel();
     };
 
-
     const fields = [
-        columnMapping.id,
-        columnMapping.facultyMember,
+        columnMapping.suid,
+        columnMapping.fullName,
         columnMapping.email,
         columnMapping.program,
         columnMapping.exclude,
@@ -70,7 +83,8 @@ const MembersManagement = () => {
                 onCancel={handleCancel}
                 onFinish={handleEditMember}
                 fields={[
-                    { name: 'facultyMember', label: 'Member Name', type: 'text', required: true },
+                    { name: 'suid', label: 'SU ID', type: 'text', readOnly: true },
+                    { name: 'fullName', label: 'Member Name', type: 'text', required: true },
                     { name: 'email', label: 'Email of User', type: 'text', required: false },
                     { name: 'program', label: 'Program Name', type: 'select', required: true, options: UNIVERSITY_PROGRAMS },
                     { name: 'exclude', label: 'Exclude', type: 'select', required: true, options: ["Yes", "No"] },
