@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/api/committee-categories")
 public class CommitteeCategoryController {
     private final CommitteeCategoryService committeeCategoryService;
