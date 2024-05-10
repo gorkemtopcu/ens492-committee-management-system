@@ -11,7 +11,6 @@ const MembersManagement = () => {
     const [modalVisible, setModalVisible] = useState(false);
     const [initialValues, setInitialValues] = useState(null);
     const [popupTitle, setPopupTitle] = useState(null);
-    const [status, setStatus] = useState(true); // Boolean state for status
 
     const handleEdit = (record) => {
         setPopupTitle("Edit Member");
@@ -28,8 +27,8 @@ const MembersManagement = () => {
     const handleEditMember = (values) => {
         if (!values) {
             return;
-          }
-      
+        }
+
         const updatedMember = {
             ...initialValues,
             facultyMember: values.facultyMember,
@@ -37,18 +36,17 @@ const MembersManagement = () => {
             program: values.program,
             exclude: values.exclude === "Yes" ? true : false,
         };
-      
-          const updatedData = data.map(item => {
+
+        const updatedData = data.map(item => {
             if (item.id === initialValues.id) {
-              return updatedMember;
+                return updatedMember;
             }
             return item;
-          });
-      
-          setData(updatedData);
-          handleCancel();
-    };
+        });
 
+        setData(updatedData);
+        handleCancel();
+    };
 
     const fields = [
         columnMapping.id,
