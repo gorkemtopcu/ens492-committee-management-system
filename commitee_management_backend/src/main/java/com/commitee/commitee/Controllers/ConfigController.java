@@ -29,6 +29,4 @@ public class ConfigController {
         Config savedConfig = configService.saveConfig(config);
         return new ResponseEntity<>(savedConfig, HttpStatus.CREATED);
     }
-
-    // Other controller methods for retrieving, updating, and deleting configs can be added here
 }
