@@ -31,13 +31,13 @@ const MeetingParticipation = () => {
 
     const handleChange = (value) => {
         console.log(`selected ${value}`);
-        setIsButtonEnabled(value !== null);
+        setIsButtonEnabled(value !== null && value.length > 0 && selectedTerm !== null);
         // Handle selected values here
     };
 
     const handleTermChange = (term) => {
         setSelectedTerm(term);
-        setIsButtonEnabled(selectedTerm !== null); // Enable button if both program and term are selected
+        setIsButtonEnabled(initialValues !== null && term !== null); // Enable button if both program and term are selected
     };
 
     // Handle button click
