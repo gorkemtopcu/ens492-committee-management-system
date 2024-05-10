@@ -4,7 +4,12 @@ import com.commitee.commitee.Entities.Assignment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Collection;
+import java.util.List;
+
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
-    // You can add custom query methods here if needed
+    List<Assignment> findByTermInAndCommitteeIn(Collection<Integer> term, Collection<Integer> committee);
+    List<Assignment> findByTermIn(Collection<Integer> term);
+    List<Assignment> findByCommitteeIn(Collection<Integer> committee);
 }

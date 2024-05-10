@@ -13,6 +13,9 @@ const Committees = () => {
     const [selectedCommittees, setSelectedCommittees] = useState([]);
     const [selectedTerms, setSelectedTerms] = useState([]);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [isFiltered, setIsFiltered] = useState(false);
+    const [committeesCollapsed, setCommitteesCollapsed] = useState(false);
+    const [termsCollapsed, setTermsCollapsed] = useState(false);
 
     const handleCommitteeChange = (committees) => {
         setSelectedCommittees(committees);
@@ -25,8 +28,9 @@ const Committees = () => {
     };
 
     const handleButtonClick = () => {
-        console.log("Button clicked");
-        alert("Button clicked");
+        setIsFiltered(true);
+        setCommitteesCollapsed(true);
+        setTermsCollapsed(true);
     };
 
     const tableColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
@@ -40,12 +44,16 @@ const Committees = () => {
                     items={Programs}
                     onChange={handleCommitteeChange}
                     selected={selectedCommittees}
+                    isCollapsed={committeesCollapsed}
+                    onCollapseToggle={() => setCommitteesCollapsed(!committeesCollapsed)}
                 />
                 <Picker
                     title={StringConstants.SELECT_TERM}
                     items={Terms}
                     onChange={handleTermChange}
                     selected={selectedTerms}
+                    isCollapsed={termsCollapsed}
+                    onCollapseToggle={() => setTermsCollapsed(!termsCollapsed)}
                 />
                 <PrimaryButton
                     title={StringConstants.SUBMIT}
@@ -54,7 +62,7 @@ const Committees = () => {
                     style={{ marginTop: '15px' }}
                 />
             </div>
-            <TableSearch columns={tableColumns} data={AssignmentsData} />
+            {isFiltered && <TableSearch columns={tableColumns} data={AssignmentsData} />}
         </div>
     );
 };
