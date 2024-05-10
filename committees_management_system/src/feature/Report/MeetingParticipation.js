@@ -31,6 +31,7 @@ const MeetingParticipation = () => {
 
     const handleChange = (value) => {
         console.log(`selected ${value}`);
+        setIsButtonEnabled(value !== null);
         // Handle selected values here
     };
 
@@ -39,26 +40,44 @@ const MeetingParticipation = () => {
         setIsButtonEnabled(selectedTerm !== null); // Enable button if both program and term are selected
     };
 
+    // Handle button click
+    const handleButtonClick = () => {
+        // Your logic for button click action
+        console.log("Button clicked");
+        alert("Button clicked");
+    };
+
     const namesOptions = initialValues ? initialValues.map(item => ({
         label: item.fullName,
         value: item.suid,
     })) : [];
 
     return (
-        <div style={{ gap: '50px', display: 'flex'}}>
-            <div style={{ flex: 1 }}>
-                <h1>Meeting Participation</h1>
-                <Search_Field options={namesOptions} onChange={handleChange} />
+        <div>
+            <h1>Meeting Participation</h1>
+            <div style={{ gap: '50px', display: 'flex', justifyContent: 'flex-start', marginTop: "50px" }}>
+                <div style={{ flex: 1 }}>
+                    
+                    <Search_Field options={namesOptions} onChange={handleChange} />
+                </div>
+                <div style={{ flex: 1 }}>
+                    <Picker
+                        title="Select Term"
+                        items={Terms}
+                        onChange={handleTermChange}
+                        selected={selectedTerm}
+                    />
+                </div>
+
             </div>
-            <div style={{ flex: 1 }}>
-                <Picker
-                    title="Select Term"
-                    items={Terms}
-                    onChange={handleTermChange}
-                    selected={selectedTerm}
-                />
-            </div>
+
+            <PrimaryButton
+                title="Submit"
+                onClick={handleButtonClick}
+                isEnabled={isButtonEnabled}
+            />
         </div>
+        
     );
 };
 
