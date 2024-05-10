@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import PopupForm from 'product/components/PopupForm';
 import Header from 'product/components/Header';
 
 import UNIVERSITY_PROGRAMS from 'product/constants/ProgramConstants';
+import MembersService from 'product/service/members';
+import StringConstants from 'product/constants/StringConstants';
 
 const MembersManagement = () => {
     const [data, setData] = useState([]);
@@ -15,15 +16,16 @@ const MembersManagement = () => {
 
     useEffect(() => {
         fetchData();
-    }, []); // Fetch data on component mount
+    }, []);
 
     const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/api/members/getAll');
-            setData(response.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        MembersService.getAll()
+            .then(response => {
+                setData(response.data)
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            });
     };
 
     const handleEdit = (record) => {

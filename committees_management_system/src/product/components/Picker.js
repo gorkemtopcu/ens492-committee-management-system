@@ -1,38 +1,88 @@
-import React from 'react';
-import { List } from 'antd';
+import React, { useState } from 'react';
+import { List, Checkbox } from 'antd';
 import COLORS from '../constants/ColorConstants';
+import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 
 const Picker = ({ title, items, selected, onChange }) => {
-  function handleClick(item) {
-    onChange(item);
+  const initialSelectedItems = selected ? selected : [];
+  const [selectedItems, setSelectedItems] = useState(initialSelectedItems);
+  const [shiftClickStartIndex, setShiftClickStartIndex] = useState(null);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const handleSelectAllChange = (e) => {
+    const updatedSelectedItems = e.target.checked ? items : [];
+    setSelectedItems(updatedSelectedItems);
+    onChange(updatedSelectedItems);
+  };
+
+  function handleClick(item, index, event) {
+    let updatedSelectedItems;
+
+    if (event.ctrlKey || event.metaKey) {
+      // Toggle selection of the clicked item if Ctrl or Cmd (on Mac) is pressed
+      if (selectedItems.includes(item)) {
+        updatedSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
+      } else {
+        updatedSelectedItems = [...selectedItems, item];
+      }
+    } else if (event.shiftKey && shiftClickStartIndex !== null) {
+      // Select items between the first shift click and the current shift click
+      const minIndex = Math.min(shiftClickStartIndex, index);
+      const maxIndex = Math.max(shiftClickStartIndex, index);
+      updatedSelectedItems = items.slice(minIndex, maxIndex + 1);
+    } else {
+      // Otherwise, select only the clicked item
+      updatedSelectedItems = [item];
+      setShiftClickStartIndex(index); // Set the start index for shift click
+    }
+
+    setSelectedItems(updatedSelectedItems);
+    onChange(updatedSelectedItems);
   }
 
   return (
-    <div style={{ border: `1px solid ${COLORS.DARKER_BORDER}` }}> {/* Adjusted border color */}
-      <h3>{title}</h3>
-      <List
-        size="small"
-        bordered
-        dataSource={items}
-        renderItem={item => (
-          <List.Item
-            onClick={() => handleClick(item)}
-            style={{
-              backgroundColor: selected === item ? COLORS.PRIMARYCONTAINER : 'inherit',
-              cursor: 'pointer',
-            }}
-          >
-            {item}
-          </List.Item>
-        )}
+    <div style={{ border: `1px solid ${COLORS.DARKER_BORDER}`, marginBottom: '20px' }}>
+      <div
         style={{
-          maxHeight: '50vh',
-          minHeight: '50vh',
-          minWidth: '30vh',
-          overflow: 'auto',
-          maxWidth: '20vw'
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          padding: '8px',
+          cursor: 'pointer',
         }}
-      />
+        onClick={() => setCollapsed(!collapsed)}
+      >
+        {collapsed ? <CaretRightOutlined /> : <CaretDownOutlined />}
+        <h3 style={{ marginRight: '5vh' }}>{title}</h3>
+        <Checkbox
+          checked={selectedItems.length === items.length} // Check if all items are selected
+          onChange={handleSelectAllChange}
+        >
+          Select All
+        </Checkbox>
+      </div>
+      {!collapsed && (
+        <List
+          size="small"
+          bordered
+          dataSource={items}
+          renderItem={(item, index) => (
+            <List.Item
+              onClick={(event) => handleClick(item, index, event)}
+              style={{
+                backgroundColor: selectedItems.includes(item) ? COLORS.PRIMARYCONTAINER : 'inherit',
+                cursor: 'pointer',
+              }}
+            >
+              {item}
+            </List.Item>
+          )}
+          style={{
+            maxHeight: '50vh',
+            overflowY: 'auto',
+          }}
+        />
+      )}
     </div>
   );
 };

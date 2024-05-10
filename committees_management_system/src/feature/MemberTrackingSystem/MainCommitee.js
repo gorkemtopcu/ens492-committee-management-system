@@ -3,7 +3,6 @@ import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import MemberRetirementStatus from 'assets/jsons/MembersTracking/MemberRetirementStatus.json';
 import PopupForm from 'product/components/PopupForm';
-import UNIVERSITY_PROGRAMS from 'product/constants/ProgramConstants';
 
 const MainCommitee = () => {
 
@@ -27,10 +26,9 @@ const MainCommitee = () => {
         }
         setModalVisible(false); // Close the modal after handling retirement
     };
-    
+
 
     const handleRetireClick = (record) => {
-        // When user clicks retire action, set modalVisible to true and set popupTitle
         setFacultyMember(record.facultyMember);
         setPopupTitle("Retire Member");
         setInitialValues(record);
@@ -42,10 +40,10 @@ const MainCommitee = () => {
         columnMapping.facultyMember,
         columnMapping.email,
         columnMapping.program,
-        columnMapping.duration, // Add duration field
-        columnMapping.startedAt, // Add startedAt field
-        columnMapping.expectedRetirement, // Add expectedRetirement field
-        columnMapping.action(null, handleRetireClick), // Use handleRetireClick for retire action
+        columnMapping.duration,
+        columnMapping.startedAt,
+        columnMapping.expectedRetirement,
+        columnMapping.action(null, handleRetireClick),
     ];
 
     return (

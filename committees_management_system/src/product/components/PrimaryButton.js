@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from 'antd';
 import COLORS from '../constants/ColorConstants';
 
-const PrimaryButton = ({ title, onClick, isEnabled }) => {
+const PrimaryButton = ({ title, onClick, isEnabled, style }) => {
     return (
         <Button
             onClick={onClick}
@@ -15,6 +15,12 @@ const PrimaryButton = ({ title, onClick, isEnabled }) => {
                 backgroundColor: isEnabled ? COLORS.PRIMARY : COLORS.DISABLED,
                 color: isEnabled ? COLORS.ONPRIMARY : COLORS.SECONDARY,
                 borderColor: isEnabled ? COLORS.PRIMARY : COLORS.DISABLED,
+                textAlign: 'center', // Center the text horizontally
+                lineHeight: 'normal', // Reset line height
+                display: 'flex', // Use flexbox
+                justifyContent: 'center', // Center vertically
+                alignItems: 'center', // Center horizontally
+                ...style, // Spread the incoming style object
             }}>
             {title}
         </Button>
