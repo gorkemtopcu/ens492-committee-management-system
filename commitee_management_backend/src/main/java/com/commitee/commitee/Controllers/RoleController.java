@@ -39,5 +39,4 @@ public class RoleController {
         return new ResponseEntity<>(savedRole, HttpStatus.CREATED);
     }
 
-    // Other controller methods for retrieving, updating, and deleting roles can be added here
 }
