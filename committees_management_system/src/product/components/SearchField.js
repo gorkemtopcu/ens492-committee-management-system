@@ -10,7 +10,7 @@ const Search_Field = ({ options, onChange, title }) => (
     <Select
       mode="multiple"
       style={{
-        width: '30%',
+        width: '100%',
       }}
       placeholder="Please select"
       onChange={onChange}

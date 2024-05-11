@@ -54,13 +54,13 @@ const MeetingParticipation = () => {
 
     return (
         <div>
-            <h1>Meeting Participation</h1>
+            <Header title="Meeting Participation" />
             <div style={{ gap: '50px', display: 'flex', justifyContent: 'flex-start', marginTop: "50px" }}>
-                <div style={{ flex: 1 }}>
+                <div style={{width:"300px", marginRight: "300px"}}>
                     
                     <Search_Field options={namesOptions} onChange={handleChange} title="Faculty Members" />
                 </div>
-                <div style={{ flex: 1 }}>
+                <div style={{ width: "300px" }}>
                     <Picker
                         title="Select Term"
                         items={Terms}
@@ -74,8 +74,7 @@ const MeetingParticipation = () => {
             <PrimaryButton
                 title="Submit"
                 onClick={handleButtonClick}
-                isEnabled={isButtonEnabled}
-            />
+                isEnabled={isButtonEnabled} style={undefined}            />
         </div>
         
     );
