@@ -1,0 +1,56 @@
+[
+    {
+        "id": 1,
+        "committee": "Finance Committee",
+        "facultyMember": "John Doe",
+        "term": "202401",
+        "role": "Treasurer",
+        "program": "FENS",
+        "created_at": "2024-05-01T12:00:00Z"
+    },
+    {
+        "id": 2,
+        "committee": "Finance Committee",
+        "facultyMember": "Alice Smith",
+        "term": "202401",
+        "role": "Financial Analyst",
+        "program": "CS",
+        "created_at": "2024-05-02T12:00:00Z"
+    },
+    {
+        "id": 3,
+        "committee": "Technology Committee",
+        "facultyMember": "Michael Johnson",
+        "term": "202401",
+        "role": "IT Specialist",
+        "program": "IE",
+        "created_at": "2024-05-03T12:00:00Z"
+    },
+    {
+        "id": 4,
+        "committee": "Technology Committee",
+        "facultyMember": "Emily Brown",
+        "term": "202401",
+        "role": "Technology Manager",
+        "program": "EE",
+        "created_at": "2024-05-04T12:00:00Z"
+    },
+    {
+        "id": 5,
+        "committee": "Operations Committee",
+        "facultyMember": "Alice Brown",
+        "term": "202302",
+        "role": "Operations Manager",
+        "program": "MATH",
+        "created_at": "2024-05-05T12:00:00Z"
+    },
+    {
+        "id": 6,
+        "committee": "Operations Committee",
+        "facultyMember": "Bob Johnson",
+        "term": "202302",
+        "role": "Operations Coordinator",
+        "program": "FENS",
+        "created_at": "2024-05-06T12:00:00Z"
+    }
+]

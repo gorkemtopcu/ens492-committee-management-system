@@ -122,7 +122,7 @@ const CommitteesManagement = () => {
         open={modalVisible}
         initialValues={initialValues}
         onCancel={handleCancel}
-        onFinish={formActionType == FormActionTypes.ADD ? handleCreateCommittee : handleEditCommittee}
+        onFinish={formActionType === FormActionTypes.ADD ? handleCreateCommittee : handleEditCommittee}
         fields={formFields}
       />
     </div>
