@@ -39,15 +39,15 @@ const Committees = () => {
     };
 
 
-    // const getAssignmentsData = async () => {
-    //     AssignmentsService.searchByTermAndCommittee()
-    //         .then(response => {
-    //             setAssignmentsData(response.data)
-    //         })
-    //         .catch(error => {
-    //             alert(StringConstants.ERROR);
-    //         });
-    // };
+    const getAssignmentsData = async () => {
+        AssignmentsService.searchByCommitteeAndTerm(selectedCommittees, selectedTerms)
+            .then(response => {
+                setAssignmentsData(response.data)
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            });
+    };
 
     const handleCommitteeChange = (committees) => {
         setSelectedCommittees(committees);
@@ -63,7 +63,7 @@ const Committees = () => {
         setIsFiltered(true);
         setCommitteesCollapsed(true);
         setTermsCollapsed(true);
-        // getAssignmentsData();
+        getAssignmentsData();
     };
 
     const tableColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
@@ -95,7 +95,7 @@ const Committees = () => {
                     style={{ marginTop: '15px' }}
                 />
             </div>
-            {isFiltered && <TableSearch columns={tableColumns} data={/*assignmentsData*/null} />}
+            {isFiltered && <TableSearch columns={tableColumns} data={assignmentsData} />}
         </div>
     );
 };

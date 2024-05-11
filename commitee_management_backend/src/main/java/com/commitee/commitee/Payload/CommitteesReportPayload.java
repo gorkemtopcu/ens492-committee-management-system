@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -14,5 +16,5 @@ import lombok.Setter;
 public class CommitteesReportPayload {
     private Committee committee;
     private Member member;
-    private Integer term;
+    private List<Integer> terms;
 }
