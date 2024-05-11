@@ -38,14 +38,12 @@ const ProgramInstructor = () => {
           title={StringConstants.SELECT_PROGRAM}
           items={Programs}
           onChange={handleProgramChange}
-          selected={selectedProgram}
-        />
+          selected={selectedProgram} isCollapsed={undefined} onCollapseToggle={undefined}        />
         <Picker
           title={StringConstants.SELECT_TERM}
           items={Terms}
           onChange={handleTermChange}
-          selected={selectedTerm}
-        />
+          selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined}        />
       </div>
 
       <PrimaryButton
