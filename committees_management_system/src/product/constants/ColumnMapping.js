@@ -106,6 +106,22 @@ const columnMapping = {
             </Space>
         ),
     }),
+    terms: {
+        title: 'Terms',
+        dataIndex: 'terms',
+        key: 'terms',
+        searchable: true,
+        render: (terms) => {
+            if (!terms || terms.length === 0) return null;
+            // Split terms by every two characters to get the year and term number
+            const formattedTerms = terms
+                .match(/.{1,2}/g) // Split terms into pairs of characters
+                .map(term => `20${term.substr(0, 2)}${term.substr(2)}`) // Format year and term number
+                .sort((a, b) => parseInt(b) - parseInt(a)); // Sort terms in descending order
+            // Join the formatted terms with commas
+            return formattedTerms.join(', ');
+        },
+    },
 };
 
 export { columnMapping };

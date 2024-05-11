@@ -4,6 +4,7 @@ import Terms from 'assets/jsons/report/terms.json';
 import Header from 'product/components/Header';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
+import StringConstants from 'product/constants/StringConstants';
 
 const ProgramInstructor = () => {
   // Define state for the selected programs and term
@@ -34,13 +35,13 @@ const ProgramInstructor = () => {
       <Header title="Program/Term Select" />
       <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '50px', marginBottom: "50px" }}>
         <Picker
-          title="Select Program"
+          title={StringConstants.SELECT_PROGRAM}
           items={Programs}
           onChange={handleProgramChange}
           selected={selectedProgram}
         />
         <Picker
-          title="Select Term"
+          title={StringConstants.SELECT_TERM}
           items={Terms}
           onChange={handleTermChange}
           selected={selectedTerm}
