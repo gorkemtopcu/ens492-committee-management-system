@@ -48,7 +48,7 @@ public class AssignmentService {
                 committeeMembersAndTermsMap.put(committee, new ArrayList<CommitteesReportPayload>());
             }
 
-            CommitteesReportPayload payload = committeeMembersAndTermsMap.get(committee);
+            CommitteesReportPayload payload = (CommitteesReportPayload) committeeMembersAndTermsMap.get(committee);
             payload.setFacultyMember(member.getFullName());
             payload.setProgram(member.getProgram());
 

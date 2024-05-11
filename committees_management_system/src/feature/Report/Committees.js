@@ -1,10 +1,10 @@
+import React, { useEffect, useState } from 'react';
 import Header from 'product/components/Header';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
-import React, { useEffect, useState } from 'react';
 import Terms from 'assets/jsons/report/terms.json';
 import StringConstants from 'product/constants/StringConstants';
-import TableSearch from 'product/components/TableSearch';
+import TableInsideTable from 'product/components/TableInsideTable';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import CommitteesService from 'product/service/committees';
 import AssignmentsService from 'product/service/assignments';
@@ -38,17 +38,6 @@ const Committees = () => {
         }
     };
 
-
-    // const getAssignmentsData = async () => {
-    //     AssignmentsService.searchByTermAndCommittee()
-    //         .then(response => {
-    //             setAssignmentsData(response.data)
-    //         })
-    //         .catch(error => {
-    //             alert(StringConstants.ERROR);
-    //         });
-    // };
-
     const handleCommitteeChange = (committees) => {
         setSelectedCommittees(committees);
         setIsButtonEnabled(committees.length > 0 && selectedTerms.length > 0);
@@ -66,7 +55,14 @@ const Committees = () => {
         // getAssignmentsData();
     };
 
-    const tableColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
+    const outsideColumns = [columnMapping.committee];
+    const insideColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
+
+    // Transform selectedCommittees into an array of objects
+    const committeeData = selectedCommittees.map((committee, index) => ({
+        key: index.toString(),
+        committee: committee,
+    }));
 
     return (
         <div>
@@ -95,7 +91,7 @@ const Committees = () => {
                     style={{ marginTop: '15px' }}
                 />
             </div>
-            {isFiltered && <TableSearch columns={tableColumns} data={/*assignmentsData*/null} />}
+            {isFiltered && <TableInsideTable outsideColumns={outsideColumns} insideColumns={insideColumns} outsideData={committeeData} insideData = {null}/>}
         </div>
     );
 };
