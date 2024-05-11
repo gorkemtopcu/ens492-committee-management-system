@@ -21,11 +21,9 @@ public class CommitteeService {
     public List<Committee> getAllCommittees() {
         return committeeRepository.findAll();
     }
-
-    public Committee saveCommittee(Committee committee) {
+    public Committee save(Committee committee) {
         return committeeRepository.save(committee);
     }
-
     public Optional<Committee> findById(Long id) {
         return committeeRepository.findById(id);
     }
@@ -45,6 +43,8 @@ public class CommitteeService {
         return committee;
 
     }
+
+
 
 
     // Other methods for updating and deleting committees can be added here

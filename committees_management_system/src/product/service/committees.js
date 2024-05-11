@@ -21,7 +21,7 @@ const CommitteeService = {
 
     add: async (data) => {
         try {
-            return await axios.post(ServiceConstants.COMMITTEES, data);
+            return await axios.post(ServiceConstants.COMMITTEES + ServiceConstants.ADD, data);
         } catch (error) {
             console.error('Error adding data:', error);
         }

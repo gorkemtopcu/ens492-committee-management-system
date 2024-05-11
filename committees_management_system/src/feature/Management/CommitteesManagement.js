@@ -28,7 +28,6 @@ const CommitteesManagement = () => {
 const fetchData = async () => {
   CommitteeService.getAll()
     .then(response => {
-      console.log(response.data);
       let dataToSet = response.data;
       dataToSet.forEach((item) => {
         item.category = Categories[item.category - 1];
@@ -90,19 +89,25 @@ const fetchData = async () => {
     }
 
     const newCommittee = {
-      id: data.length + 1,
       committee: values.committee,
-      category: values.category,
+      category:  Categories.indexOf(values.category) + 1,
       about: values.about,
-      email_list_address: values.mailingList,
-      created_at: new Date().toISOString(),
+      emailListAddress: values.mailingList,
     };
-
-    const updatedData = [...data, newCommittee];
-    setData(updatedData);
-    updateJsonFile(updatedData);
+    console.log(newCommittee);
+    CommitteeService.add(newCommittee)
+          .then(() => {
+            const updatedData = [...data, newCommittee];
+            setData(updatedData);
+          })
+          .catch(error => {
+            console.error('Error adding data:', error);
+          });
     handleCancel();
   };
+
+
+
 
   const handleEditCommittee = (values) => {
     if (!values) {
