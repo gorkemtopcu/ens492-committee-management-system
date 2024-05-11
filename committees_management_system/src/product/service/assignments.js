@@ -8,6 +8,14 @@ const AssignmentsService = {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    },
+
+    searchByTermAndCommittee: async () => {
+        try {
+            return await axios.get(ServiceConstants.ASSIGNMENTS + ServiceConstants.GET_ALL);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 };
 

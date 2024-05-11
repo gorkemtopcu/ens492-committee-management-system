@@ -5,13 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Collection;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class TermsCommitteesPayload {
-    Collection<String> terms;
-    Collection<String> Committees;
+public class CommitteesReportPayload {
+    private String facultyMember;
+    private String program;
+    private List<Integer> terms;
 }

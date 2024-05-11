@@ -1,13 +1,13 @@
 import Header from 'product/components/Header';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
-import React, { useState } from 'react';
-import Programs from 'assets/jsons/report/programs.json';
+import React, { useEffect, useState } from 'react';
 import Terms from 'assets/jsons/report/terms.json';
 import StringConstants from 'product/constants/StringConstants';
 import TableSearch from 'product/components/TableSearch';
-import AssignmentsData from 'assets/jsons/report/assignments.json';
 import { columnMapping } from 'product/constants/ColumnMapping';
+import CommitteesService from 'product/service/committees';
+import AssignmentsService from 'product/service/assignments';
 
 const Committees = () => {
     const [selectedCommittees, setSelectedCommittees] = useState([]);
@@ -16,6 +16,38 @@ const Committees = () => {
     const [isFiltered, setIsFiltered] = useState(false);
     const [committeesCollapsed, setCommitteesCollapsed] = useState(false);
     const [termsCollapsed, setTermsCollapsed] = useState(false);
+    const [committeesData, setCommitteesData] = useState([]);
+    const [assignmentsData, setAssignmentsData] = useState([]);
+
+    useEffect(() => {
+        getCommitteesData();
+    }, []);
+
+    const getCommitteesData = async () => {
+        try {
+            const response = await CommitteesService.getAll();
+            if (Array.isArray(response.data)) {
+                const committees = response.data.map(item => item.committee);
+                setCommitteesData(committees);
+            } else {
+                throw new Error('Received invalid data from the server.');
+            }
+        } catch (error) {
+            alert(StringConstants.ERROR);
+            console.error('Error fetching committees data:', error);
+        }
+    };
+
+
+    // const getAssignmentsData = async () => {
+    //     AssignmentsService.searchByTermAndCommittee()
+    //         .then(response => {
+    //             setAssignmentsData(response.data)
+    //         })
+    //         .catch(error => {
+    //             alert(StringConstants.ERROR);
+    //         });
+    // };
 
     const handleCommitteeChange = (committees) => {
         setSelectedCommittees(committees);
@@ -31,6 +63,7 @@ const Committees = () => {
         setIsFiltered(true);
         setCommitteesCollapsed(true);
         setTermsCollapsed(true);
+        // getAssignmentsData();
     };
 
     const tableColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
@@ -41,7 +74,7 @@ const Committees = () => {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
                 <Picker
                     title={StringConstants.SELECT_COMMITTEE}
-                    items={Programs}
+                    items={committeesData}
                     onChange={handleCommitteeChange}
                     selected={selectedCommittees}
                     isCollapsed={committeesCollapsed}
@@ -62,7 +95,7 @@ const Committees = () => {
                     style={{ marginTop: '15px' }}
                 />
             </div>
-            {isFiltered && <TableSearch columns={tableColumns} data={AssignmentsData} />}
+            {isFiltered && <TableSearch columns={tableColumns} data={/*assignmentsData*/null} />}
         </div>
     );
 };
