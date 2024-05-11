@@ -39,7 +39,7 @@ public class AssignmentController {
     public ResponseEntity<?> getCommitteesWithMembersAndTerms(
             @RequestParam(value = "committees", required = false) List<Integer> committees,
             @RequestParam(value = "terms", required = false) List<Integer> terms) {
-        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService.getCommitteesWithMembersAndTerms(committees, terms);
+        Map<String, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService.getCommitteesWithMembersAndTerms(committees, terms);
         return new ResponseEntity<>(groupedAssignments, HttpStatus.OK);
     }
 }

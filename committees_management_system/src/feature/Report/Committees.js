@@ -4,7 +4,7 @@ import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 import Terms from 'assets/jsons/report/terms.json';
 import StringConstants from 'product/constants/StringConstants';
-import TableInsideTable from 'product/components/TableInsideTable';
+import TableExpandable from 'product/components/TableExpandabke';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import CommitteesService from 'product/service/committees';
 import AssignmentsService from 'product/service/assignments';
@@ -17,6 +17,7 @@ const Committees = () => {
     const [committeesCollapsed, setCommitteesCollapsed] = useState(false);
     const [termsCollapsed, setTermsCollapsed] = useState(false);
     const [committeesData, setCommitteesData] = useState([]);
+    const [committeesIdMap, setCommitteesIdMap] = useState([]);
     const [assignmentsData, setAssignmentsData] = useState([]);
 
     useEffect(() => {
@@ -27,8 +28,7 @@ const Committees = () => {
         try {
             const response = await CommitteesService.getAll();
             if (Array.isArray(response.data)) {
-                const committees = response.data.map(item => item.committee);
-                setCommitteesData(committees);
+                setCommitteesData(response.data.map(item => item.committee));
             } else {
                 throw new Error('Received invalid data from the server.');
             }
@@ -40,14 +40,29 @@ const Committees = () => {
 
 
     const getAssignmentsData = async () => {
-        AssignmentsService.searchByCommitteeAndTerm(selectedCommittees, selectedTerms)
-            .then(response => {
-                setAssignmentsData(response.data)
-            })
-            .catch(error => {
-                alert(StringConstants.ERROR);
+        try {
+            const response = await AssignmentsService.searchByCommitteeAndTerm(selectedCommittees, selectedTerms);
+            const assignmentsData = response.data;
+            const mappedData = [];
+
+            Object.values(assignmentsData).forEach(committee => {
+                Object.values(committee).forEach(member => {
+                    const mappedItem = {
+                        facultyMember: member.member.fullName,
+                        program: member.member.program,
+                        terms: member.terms
+                    };
+
+                    mappedData.push(mappedItem);
+                });
             });
+            setAssignmentsData(mappedData);
+            console.log(mappedData);
+        } catch (error) {
+            alert(StringConstants.ERROR);
+        }
     };
+
 
     const handleCommitteeFilterChange = (committees) => {
         setSelectedCommittees(committees);
@@ -69,9 +84,7 @@ const Committees = () => {
     const outsideColumns = [columnMapping.committee];
     const insideColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
 
-    // Transform selectedCommittees into an array of objects
-    const committeeData = selectedCommittees.map((committee, index) => ({
-        key: index.toString(),
+    const committeeData = assignmentsData.map((committee) => ({
         committee: committee,
     }));
 
@@ -81,7 +94,7 @@ const Committees = () => {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
                 <Picker
                     title={StringConstants.SELECT_COMMITTEE}
-                    items={committeesData}
+                    items={committeesData.map(item => item.committee)}
                     onChange={handleCommitteeFilterChange}
                     selected={selectedCommittees}
                     isCollapsed={committeesCollapsed}
@@ -102,7 +115,7 @@ const Committees = () => {
                     style={{ marginTop: '15px' }}
                 />
             </div>
-            {isFiltered && <TableInsideTable outsideColumns={outsideColumns} insideColumns={insideColumns} outsideData={committeeData} insideData = {null}/>}
+            {isFiltered && <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} outsideData={committeeData} insideData={null} />}
         </div>
     );
 };
