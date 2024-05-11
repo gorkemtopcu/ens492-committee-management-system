@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Committees from 'assets/jsons/report/committees.json';
@@ -7,6 +7,8 @@ import TableSearch from 'product/components/TableSearch';
 import PopupForm from 'product/components/PopupForm';
 import Header from 'product/components/Header';
 import Categories from 'assets/jsons/report/committee_categories.json';
+import CommitteeService from 'product/service/committees';
+import StringConstants from 'product/constants/StringConstants';
 
 const FormActionTypes = {
   ADD: 'Add New Committee',
@@ -14,10 +16,29 @@ const FormActionTypes = {
 };
 
 const CommitteesManagement = () => {
-  const [data, setData] = useState(Committees);
+  const [data, setData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const [formActionType, setFormActionType] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+}, []);
+
+const fetchData = async () => {
+  CommitteeService.getAll()
+    .then(response => {
+      let dataToSet = response.data;
+      dataToSet.forEach((item) => {
+        item.category = Categories[item.category - 1];
+      });
+      setData(dataToSet);
+    })
+    .catch(error => {
+      alert(StringConstants.ERROR);
+    });
+};
+
 
   const onDeleteButtonClicked = (record) => {
     Modal.confirm({
@@ -27,9 +48,15 @@ const CommitteesManagement = () => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        const updatedData = data.filter(item => item.id !== record.id);
-        setData(updatedData);
-        updateJsonFile(updatedData);
+        // Call deleteById function from CommitteeService
+        CommitteeService.deleteById(record.id)
+          .then(() => {
+            const updatedData = data.filter(item => item.id !== record.id);
+            setData(updatedData);
+          })
+          .catch(error => {
+            console.error('Error deleting data:', error);
+          });
       },
     });
   };
@@ -62,19 +89,25 @@ const CommitteesManagement = () => {
     }
 
     const newCommittee = {
-      id: data.length + 1,
       committee: values.committee,
-      category: values.category,
+      category:  Categories.indexOf(values.category) + 1,
       about: values.about,
-      email_list_address: values.mailingList,
-      created_at: new Date().toISOString(),
+      emailListAddress: values.mailingList,
     };
-
-    const updatedData = [...data, newCommittee];
-    setData(updatedData);
-    updateJsonFile(updatedData);
+    console.log(newCommittee);
+    CommitteeService.add(newCommittee)
+          .then(() => {
+            const updatedData = [...data, newCommittee];
+            setData(updatedData);
+          })
+          .catch(error => {
+            console.error('Error adding data:', error);
+          });
     handleCancel();
   };
+
+
+
 
   const handleEditCommittee = (values) => {
     if (!values) {
@@ -102,7 +135,7 @@ const CommitteesManagement = () => {
   };
 
 
-  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
+  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committee_category, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
   const formFields = [
     { name: 'committee', label: 'Committee', type: 'text', required: true },
     { name: 'category', label: 'Category', type: 'select', required: false, options: Categories },

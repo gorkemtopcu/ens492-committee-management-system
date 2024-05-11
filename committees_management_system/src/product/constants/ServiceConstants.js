@@ -10,7 +10,9 @@ const ServiceConstants = {
     ROLES: "http://localhost:8080/api/roles/",
     GET_ALL: "getAll",
     COMMITTEES_PARAM: "committees",
-    TERMS_PARAM: "terms"
+    TERMS_PARAM: "terms",
+    DELETE: "deleteById/",
+    ADD: "add",
 };
 
 export default ServiceConstants;
