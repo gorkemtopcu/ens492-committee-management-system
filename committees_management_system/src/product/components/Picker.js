@@ -3,11 +3,10 @@ import { List, Checkbox } from 'antd';
 import COLORS from '../constants/ColorConstants';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 
-const Picker = ({ title, items, selected, onChange }) => {
+const Picker = ({ title, items, selected, onChange, isCollapsed, onCollapseToggle }) => {
   const initialSelectedItems = selected ? selected : [];
   const [selectedItems, setSelectedItems] = useState(initialSelectedItems);
   const [shiftClickStartIndex, setShiftClickStartIndex] = useState(null);
-  const [collapsed, setCollapsed] = useState(false);
 
   const handleSelectAllChange = (e) => {
     const updatedSelectedItems = e.target.checked ? items : [];
@@ -50,9 +49,9 @@ const Picker = ({ title, items, selected, onChange }) => {
           padding: '8px',
           cursor: 'pointer',
         }}
-        onClick={() => setCollapsed(!collapsed)}
+        onClick={onCollapseToggle}
       >
-        {collapsed ? <CaretRightOutlined /> : <CaretDownOutlined />}
+        {isCollapsed ? <CaretRightOutlined /> : <CaretDownOutlined />}
         <h3 style={{ marginRight: '5vh' }}>{title}</h3>
         <Checkbox
           checked={selectedItems.length === items.length} // Check if all items are selected
@@ -61,7 +60,7 @@ const Picker = ({ title, items, selected, onChange }) => {
           Select All
         </Checkbox>
       </div>
-      {!collapsed && (
+      {!isCollapsed && (
         <List
           size="small"
           bordered

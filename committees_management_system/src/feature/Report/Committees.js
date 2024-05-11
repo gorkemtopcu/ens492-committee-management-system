@@ -1,35 +1,79 @@
+import React, { useEffect, useState } from 'react';
 import Header from 'product/components/Header';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
-import React, { useState } from 'react';
-import Programs from 'assets/jsons/report/programs.json';
 import Terms from 'assets/jsons/report/terms.json';
 import StringConstants from 'product/constants/StringConstants';
-import TableSearch from 'product/components/TableSearch';
-import AssignmentsData from 'assets/jsons/report/assignments.json';
+import TableInsideTable from 'product/components/TableInsideTable';
 import { columnMapping } from 'product/constants/ColumnMapping';
+import CommitteesService from 'product/service/committees';
+import AssignmentsService from 'product/service/assignments';
 
 const Committees = () => {
     const [selectedCommittees, setSelectedCommittees] = useState([]);
     const [selectedTerms, setSelectedTerms] = useState([]);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+    const [isFiltered, setIsFiltered] = useState(false);
+    const [committeesCollapsed, setCommitteesCollapsed] = useState(false);
+    const [termsCollapsed, setTermsCollapsed] = useState(false);
+    const [committeesData, setCommitteesData] = useState([]);
+    const [assignmentsData, setAssignmentsData] = useState([]);
 
-    const handleCommitteeChange = (committees) => {
+    useEffect(() => {
+        getCommitteesData();
+    }, []);
+
+    const getCommitteesData = async () => {
+        try {
+            const response = await CommitteesService.getAll();
+            if (Array.isArray(response.data)) {
+                const committees = response.data.map(item => item.committee);
+                setCommitteesData(committees);
+            } else {
+                throw new Error('Received invalid data from the server.');
+            }
+        } catch (error) {
+            alert(StringConstants.ERROR);
+            console.error('Error fetching committees data:', error);
+        }
+    };
+
+
+    const getAssignmentsData = async () => {
+        AssignmentsService.searchByCommitteeAndTerm(selectedCommittees, selectedTerms)
+            .then(response => {
+                setAssignmentsData(response.data)
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            });
+    };
+
+    const handleCommitteeFilterChange = (committees) => {
         setSelectedCommittees(committees);
         setIsButtonEnabled(committees.length > 0 && selectedTerms.length > 0);
     };
 
-    const handleTermChange = (terms) => {
+    const handleTermFilterChange = (terms) => {
         setSelectedTerms(terms);
         setIsButtonEnabled(selectedCommittees.length > 0 && terms.length > 0);
     };
 
     const handleButtonClick = () => {
-        console.log("Button clicked");
-        alert("Button clicked");
+        setIsFiltered(true);
+        setCommitteesCollapsed(true);
+        setTermsCollapsed(true);
+        getAssignmentsData();
     };
 
-    const tableColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
+    const outsideColumns = [columnMapping.committee];
+    const insideColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
+
+    // Transform selectedCommittees into an array of objects
+    const committeeData = selectedCommittees.map((committee, index) => ({
+        key: index.toString(),
+        committee: committee,
+    }));
 
     return (
         <div>
@@ -37,15 +81,19 @@ const Committees = () => {
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
                 <Picker
                     title={StringConstants.SELECT_COMMITTEE}
-                    items={Programs}
-                    onChange={handleCommitteeChange}
+                    items={committeesData}
+                    onChange={handleCommitteeFilterChange}
                     selected={selectedCommittees}
+                    isCollapsed={committeesCollapsed}
+                    onCollapseToggle={() => setCommitteesCollapsed(!committeesCollapsed)}
                 />
                 <Picker
                     title={StringConstants.SELECT_TERM}
                     items={Terms}
-                    onChange={handleTermChange}
+                    onChange={handleTermFilterChange}
                     selected={selectedTerms}
+                    isCollapsed={termsCollapsed}
+                    onCollapseToggle={() => setTermsCollapsed(!termsCollapsed)}
                 />
                 <PrimaryButton
                     title={StringConstants.SUBMIT}
@@ -54,7 +102,7 @@ const Committees = () => {
                     style={{ marginTop: '15px' }}
                 />
             </div>
-            <TableSearch columns={tableColumns} data={AssignmentsData} />
+            {isFiltered && <TableInsideTable outsideColumns={outsideColumns} insideColumns={insideColumns} outsideData={committeeData} insideData = {null}/>}
         </div>
     );
 };

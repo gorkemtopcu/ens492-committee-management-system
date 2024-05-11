@@ -4,7 +4,7 @@ const { Title } = Typography;
 
 
 
-const Search_Field = ({ options, onChange, title }) => (
+const SearchField = ({ options, onChange, title }) => (
   <>
     <Title level={4}>{options.length} {title}</Title>
     <Select
@@ -18,4 +18,4 @@ const Search_Field = ({ options, onChange, title }) => (
     />
   </>
 );
-export default Search_Field;
+export default SearchField;
