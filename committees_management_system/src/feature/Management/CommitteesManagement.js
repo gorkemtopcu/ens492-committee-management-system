@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-import Committees from 'assets/jsons/report/committees.json';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableSearch from 'product/components/TableSearch';
 import PopupForm from 'product/components/PopupForm';
@@ -23,21 +22,21 @@ const CommitteesManagement = () => {
 
   useEffect(() => {
     fetchData();
-}, []);
+  }, []);
 
-const fetchData = async () => {
-  CommitteeService.getAll()
-    .then(response => {
-      let dataToSet = response.data;
-      dataToSet.forEach((item) => {
-        item.category = Categories[item.category - 1];
+  const fetchData = async () => {
+    CommitteeService.getAll()
+      .then(response => {
+        let dataToSet = response.data;
+        dataToSet.forEach((item) => {
+          item.category = Categories[item.category - 1];
+        });
+        setData(dataToSet);
+      })
+      .catch(error => {
+        alert(StringConstants.ERROR);
       });
-      setData(dataToSet);
-    })
-    .catch(error => {
-      alert(StringConstants.ERROR);
-    });
-};
+  };
 
 
   const onDeleteButtonClicked = (record) => {
@@ -90,19 +89,19 @@ const fetchData = async () => {
 
     const newCommittee = {
       committee: values.committee,
-      category:  Categories.indexOf(values.category) + 1,
+      category: Categories.indexOf(values.category) + 1,
       about: values.about,
       emailListAddress: values.mailingList,
     };
     console.log(newCommittee);
     CommitteeService.add(newCommittee)
-          .then(() => {
-            const updatedData = [...data, newCommittee];
-            setData(updatedData);
-          })
-          .catch(error => {
-            console.error('Error adding data:', error);
-          });
+      .then(() => {
+        const updatedData = [...data, newCommittee];
+        setData(updatedData);
+      })
+      .catch(error => {
+        console.error('Error adding data:', error);
+      });
     handleCancel();
   };
 
