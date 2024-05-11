@@ -51,8 +51,7 @@ const ProgramInstructor = () => {
       <PrimaryButton
         title="Submit"
         onClick={handleButtonClick}
-        isEnabled={isButtonEnabled}
-      />
+        isEnabled={isButtonEnabled} style={undefined}      />
     </div>
   );
 };

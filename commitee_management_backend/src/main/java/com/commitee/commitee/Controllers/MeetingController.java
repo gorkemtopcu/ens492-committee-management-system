@@ -32,5 +32,13 @@ public class MeetingController {
         return new ResponseEntity<>(savedMeeting, HttpStatus.CREATED);
     }
 
+    @GetMapping("/findByTerm/{term}")
+    public ResponseEntity<List<Meeting>> findByTerm(@PathVariable String term) {
+        List<Meeting> meetings = meetingService.findByTerm(term);
+        return new ResponseEntity<>(meetings, HttpStatus.OK);
+    }
+
+
+
     // Other controller methods for updating and deleting meetings can be added here
 }
