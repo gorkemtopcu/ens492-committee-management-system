@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Search_Field from 'product/components/SearchField';
+import SearchField from 'product/components/SearchField';
 import Terms from 'assets/jsons/report/terms.json';
 import Header from 'product/components/Header';
 import Picker from 'product/components/Picker';
@@ -8,11 +8,9 @@ import PrimaryButton from 'product/components/PrimaryButton';
 
 
 const MeetingParticipation = () => {
-    const [data, setData] = useState([]);
     const [initialValues, setInitialValues] = useState(null);
     const [selectedTerm, setSelectedTerm] = useState(null);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         fetchData();
@@ -21,9 +19,7 @@ const MeetingParticipation = () => {
     const fetchData = async () => {
         try {
             const response = await axios.get('http://localhost:8080/api/members/getAll');
-            setData(response.data);
             setInitialValues(response.data);
-            setLoading(false);
         } catch (error) {
             console.error('Error fetching data:', error);
         }
@@ -54,19 +50,18 @@ const MeetingParticipation = () => {
 
     return (
         <div>
-            <h1>Meeting Participation</h1>
+            <Header title="Meeting Participation" />
             <div style={{ gap: '50px', display: 'flex', justifyContent: 'flex-start', marginTop: "50px" }}>
-                <div style={{ flex: 1 }}>
-                    
-                    <Search_Field options={namesOptions} onChange={handleChange} title="Faculty Members" />
+                <div style={{ width: "300px", marginRight: "300px" }}>
+
+                    <SearchField options={namesOptions} onChange={handleChange} title="Faculty Members" />
                 </div>
-                <div style={{ flex: 1 }}>
+                <div style={{ width: "300px" }}>
                     <Picker
                         title="Select Term"
                         items={Terms}
                         onChange={handleTermChange}
-                        selected={selectedTerm}
-                    />
+                        selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined} />
                 </div>
 
             </div>
@@ -74,10 +69,9 @@ const MeetingParticipation = () => {
             <PrimaryButton
                 title="Submit"
                 onClick={handleButtonClick}
-                isEnabled={isButtonEnabled}
-            />
+                isEnabled={isButtonEnabled} style={undefined} />
         </div>
-        
+
     );
 };
 

@@ -4,13 +4,13 @@ const { Title } = Typography;
 
 
 
-const Search_Field = ({ options, onChange, title }) => (
+const SearchField = ({ options, onChange, title }) => (
   <>
     <Title level={4}>{options.length} {title}</Title>
     <Select
       mode="multiple"
       style={{
-        width: '30%',
+        width: '100%',
       }}
       placeholder="Please select"
       onChange={onChange}
@@ -18,4 +18,4 @@ const Search_Field = ({ options, onChange, title }) => (
     />
   </>
 );
-export default Search_Field;
+export default SearchField;

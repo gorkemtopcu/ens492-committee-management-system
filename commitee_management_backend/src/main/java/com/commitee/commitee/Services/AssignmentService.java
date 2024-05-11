@@ -16,14 +16,14 @@ import java.util.*;
 @Service
 public class AssignmentService {
     private final AssignmentRepository assignmentRepository;
-    private final MemberRepository memberRepository;
     private final CommitteeRepository committeeRepository;
+    private final MemberRepository memberRepository;
 
     @Autowired
-    public AssignmentService(AssignmentRepository assignmentRepository, MemberRepository memberRepository, CommitteeRepository committeeRepository) {
+    public AssignmentService(AssignmentRepository assignmentRepository, CommitteeRepository committeeRepository, MemberRepository memberRepository) {
         this.assignmentRepository = assignmentRepository;
-        this.memberRepository = memberRepository;
         this.committeeRepository = committeeRepository;
+        this.memberRepository = memberRepository;
     }
 
     public List<Assignment> getAllAssignments() {
@@ -35,46 +35,35 @@ public class AssignmentService {
         return assignmentRepository.save(assignment);
     }
 
-    public Map<String, List<CommitteesReportPayload>> getCommitteesWithMembersAndTerms(List<Integer> committees, List<Integer> terms) {
-        List<Assignment> assignments = filterAssignments(committees, terms);
-        Map<String, List<CommitteesReportPayload>> committeeMembersAndTermsMap = new HashMap<>();
+    public Map<Integer, Map<Integer, CommitteesReportPayload>> getCommitteesWithMembersAndTerms(List<Integer> committees, List<Integer> terms) {
+        List<Assignment> assignments = assignmentRepository.findByCommitteeInAndTermIn(committees, terms);
+        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = new HashMap<>();
 
         for (Assignment assignment : assignments) {
-            String committee = committeeRepository.findById(assignment.getCommittee()).getCommittee();
-            Member member = getMemberDetails(assignment.getMember());
+            int committeeId = assignment.getCommittee();
+            int memberId = assignment.getMember();
             int term = assignment.getTerm();
+            Committee committee = committeeRepository.findById(committeeId);
+            Member member = memberRepository.findBySuid(memberId);
 
-            if (!committeeMembersAndTermsMap.containsKey(committee)) {
-                committeeMembersAndTermsMap.put(committee, new ArrayList<CommitteesReportPayload>());
+            // Check if the payload for the committee and member already exists
+            if (!groupedAssignments.containsKey(committeeId)) {
+                groupedAssignments.put(committeeId, new HashMap<>());
+            }
+            Map<Integer, CommitteesReportPayload> memberMap = groupedAssignments.get(committeeId);
+
+            if (!memberMap.containsKey(memberId)) {
+                // If the payload does not exist, create a new one
+                CommitteesReportPayload instance = new CommitteesReportPayload(committee, member, new ArrayList<>());
+                memberMap.put(memberId, instance);
             }
 
-            CommitteesReportPayload payload = (CommitteesReportPayload) committeeMembersAndTermsMap.get(committee);
-            payload.setFacultyMember(member.getFullName());
-            payload.setProgram(member.getProgram());
-
-            if (payload.getTerms() == null) {
-                payload.setTerms(new ArrayList<>());
-            }
+            // Add the term to the existing payload's terms list
+            CommitteesReportPayload payload = memberMap.get(memberId);
             payload.getTerms().add(term);
         }
 
-        return committeeMembersAndTermsMap;
+        return groupedAssignments;
     }
 
-    private List<Assignment> filterAssignments(List<Integer> committees, List<Integer> terms) {
-        if (committees != null && terms != null) {
-            return assignmentRepository.findByCommitteeInAndTermIn(committees, terms);
-        } else if (committees != null) {
-            return assignmentRepository.findByCommitteeIn(committees);
-        } else if (terms != null) {
-            return assignmentRepository.findByTermIn(terms);
-        } else {
-            return assignmentRepository.findAll();
-        }
-    }
-
-    private Member getMemberDetails(Integer memberId) {
-        Optional<Member> optionalMember = memberRepository.findById(memberId);
-        return optionalMember.orElse(null);
-    }
 }

@@ -38,12 +38,23 @@ const Committees = () => {
         }
     };
 
-    const handleCommitteeChange = (committees) => {
+
+    const getAssignmentsData = async () => {
+        AssignmentsService.searchByCommitteeAndTerm(selectedCommittees, selectedTerms)
+            .then(response => {
+                setAssignmentsData(response.data)
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            });
+    };
+
+    const handleCommitteeFilterChange = (committees) => {
         setSelectedCommittees(committees);
         setIsButtonEnabled(committees.length > 0 && selectedTerms.length > 0);
     };
 
-    const handleTermChange = (terms) => {
+    const handleTermFilterChange = (terms) => {
         setSelectedTerms(terms);
         setIsButtonEnabled(selectedCommittees.length > 0 && terms.length > 0);
     };
@@ -52,7 +63,7 @@ const Committees = () => {
         setIsFiltered(true);
         setCommitteesCollapsed(true);
         setTermsCollapsed(true);
-        // getAssignmentsData();
+        getAssignmentsData();
     };
 
     const outsideColumns = [columnMapping.committee];
@@ -71,7 +82,7 @@ const Committees = () => {
                 <Picker
                     title={StringConstants.SELECT_COMMITTEE}
                     items={committeesData}
-                    onChange={handleCommitteeChange}
+                    onChange={handleCommitteeFilterChange}
                     selected={selectedCommittees}
                     isCollapsed={committeesCollapsed}
                     onCollapseToggle={() => setCommitteesCollapsed(!committeesCollapsed)}
@@ -79,7 +90,7 @@ const Committees = () => {
                 <Picker
                     title={StringConstants.SELECT_TERM}
                     items={Terms}
-                    onChange={handleTermChange}
+                    onChange={handleTermFilterChange}
                     selected={selectedTerms}
                     isCollapsed={termsCollapsed}
                     onCollapseToggle={() => setTermsCollapsed(!termsCollapsed)}
