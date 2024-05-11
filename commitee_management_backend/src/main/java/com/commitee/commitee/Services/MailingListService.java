@@ -1,6 +1,7 @@
 package com.commitee.commitee.Services;
 
 import com.commitee.commitee.Entities.MailingList;
+import com.commitee.commitee.Entities.Meeting;
 import com.commitee.commitee.Repositories.MailingListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,4 +26,8 @@ public class MailingListService {
     }
 
     // Other methods for updating and deleting mailing lists can be added here
+
+    public List<MailingList> findByTerm(String term) {
+        return mailingListRepository.findByTerm(term);
+    }
 }
