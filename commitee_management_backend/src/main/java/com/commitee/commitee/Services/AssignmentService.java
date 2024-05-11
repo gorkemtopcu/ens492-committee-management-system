@@ -1,9 +1,6 @@
 package com.commitee.commitee.Services;
 
 import com.commitee.commitee.Entities.Assignment;
-import com.commitee.commitee.Entities.Committee;
-import com.commitee.commitee.Entities.Member;
-import com.commitee.commitee.Payload.CommitteesReportPayload;
 import com.commitee.commitee.Repositories.AssignmentRepository;
 import com.commitee.commitee.Repositories.CommitteeRepository;
 import com.commitee.commitee.Repositories.MemberRepository;
@@ -16,14 +13,10 @@ import java.util.*;
 @Service
 public class AssignmentService {
     private final AssignmentRepository assignmentRepository;
-    private final MemberRepository memberRepository;
-    private final CommitteeRepository committeeRepository;
 
     @Autowired
-    public AssignmentService(AssignmentRepository assignmentRepository, MemberRepository memberRepository, CommitteeRepository committeeRepository) {
+    public AssignmentService(AssignmentRepository assignmentRepository) {
         this.assignmentRepository = assignmentRepository;
-        this.memberRepository = memberRepository;
-        this.committeeRepository = committeeRepository;
     }
 
     public List<Assignment> getAllAssignments() {
@@ -35,7 +28,19 @@ public class AssignmentService {
         return assignmentRepository.save(assignment);
     }
 
-    public List<CommitteesReportPayload> getCommitteesWithMembersAndTerms(List<Integer> terms, List<Integer> committees) {
-        return assignmentRepository.findCommitteesWithMembersAndTerms(terms, committees);
+    public Map<Integer, Map<Integer, List<Assignment>>> getCommitteesWithMembersAndTerms(List<Integer> committees, List<Integer> terms) {
+        List<Assignment> assignments = assignmentRepository.findByCommitteeInAndTermIn(committees, terms);
+        Map<Integer, Map<Integer, List<Assignment>>> groupedAssignments = new HashMap<>();
+
+        for (Assignment assignment : assignments) {
+            int committeeId = assignment.getCommittee();
+            int memberId = assignment.getMember(); // Assuming you have a method to get the member ID
+
+            groupedAssignments.computeIfAbsent(committeeId, k -> new HashMap<>())
+                    .computeIfAbsent(memberId, k -> new ArrayList<>())
+                    .add(assignment);
+        }
+
+        return groupedAssignments;
     }
 }
