@@ -26,14 +26,8 @@ const MailListTable = () => {
                     organizedData[listEmail].push(item);
                 });
 
-                // Convert organizedData object to the desired format
-                const newData = Object.entries(organizedData) // Filter out empty lists
-                    .map(([key, value]) => ({
-                        maillist: key,
-                        children: value
-                    }));
+                setMailListData(organizedData); // Set the state with organized data
 
-                setMailListData(newData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -41,9 +35,6 @@ const MailListTable = () => {
 
         fetchDataAndOrganize();
     }, []);
-
-    
-
 
     // Define columns for the nested table
     const nestedColumns = [
@@ -56,22 +47,17 @@ const MailListTable = () => {
 
     return (
         <div className='MailListTable'>
-            <Table
-                columns={[{ title: 'Mail List', dataIndex: 'maillist', key: 'maillist' }]}
-                dataSource={mailListData}
-                expandable={{
-                    // Make all rows expandable
-                    rowExpandable: (record) => true,
-                    // Render expanded row with nested table
-                    expandedRowRender: (record) => (
-                        <Table
-                            columns={nestedColumns}
-                            dataSource={record.children}
-                            pagination={false}
-                        />
-                    )
-                }}
-            />
+            {mailListData && Object.entries(mailListData).map(([listEmail, data]) => (
+                <div key={listEmail}>
+                    <h3>Email List: {listEmail}</h3>
+                    <Table
+                        columns={nestedColumns}
+                        dataSource={data}
+                        rowKey="id"
+                        pagination={false}
+                    />
+                </div>
+            ))}
         </div>
     );
 };
