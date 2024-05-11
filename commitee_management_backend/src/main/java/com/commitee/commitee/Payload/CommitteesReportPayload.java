@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 import java.util.List;
 
 @AllArgsConstructor
@@ -12,6 +11,7 @@ import java.util.List;
 @Getter
 @Setter
 public class CommitteesReportPayload {
+    private Integer committeeId;
     private String facultyMember;
     private String program;
     private List<Integer> terms;
