@@ -9,6 +9,8 @@ const ServiceConstants = {
     PROGRAMS: "http://localhost:8080/api/programs/",
     ROLES: "http://localhost:8080/api/roles/",
     GET_ALL: "getAll",
+    DELETE: "deleteById/",
+    ADD: "add",
 };
 
 export default ServiceConstants;

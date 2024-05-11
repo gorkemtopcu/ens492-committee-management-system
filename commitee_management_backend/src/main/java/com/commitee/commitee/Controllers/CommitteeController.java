@@ -1,6 +1,7 @@
 package com.commitee.commitee.Controllers;
 
 import com.commitee.commitee.Entities.Committee;
+import com.commitee.commitee.Exception.CommitteeNotFoundException;
 import com.commitee.commitee.Services.CommitteeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin
@@ -24,6 +26,18 @@ public class CommitteeController {
     public ResponseEntity<List<Committee>> getAllCommittees() {
         List<Committee> committees = committeeService.getAllCommittees();
         return new ResponseEntity<>(committees, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<?> deleteById(@PathVariable("id") Long id) {
+        try{
+            Committee deletedCommittee = committeeService.delete(id);
+            return new ResponseEntity<>(deletedCommittee, HttpStatus.OK);
+        }
+        catch (CommitteeNotFoundException e) {
+            String errorMessage = e.getMessage();
+            return new ResponseEntity<>(errorMessage, HttpStatus.NOT_FOUND);
+        }
     }
 
     @PostMapping

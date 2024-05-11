@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import Committees from 'assets/jsons/report/committees.json';
@@ -7,6 +7,8 @@ import TableSearch from 'product/components/TableSearch';
 import PopupForm from 'product/components/PopupForm';
 import Header from 'product/components/Header';
 import Categories from 'assets/jsons/report/committee_categories.json';
+import CommitteeService from 'product/service/committees';
+import StringConstants from 'product/constants/StringConstants';
 
 const FormActionTypes = {
   ADD: 'Add New Committee',
@@ -14,10 +16,30 @@ const FormActionTypes = {
 };
 
 const CommitteesManagement = () => {
-  const [data, setData] = useState(Committees);
+  const [data, setData] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const [formActionType, setFormActionType] = useState(null);
+
+  useEffect(() => {
+    fetchData();
+}, []);
+
+const fetchData = async () => {
+  CommitteeService.getAll()
+    .then(response => {
+      console.log(response.data);
+      let dataToSet = response.data;
+      dataToSet.forEach((item) => {
+        item.category = Categories[item.category - 1];
+      });
+      setData(dataToSet);
+    })
+    .catch(error => {
+      alert(StringConstants.ERROR);
+    });
+};
+
 
   const onDeleteButtonClicked = (record) => {
     Modal.confirm({
@@ -27,9 +49,15 @@ const CommitteesManagement = () => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        const updatedData = data.filter(item => item.id !== record.id);
-        setData(updatedData);
-        updateJsonFile(updatedData);
+        // Call deleteById function from CommitteeService
+        CommitteeService.deleteById(record.id)
+          .then(() => {
+            const updatedData = data.filter(item => item.id !== record.id);
+            setData(updatedData);
+          })
+          .catch(error => {
+            console.error('Error deleting data:', error);
+          });
       },
     });
   };
@@ -102,7 +130,7 @@ const CommitteesManagement = () => {
   };
 
 
-  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
+  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committee_category, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
   const formFields = [
     { name: 'committee', label: 'Committee', type: 'text', required: true },
     { name: 'category', label: 'Category', type: 'select', required: false, options: Categories },
