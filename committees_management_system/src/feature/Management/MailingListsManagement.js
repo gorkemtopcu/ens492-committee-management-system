@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table } from 'antd';
+import { Table, Button, message } from 'antd';
+import { saveAs } from 'file-saver';
 import Header from 'product/components/Header';
-
-
+import * as XLSX from 'xlsx';
+import PrimaryButton from 'product/components/PrimaryButton';
 
 const MailListTable = () => {
     const [mailListData, setMailListData] = useState(null);
@@ -12,50 +13,63 @@ const MailListTable = () => {
         async function fetchDataAndOrganize() {
             try {
                 const response = await axios.get('http://localhost:8080/api/mailing-lists/getAll');
-                
-                // Object to store organized data
                 const organizedData = {};
-
-                // Iterate over response data
                 response.data.forEach(item => {
                     const listEmail = item.listEmail;
-                    
-                    // If listEmail doesn't exist in organizedData, create a new entry
                     if (!organizedData[listEmail]) {
                         organizedData[listEmail] = [];
                     }
-                    
-                    // Push the item to its corresponding listEmail entry
                     organizedData[listEmail].push(item);
                 });
-
-                setMailListData(organizedData); // Set the state with organized data
-
+                setMailListData(organizedData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
-
         fetchDataAndOrganize();
     }, []);
 
-    // Define columns for the nested table
     const nestedColumns = [
-        //{ title: 'Suid', dataIndex: 'id', key: 'id', searchable: true },
         { title: 'Name', dataIndex: 'member', key: 'member', searchable: true },
         { title: 'Mail', dataIndex: 'memberEmail', key: 'memberEmail', searchable: true },
-        //{ title: 'ListEmail', dataIndex: 'listEmail', key: 'listEmail', searchable: true },
-        //{ title: 'Term', dataIndex: 'term', key: 'term', searchable: true },
     ];
 
-    // Define columns for the main table
     const mainColumns = [
         { title: 'Email List', dataIndex: 'listEmail', key: 'listEmail' },
     ];
 
+    const handleExportExcel = () => {
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.json_to_sheet(Object.values(mailListData).flat());
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Mailing List');
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'mailing_list.xlsx');
+    };
+
+    const handleCopyToClipboard = () => {
+        const jsonString = JSON.stringify(mailListData);
+        navigator.clipboard.writeText(jsonString);
+        message.success('Response copied to clipboard');
+    };
+
     return (
         <div className='MailListTable'>
             <Header title="Mailing List" />
+            <div style={{ display: 'flex', marginBottom: 16 }}>
+                <PrimaryButton
+                    title="Copy"
+                    onClick={handleCopyToClipboard}
+                    isEnabled={true}
+                    style={{ marginRight: 16 }}
+                />
+                <PrimaryButton
+                    title="Excel"
+                    onClick={handleExportExcel}
+                    isEnabled={true}
+                    style={{ marginRight: 16 }}
+                />
+                
+            </div>
             <Table
                 columns={mainColumns}
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
@@ -70,10 +84,7 @@ const MailListTable = () => {
                         />
                     ),
                     rowExpandable: record => mailListData[record.listEmail] && mailListData[record.listEmail].length > 0,
-                    
                 }}
-                
-                
             />
         </div>
     );

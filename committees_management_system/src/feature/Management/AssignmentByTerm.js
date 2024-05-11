@@ -1,51 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import SearchField from 'product/components/SearchField';
-import Terms from 'assets/jsons/report/terms.json';
+import { Table, Button, message } from 'antd';
+import { saveAs } from 'file-saver';
 import Header from 'product/components/Header';
-import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
-import { Table } from 'antd';
+import * as XLSX from 'xlsx';
 
 const AssignmentByTerm = () => {
     const { term } = useParams();
     const [mailListData, setMailListData] = useState(null);
-
     const navigate = useNavigate();
-
-
 
     useEffect(() => {
         async function fetchDataAndOrganize() {
             try {
                 const response = await axios.get('http://localhost:8080/api/mailing-lists/getAll');
-                
-                // Object to store organized data
                 const organizedData = {};
-
-                // Iterate over response data
                 response.data.forEach(item => {
                     const listEmail = item.listEmail;
-                    
-                    // If listEmail doesn't exist in organizedData, create a new entry
                     if (!organizedData[listEmail]) {
                         organizedData[listEmail] = [];
                     }
-                    
-                    // Push the item to its corresponding listEmail entry
                     organizedData[listEmail].push(item);
                 });
-
-                setMailListData(organizedData); // Set the state with organized data
-
+                setMailListData(organizedData);
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
         }
-
         fetchDataAndOrganize();
-    }, [term]); // Ensure useEffect runs whenever 'term' changes
+    }, [term]);
 
     const nestedColumns = [
         { title: 'Name', dataIndex: 'member', key: 'member', searchable: true },
@@ -56,36 +41,64 @@ const AssignmentByTerm = () => {
         { title: 'Email List', dataIndex: 'listEmail', key: 'listEmail' },
     ];
 
+    const handleExportExcel = () => {
+        const workbook = XLSX.utils.book_new();
+        const worksheet = XLSX.utils.json_to_sheet(Object.values(mailListData).flat());
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Mailing List');
+        const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+        saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'mailing_list.xlsx');
+    };
 
     const handleBackButtonClick = () => {
-        // Navigate to the new page with the term information as a parameter
         navigate(`/mgmt-assignments`);
     };
-    
+
+    const handleCopyToClipboard = () => {
+        const jsonString = JSON.stringify(mailListData);
+        navigator.clipboard.writeText(jsonString);
+        message.success('Response copied to clipboard');
+    };
+
     return (
-        //<Header title={`Assignment In Term ${term}`} />
         <div className='MailListTable'>
             <Header title={`Assignment In Selected Terms`} />
-            <PrimaryButton
-                title="Back"
-                onClick={handleBackButtonClick}
-                isEnabled={true} style={undefined} />
+            <div style={{ display: 'flex', marginBottom: 16 }}>
+                <PrimaryButton
+                    title="Copy"
+                    onClick={handleCopyToClipboard}
+                    isEnabled={true}
+                    style={{ marginRight: 16 }}
+                />
+                <PrimaryButton
+                    title="Excel"
+                    onClick={handleExportExcel}
+                    isEnabled={true}
+                    style={{ marginRight: 16 }}
+                />
+                
+            </div>
             <Table
                 columns={mainColumns}
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
-                rowKey={(record, index) => index} // Use index as row key temporarily
+                rowKey={(record, index) => index}
                 expandable={{
                     expandedRowRender: record => (
                         <Table
                             columns={nestedColumns}
                             dataSource={mailListData[record.listEmail]}
                             rowKey="id"
-                            pagination={false} // Disable pagination for nested table
+                            pagination={false}
                         />
                     ),
-                    rowExpandable: record => mailListData && mailListData[record.listEmail] && mailListData[record.listEmail].length > 0,
+                    rowExpandable: record => mailListData[record.listEmail] && mailListData[record.listEmail].length > 0,
                 }}
             />
+            <PrimaryButton
+                    title="Back"
+                    onClick={handleBackButtonClick}
+                    isEnabled={true}
+                    style={{ marginRight: 16 }}
+                />
         </div>
     );
 };
