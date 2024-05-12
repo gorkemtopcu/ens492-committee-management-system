@@ -4,7 +4,7 @@ import { Table, Button, message } from 'antd';
 import { saveAs } from 'file-saver';
 import Header from 'product/components/Header';
 import * as XLSX from 'xlsx';
-import PrimaryButton from 'product/components/PrimaryButton';
+import PrimaryButtonGreen from 'product/components/PrimaryButtonGreen';
 
 const MailListTable = () => {
     const [mailListData, setMailListData] = useState(null);
@@ -59,13 +59,14 @@ const MailListTable = () => {
         <div className='MailListTable'>
             <Header title="Mailing List" />
             <div style={{ display: 'flex', marginBottom: 16 }}>
-                <PrimaryButton
+                <PrimaryButtonGreen
                     title="Copy"
                     onClick={handleCopyToClipboard}
                     isEnabled={true}
+
                     style={{ marginRight: 16 }}
                 />
-                <PrimaryButton
+                <PrimaryButtonGreen
                     title="Excel"
                     onClick={handleExportExcel}
                     isEnabled={true}

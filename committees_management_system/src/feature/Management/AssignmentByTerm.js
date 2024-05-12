@@ -5,6 +5,7 @@ import { Table, Button, message } from 'antd';
 import { saveAs } from 'file-saver';
 import Header from 'product/components/Header';
 import PrimaryButton from 'product/components/PrimaryButton';
+import PrimaryButtonGreen from 'product/components/PrimaryButtonGreen';
 import * as XLSX from 'xlsx';
 
 const AssignmentByTerm = () => {
@@ -66,13 +67,13 @@ const AssignmentByTerm = () => {
         <div className='MailListTable'>
             <Header title={`Assignment In Selected Terms`} />
             <div style={{ display: 'flex', marginBottom: 16 }}>
-                <PrimaryButton
+                <PrimaryButtonGreen
                     title="Copy"
                     onClick={handleCopyToClipboard}
                     isEnabled={true}
                     style={{ marginRight: 16 }}
                 />
-                <PrimaryButton
+                <PrimaryButtonGreen
                     title="Excel"
                     onClick={handleExportExcel}
                     isEnabled={true}
