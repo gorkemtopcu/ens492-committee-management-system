@@ -86,6 +86,7 @@ const AssignmentByTerm = () => {
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
                 rowKey="listEmail"
                 expandedRowKeys={expandedRowKeys}
+                pagination={false}
                 expandable={{
                     expandedRowRender: record => (
                         <Table

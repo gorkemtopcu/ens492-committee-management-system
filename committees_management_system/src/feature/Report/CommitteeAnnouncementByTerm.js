@@ -97,33 +97,43 @@ const CommitteeAnnouncementByTerm = () => {
                 <PrimaryButtonChangeTerm
                     title="Change Term"
                     onClick={handleBackButtonClick}
-                    isEnabled={true} style={undefined}                />
-            </div>
-            <Table
-                columns={mainColumns}
-                dataSource={dataSource}
-                expandable={{
-                    expandedRowRender: record => (
-                        <Table
-                            columns={nestedColumns}
-                            dataSource={record.members}
-                            pagination={false}
-                        />
-                    ),
-                    expandedRowKeys: expandedRowKeys,
-                    onExpand: (expanded, record) => {
-                        setExpandedRowKeys(expanded ? [...expandedRowKeys, record.key] : expandedRowKeys.filter(key => key !== record.key));
-                    },
-                }}
-            />
-            <PrimaryButton
-                    title="Back"
-                    onClick={handleBackButtonClick}
                     isEnabled={true}
                     style={{ marginRight: 16 }}
                 />
+            </div>
+            <div style={{ overflow: 'auto', maxHeight: 'calc(100vh - 200px)' }}> {/* Adjust the height as needed */}
+                <Table
+                    columns={mainColumns}
+                    dataSource={dataSource}
+                    pagination={false} // Disable pagination
+                    scroll={{ x: true }} // Enable horizontal scrolling if needed
+                    expandable={{
+                        expandedRowRender: record => (
+                            <Table
+                                columns={nestedColumns}
+                                dataSource={record.members}
+                                pagination={false} // Disable pagination for nested table
+                            />
+                        ),
+                        expandedRowKeys: expandedRowKeys,
+                        onExpand: (expanded, record) => {
+                            setExpandedRowKeys(expanded ? [...expandedRowKeys, record.key] : expandedRowKeys.filter(key => key !== record.key));
+                        },
+                    }}
+                />
+            </div>
+            <PrimaryButton
+                title="Back"
+                onClick={handleBackButtonClick}
+                isEnabled={true}
+                style={{ marginRight: 16 }}
+            />
         </div>
+
+
     );
 };
 
 export default CommitteeAnnouncementByTerm;
+
+
