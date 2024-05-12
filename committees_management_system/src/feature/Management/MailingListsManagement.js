@@ -8,6 +8,7 @@ import PrimaryButton from 'product/components/PrimaryButton';
 
 const MailListTable = () => {
     const [mailListData, setMailListData] = useState(null);
+    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
     useEffect(() => {
         async function fetchDataAndOrganize() {
@@ -22,6 +23,8 @@ const MailListTable = () => {
                     organizedData[listEmail].push(item);
                 });
                 setMailListData(organizedData);
+                // Set expanded row keys to all keys
+                setExpandedRowKeys(Object.keys(organizedData));
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -74,6 +77,7 @@ const MailListTable = () => {
                 columns={mainColumns}
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
                 rowKey="listEmail"
+                expandedRowKeys={expandedRowKeys}
                 expandable={{
                     expandedRowRender: record => (
                         <Table
@@ -83,7 +87,9 @@ const MailListTable = () => {
                             pagination={false}
                         />
                     ),
-                    rowExpandable: record => mailListData[record.listEmail] && mailListData[record.listEmail].length > 0,
+                    onExpand: (expanded, record) => {
+                        setExpandedRowKeys(expanded ? [...expandedRowKeys, record.listEmail] : expandedRowKeys.filter(key => key !== record.listEmail));
+                    },
                 }}
             />
         </div>
