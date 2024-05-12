@@ -10,6 +10,8 @@ import * as XLSX from 'xlsx';
 const AssignmentByTerm = () => {
     const { term } = useParams();
     const [mailListData, setMailListData] = useState(null);
+    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+    
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,6 +27,7 @@ const AssignmentByTerm = () => {
                     organizedData[listEmail].push(item);
                 });
                 setMailListData(organizedData);
+                setExpandedRowKeys(Object.keys(organizedData));
             } catch (error) {
                 console.error("Error fetching data:", error);
             }
@@ -80,7 +83,8 @@ const AssignmentByTerm = () => {
             <Table
                 columns={mainColumns}
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
-                rowKey={(record, index) => index}
+                rowKey="listEmail"
+                expandedRowKeys={expandedRowKeys}
                 expandable={{
                     expandedRowRender: record => (
                         <Table
@@ -90,7 +94,9 @@ const AssignmentByTerm = () => {
                             pagination={false}
                         />
                     ),
-                    rowExpandable: record => mailListData[record.listEmail] && mailListData[record.listEmail].length > 0,
+                    onExpand: (expanded, record) => {
+                        setExpandedRowKeys(expanded ? [...expandedRowKeys, record.listEmail] : expandedRowKeys.filter(key => key !== record.listEmail));
+                    },
                 }}
             />
             <PrimaryButton
