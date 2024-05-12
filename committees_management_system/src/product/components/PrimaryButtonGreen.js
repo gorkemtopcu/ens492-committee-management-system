@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from 'antd';
+import { DownloadOutlined } from '@ant-design/icons'; // Import the Excel icon
 import COLORS from '../constants/ColorConstants';
 
 const PrimaryButton = ({ title, onClick, isEnabled, style }) => {
@@ -21,7 +22,9 @@ const PrimaryButton = ({ title, onClick, isEnabled, style }) => {
                 justifyContent: 'center', // Center vertically
                 alignItems: 'center', // Center horizontally
                 ...style, // Spread the incoming style object
-            }}>
+            }}
+            icon={<DownloadOutlined />} // Add Excel icon
+        >
             {title}
         </Button>
     );
