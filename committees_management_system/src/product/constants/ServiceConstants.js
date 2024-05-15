@@ -11,6 +11,7 @@ const ServiceConstants = {
     GET_ALL: "getAll",
     COMMITTEES_PARAM: "committees",
     TERMS_PARAM: "terms",
+    TERM_PARAM: "term",
     DELETE: "deleteById/",
     ADD: "add",
 };

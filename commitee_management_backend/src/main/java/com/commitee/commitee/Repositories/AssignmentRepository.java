@@ -9,11 +9,11 @@ import java.util.List;
 
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
-
     List<Assignment> findByTerm(Integer term);
-    List<Assignment> findByCommitteeInAndTermIn(List<Integer> committees,List<Integer> terms);
+
+    List<Assignment> findByCommitteeInAndTermIn(List<Integer> committees, List<Integer> terms);
 
     List<Assignment> findByTermIn(List<Integer> terms);
 
-    //List<Assignment> findAllCommitteeInTerm(List<Integer> terms);
+    // List<Assignment> findAllCommitteeInTerm(List<Integer> terms);
 }

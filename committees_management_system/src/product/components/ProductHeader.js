@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Header = ({ title }) => {
+const ProductHeader = ({ title }) => {
     return (
         <header style={{ paddingBottom: '20px' }}>
             <h1>{title}</h1>
@@ -8,4 +8,4 @@ const Header = ({ title }) => {
     );
 };
 
-export default Header;
+export default ProductHeader;

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import SearchField from 'product/components/SearchField';
 import Terms from 'assets/jsons/report/terms.json';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
+import StringConstants from 'product/constants/StringConstants';
+import MembersService from 'product/service/members';
 
 
 const MeetingParticipation = () => {
-    const [initialValues, setInitialValues] = useState(null);
+    const [members, setMembers] = useState(null);
     const [selectedTerm, setSelectedTerm] = useState(null);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
@@ -17,57 +18,51 @@ const MeetingParticipation = () => {
     }, []);
 
     const fetchData = async () => {
-        try {
-            const response = await axios.get('http://localhost:8080/api/members/getAll');
-            setInitialValues(response.data);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
+        MembersService.getAll()
+            .then(response => setMembers(response.data))
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            });
     };
 
     const handleChange = (value) => {
         console.log(`selected ${value}`);
         setIsButtonEnabled(value !== null && value.length > 0 && selectedTerm !== null);
-        // Handle selected values here
     };
 
     const handleTermChange = (term) => {
         setSelectedTerm(term);
-        setIsButtonEnabled(initialValues !== null && term !== null); // Enable button if both program and term are selected
+        setIsButtonEnabled(members !== null && term !== null);
     };
 
     // Handle button click
     const handleButtonClick = () => {
-        // Your logic for button click action
-        console.log("Button clicked");
-        alert("Button clicked");
     };
 
-    const namesOptions = initialValues ? initialValues.map(item => ({
+    const namesOptions = members ? members.map(item => ({
         label: item.fullName,
         value: item.suid,
     })) : [];
 
     return (
         <div>
-            <Header title="Meeting Participation" />
-            <div style={{ gap: '50px', display: 'flex', justifyContent: 'flex-start', marginTop: "50px" }}>
-                <div style={{ width: "300px", marginRight: "300px" }}>
-
+            <ProductHeader title="Meeting Participation" />
+            <div style={{ gap: '50px', display: 'flex', }}>
+                <div style={{ maxWidth: '300px' }}>
                     <SearchField options={namesOptions} onChange={handleChange} title="Faculty Members" />
                 </div>
-                <div style={{ width: "300px" }}>
+                <div>
                     <Picker
-                        title="Select Term"
+                        title={StringConstants.SELECT_TERM}
                         items={Terms}
                         onChange={handleTermChange}
-                        selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined} />
+                        selected={selectedTerm} />
                 </div>
 
             </div>
 
             <PrimaryButton
-                title="Submit"
+                title={StringConstants.SUBMIT}
                 onClick={handleButtonClick}
                 isEnabled={isButtonEnabled} style={undefined} />
         </div>

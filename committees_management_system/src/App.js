@@ -31,15 +31,15 @@ function App() {
           <Route path="committees-assignment" element={<CommitteesAssignment />} />
           <Route path="meeting-participation" element={<MeetingParticipation />} />
           <Route path="committee-announcement" element={<CommitteeAnnouncement />} />
-          <Route path="committee-announcement/byterm/:term" element={<CommitteeAnnouncementByTerm />} />
+          <Route path="committee-announcement/byterm" element={<CommitteeAnnouncementByTerm />} />
           <Route path="mgmt-committees" element={<CommitteesManagement />} />
           <Route path="mgmt-members" element={<MembersManagement />} />
           <Route path="mgmt-assignments" element={<AssignmentsManagement />} />
-          <Route path="mgmt-assignments/byterm/:term" element={<AssignmentByTerm />} />
+          <Route path="mgmt-assignments/byterm" element={<AssignmentByTerm />} />
           <Route path="mgmt-mailing" element={<MailingListsManagement />} />
           <Route path="list-meeting" element={<ListMeeting />} />
-          <Route path="main-commitee" element={< MainCommitee/>} />
-          <Route path="retirement-history" element={< RetirementHistory/>} />
+          <Route path="main-commitee" element={< MainCommitee />} />
+          <Route path="retirement-history" element={< RetirementHistory />} />
           <Route path="create-meeting-notes" element={<CreateMeetingNotes />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
