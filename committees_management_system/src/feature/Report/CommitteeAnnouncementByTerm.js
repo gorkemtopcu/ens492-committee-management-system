@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Button } from 'antd';
-import Header from 'product/components/Header';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
-import PrimaryButtonGreen from 'product/components/PrimaryButtonGreen';
 import PrimaryButton from 'product/components/PrimaryButton';
 import { useNavigate, useParams } from 'react-router-dom';
-import PrimaryButtonChangeTerm from 'product/components/PrimaryButtonChangeTerm';
+import ProductHeader from 'product/components/ProductHeader';
+import ExcelButton from 'product/components/ExcelButton';
 
 const CommitteeAnnouncementByTerm = () => {
     const { term } = useParams();
@@ -15,7 +14,7 @@ const CommitteeAnnouncementByTerm = () => {
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
     const navigate = useNavigate();
-    
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -86,18 +85,18 @@ const CommitteeAnnouncementByTerm = () => {
 
     return (
         <div>
-            <Header title="Committee Announcement" />
+            <ProductHeader title="Committee Announcement" />
             <div style={{ marginBottom: 16, display: 'flex', alignItems: 'center' }}>
-                <PrimaryButtonGreen
-                    title="Excel"
+                <ExcelButton
                     onClick={handleExportExcel}
                     isEnabled={true}
                     style={{ marginRight: 16 }}
                 />
-                <PrimaryButtonChangeTerm
+                <PrimaryButton
                     title="Change Term"
                     onClick={handleBackButtonClick}
                     isEnabled={true}
+                    icon={"faCoffee"}
                     style={{ marginRight: 16 }}
                 />
             </div>

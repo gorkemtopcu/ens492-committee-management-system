@@ -9,7 +9,9 @@ const StringConstants = {
     SELECT_TERM: "Select Term",
     SELECT_PROGRAM: "Select Program",
     SELECT_COMMITTEE: "Select Committee",
-    ERROR: "Something went wrong."
+    ERROR: "Something went wrong.",
+    EXCEL: "Excel",
+    COPY: "Copy"
 };
 
 export default StringConstants;

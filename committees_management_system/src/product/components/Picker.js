@@ -3,7 +3,7 @@ import { List, Checkbox } from 'antd';
 import COLORS from '../constants/ColorConstants';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 
-const Picker = ({ title, items, selected, onChange, isCollapsed, onCollapseToggle }) => {
+const Picker = ({ title, items, selected, onChange, isCollapsed, onCollapseToggle, isMultipleSelectable }) => {
   const initialSelectedItems = selected ? selected : [];
   const [selectedItems, setSelectedItems] = useState(initialSelectedItems);
   const [shiftClickStartIndex, setShiftClickStartIndex] = useState(null);
@@ -16,15 +16,14 @@ const Picker = ({ title, items, selected, onChange, isCollapsed, onCollapseToggl
 
   function handleClick(item, index, event) {
     let updatedSelectedItems;
-
-    if (event.ctrlKey || event.metaKey) {
+    if ((event.ctrlKey || event.metaKey) && isMultipleSelectable) {
       // Toggle selection of the clicked item if Ctrl or Cmd (on Mac) is pressed
       if (selectedItems.includes(item)) {
         updatedSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
       } else {
         updatedSelectedItems = [...selectedItems, item];
       }
-    } else if (event.shiftKey && shiftClickStartIndex !== null) {
+    } else if (event.shiftKey && shiftClickStartIndex !== null && isMultipleSelectable) {
       // Select items between the first shift click and the current shift click
       const minIndex = Math.min(shiftClickStartIndex, index);
       const maxIndex = Math.max(shiftClickStartIndex, index);
@@ -53,12 +52,12 @@ const Picker = ({ title, items, selected, onChange, isCollapsed, onCollapseToggl
       >
         {isCollapsed ? <CaretRightOutlined /> : <CaretDownOutlined />}
         <h3 style={{ marginRight: '5vh' }}>{title}</h3>
-        <Checkbox
+        {isMultipleSelectable && <Checkbox
           checked={selectedItems.length === items.length} // Check if all items are selected
           onChange={handleSelectAllChange}
         >
           Select All
-        </Checkbox>
+        </Checkbox>}
       </div>
       {!isCollapsed && (
         <List

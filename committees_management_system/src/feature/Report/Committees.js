@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 import Terms from 'assets/jsons/report/terms.json';
 import StringConstants from 'product/constants/StringConstants';
-import TableInsideTable from 'product/components/TableInsideTable';
+import TableExpandable from 'product/components/TableExpandable';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import CommitteesService from 'product/service/committees';
-import AssignmentsService from 'product/service/assignments';
 
 const Committees = () => {
     const [selectedCommittees, setSelectedCommittees] = useState([]);
@@ -17,7 +16,6 @@ const Committees = () => {
     const [committeesCollapsed, setCommitteesCollapsed] = useState(false);
     const [termsCollapsed, setTermsCollapsed] = useState(false);
     const [committeesData, setCommitteesData] = useState([]);
-    const [assignmentsData, setAssignmentsData] = useState([]);
 
     useEffect(() => {
         getCommitteesData();
@@ -38,17 +36,6 @@ const Committees = () => {
         }
     };
 
-
-    const getAssignmentsData = async () => {
-        AssignmentsService.searchByCommitteeAndTerm(selectedCommittees, selectedTerms)
-            .then(response => {
-                setAssignmentsData(response.data)
-            })
-            .catch(error => {
-                alert(StringConstants.ERROR);
-            });
-    };
-
     const handleCommitteeFilterChange = (committees) => {
         setSelectedCommittees(committees);
         setIsButtonEnabled(committees.length > 0 && selectedTerms.length > 0);
@@ -63,21 +50,37 @@ const Committees = () => {
         setIsFiltered(true);
         setCommitteesCollapsed(true);
         setTermsCollapsed(true);
-        getAssignmentsData();
     };
 
     const outsideColumns = [columnMapping.committee];
     const insideColumns = [columnMapping.facultyMember, columnMapping.program, columnMapping.terms];
 
-    // Transform selectedCommittees into an array of objects
-    const committeeData = selectedCommittees.map((committee, index) => ({
-        key: index.toString(),
-        committee: committee,
-    }));
+    const inside = [];
+    for (let i = 0; i < 3; ++i) {
+        inside.push({
+            key: i.toString(),
+            date: '2014-12-24 23:12:00',
+            name: 'This is production name',
+            upgradeNum: 'Upgraded: 56',
+        });
+    }
+
+    const outside = [];
+    for (let i = 0; i < 3; ++i) {
+        outside.push({
+            key: i.toString(),
+            name: 'Screen',
+            platform: 'iOS',
+            version: '10.3.4.5654',
+            upgradeNum: 500,
+            creator: 'Jack',
+            createdAt: '2014-12-24 23:12:00',
+        });
+    }
 
     return (
         <div>
-            <Header title="Committees" />
+            <ProductHeader title="Committees" />
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
                 <Picker
                     title={StringConstants.SELECT_COMMITTEE}
@@ -86,6 +89,7 @@ const Committees = () => {
                     selected={selectedCommittees}
                     isCollapsed={committeesCollapsed}
                     onCollapseToggle={() => setCommitteesCollapsed(!committeesCollapsed)}
+                    isMultipleSelectable={true}
                 />
                 <Picker
                     title={StringConstants.SELECT_TERM}
@@ -94,6 +98,7 @@ const Committees = () => {
                     selected={selectedTerms}
                     isCollapsed={termsCollapsed}
                     onCollapseToggle={() => setTermsCollapsed(!termsCollapsed)}
+                    isMultipleSelectable={true}
                 />
                 <PrimaryButton
                     title={StringConstants.SUBMIT}
@@ -102,7 +107,7 @@ const Committees = () => {
                     style={{ marginTop: '15px' }}
                 />
             </div>
-            {isFiltered && <TableInsideTable outsideColumns={outsideColumns} insideColumns={insideColumns} outsideData={committeeData} insideData = {null}/>}
+            {isFiltered && <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} outsideData={outside} insideData={inside} />}
         </div>
     );
 };

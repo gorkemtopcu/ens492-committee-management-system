@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import PopupForm from 'product/components/PopupForm';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 
 import UNIVERSITY_PROGRAMS from 'product/constants/ProgramConstants';
 import MembersService from 'product/service/members';
@@ -74,7 +74,7 @@ const MembersManagement = () => {
 
     return (
         <div>
-            <Header title="Members Management" />
+            <ProductHeader title="Members Management" />
             <TableSearch columns={fields} data={data} />
             <PopupForm
                 title={popupTitle}

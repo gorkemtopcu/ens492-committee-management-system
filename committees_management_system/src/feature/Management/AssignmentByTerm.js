@@ -3,16 +3,17 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { Table, Button, message } from 'antd';
 import { saveAs } from 'file-saver';
-import Header from 'product/components/Header';
 import PrimaryButton from 'product/components/PrimaryButton';
-import PrimaryButtonGreen from 'product/components/PrimaryButtonGreen';
 import * as XLSX from 'xlsx';
+import ProductHeader from 'product/components/ProductHeader';
+import ExcelButton from 'product/components/ExcelButton';
+import CopyButton from 'product/components/CopyButton';
 
 const AssignmentByTerm = () => {
     const { term } = useParams();
     const [mailListData, setMailListData] = useState(null);
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
-    
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -65,21 +66,18 @@ const AssignmentByTerm = () => {
 
     return (
         <div className='MailListTable'>
-            <Header title={`Assignment In Selected Terms`} />
+            <ProductHeader title={`Assignment In Selected Terms`} />
             <div style={{ display: 'flex', marginBottom: 16 }}>
-                <PrimaryButtonGreen
-                    title="Copy"
+                <CopyButton
                     onClick={handleCopyToClipboard}
                     isEnabled={true}
                     style={{ marginRight: 16 }}
                 />
-                <PrimaryButtonGreen
-                    title="Excel"
+                <ExcelButton
                     onClick={handleExportExcel}
                     isEnabled={true}
                     style={{ marginRight: 16 }}
                 />
-                
             </div>
             <Table
                 columns={mainColumns}
@@ -102,11 +100,11 @@ const AssignmentByTerm = () => {
                 }}
             />
             <PrimaryButton
-                    title="Back"
-                    onClick={handleBackButtonClick}
-                    isEnabled={true}
-                    style={{ marginRight: 16 }}
-                />
+                title="Back"
+                onClick={handleBackButtonClick}
+                isEnabled={true}
+                style={{ marginRight: 16 }}
+            />
         </div>
     );
 };

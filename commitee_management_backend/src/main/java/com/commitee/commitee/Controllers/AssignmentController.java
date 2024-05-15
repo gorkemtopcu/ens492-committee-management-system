@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -46,17 +45,16 @@ public class AssignmentController {
     public ResponseEntity<?> getCommitteesWithMembersAndTerms(
             @RequestParam(value = "committees", required = false) List<Integer> committees,
             @RequestParam(value = "terms", required = false) List<Integer> terms) {
-        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService.getCommitteesWithMembersAndTerms(committees, terms);
+        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService
+                .getCommitteesWithMembersAndTerms(committees, terms);
         return new ResponseEntity<>(groupedAssignments, HttpStatus.OK);
     }
 
     @GetMapping("/getAllCommitteesWithMembersAndTerms")
     public ResponseEntity<?> getCommitteesWithMembersAndTerms(@RequestParam(value = "terms") List<Integer> terms) {
-        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService.getAllCommitteesWithMembersAndTerms(terms);
+        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService
+                .getAllCommitteesWithMembersAndTerms(terms);
         return new ResponseEntity<>(groupedAssignments, HttpStatus.OK);
     }
-
-
-
 
 }

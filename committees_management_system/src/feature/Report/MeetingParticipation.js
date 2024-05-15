@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchField from 'product/components/SearchField';
 import Terms from 'assets/jsons/report/terms.json';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 
@@ -50,7 +50,7 @@ const MeetingParticipation = () => {
 
     return (
         <div>
-            <Header title="Meeting Participation" />
+            <ProductHeader title="Meeting Participation" />
             <div style={{ gap: '50px', display: 'flex', justifyContent: 'flex-start', marginTop: "50px" }}>
                 <div style={{ width: "300px", marginRight: "300px" }}>
 
@@ -58,6 +58,7 @@ const MeetingParticipation = () => {
                 </div>
                 <div style={{ width: "300px" }}>
                     <Picker
+                        isMultipleSelectable={true}
                         title="Select Term"
                         items={Terms}
                         onChange={handleTermChange}

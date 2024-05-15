@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Terms from 'assets/jsons/report/terms.json';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 import StringConstants from 'product/constants/StringConstants';
@@ -27,7 +27,7 @@ const CommitteeAnnouncement = () => {
     return (
 
         <div>
-            <Header title="Committee Announcement" />
+            <ProductHeader title="Committee Announcement" />
             <div>
                 <div style={{ width: "300px" }}>
                     <Picker

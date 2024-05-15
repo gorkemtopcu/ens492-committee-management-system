@@ -21,7 +21,8 @@ public class AssignmentService {
     private final MemberRepository memberRepository;
 
     @Autowired
-    public AssignmentService(AssignmentRepository assignmentRepository, CommitteeRepository committeeRepository, MemberRepository memberRepository) {
+    public AssignmentService(AssignmentRepository assignmentRepository, CommitteeRepository committeeRepository,
+            MemberRepository memberRepository) {
         this.assignmentRepository = assignmentRepository;
         this.committeeRepository = committeeRepository;
         this.memberRepository = memberRepository;
@@ -36,10 +37,12 @@ public class AssignmentService {
         return assignmentRepository.save(assignment);
     }
 
-    public List<Assignment> findByTerm(Integer term) {return assignmentRepository.findByTerm(term);}
+    public List<Assignment> findByTerm(Integer term) {
+        return assignmentRepository.findByTerm(term);
+    }
 
-
-    public Map<Integer, Map<Integer, CommitteesReportPayload>> getCommitteesWithMembersAndTerms(List<Integer> committees, List<Integer> terms) {
+    public Map<Integer, Map<Integer, CommitteesReportPayload>> getCommitteesWithMembersAndTerms(
+            List<Integer> committees, List<Integer> terms) {
         List<Assignment> assignments = assignmentRepository.findByCommitteeInAndTermIn(committees, terms);
         Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = new HashMap<>();
 
@@ -70,8 +73,8 @@ public class AssignmentService {
         return groupedAssignments;
     }
 
-
-    public Map<Integer, Map<Integer, CommitteesReportPayload>> getAllCommitteesWithMembersAndTerms(List<Integer> terms) {
+    public Map<Integer, Map<Integer, CommitteesReportPayload>> getAllCommitteesWithMembersAndTerms(
+            List<Integer> terms) {
         List<Assignment> assignments = assignmentRepository.findByTermIn(terms);
         Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = new HashMap<>();
 
@@ -101,8 +104,5 @@ public class AssignmentService {
 
         return groupedAssignments;
     }
-
-
-
 
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Programs from 'assets/jsons/report/programs.json';
 import Terms from 'assets/jsons/report/terms.json';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 import StringConstants from 'product/constants/StringConstants';
@@ -32,24 +32,26 @@ const ProgramInstructor = () => {
 
   return (
     <div>
-      <Header title="Program/Term Select" />
+      <ProductHeader title="Program/Term Select" />
       <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '50px', marginBottom: "50px" }}>
         <Picker
+          isMultipleSelectable={true}
           title={StringConstants.SELECT_PROGRAM}
           items={Programs}
           onChange={handleProgramChange}
-          selected={selectedProgram} isCollapsed={undefined} onCollapseToggle={undefined}        />
+          selected={selectedProgram} isCollapsed={undefined} onCollapseToggle={undefined} />
         <Picker
+          isMultipleSelectable={true}
           title={StringConstants.SELECT_TERM}
           items={Terms}
           onChange={handleTermChange}
-          selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined}        />
+          selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined} />
       </div>
 
       <PrimaryButton
         title="Submit"
         onClick={handleButtonClick}
-        isEnabled={isButtonEnabled} style={undefined}      />
+        isEnabled={isButtonEnabled} style={undefined} />
     </div>
   );
 };

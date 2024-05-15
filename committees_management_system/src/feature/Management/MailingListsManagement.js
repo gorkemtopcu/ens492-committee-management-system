@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Table, Button, message } from 'antd';
 import { saveAs } from 'file-saver';
-import Header from 'product/components/Header';
 import * as XLSX from 'xlsx';
-import PrimaryButtonGreen from 'product/components/PrimaryButtonGreen';
+import ProductHeader from 'product/components/ProductHeader';
+import CopyButton from 'product/components/CopyButton';
+import ExcelButton from 'product/components/ExcelButton';
 
 const MailListTable = () => {
     const [mailListData, setMailListData] = useState(null);
@@ -57,30 +58,27 @@ const MailListTable = () => {
 
     return (
         <div className='MailListTable'>
-            <Header title="Mailing List" />
+            <ProductHeader title="Mailing List" />
             <div style={{ display: 'flex', marginBottom: 16 }}>
-                <PrimaryButtonGreen
-                    title="Copy"
+                <CopyButton
                     onClick={handleCopyToClipboard}
                     isEnabled={true}
-
                     style={{ marginRight: 16 }}
                 />
-                <PrimaryButtonGreen
-                    title="Excel"
+                <ExcelButton
                     onClick={handleExportExcel}
                     isEnabled={true}
                     style={{ marginRight: 16 }}
                 />
-                
+
             </div>
             <Table
                 columns={mainColumns}
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
                 rowKey="listEmail"
-                expandedRowKeys={expandedRowKeys}
                 pagination={false}
                 expandable={{
+                    expandedRowKeys: expandedRowKeys,
                     expandedRowRender: record => (
                         <Table
                             columns={nestedColumns}

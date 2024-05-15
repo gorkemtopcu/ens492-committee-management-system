@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableSearch from 'product/components/TableSearch';
 import PopupForm from 'product/components/PopupForm';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Categories from 'assets/jsons/report/committee_categories.json';
 import CommitteeService from 'product/service/committees';
 import StringConstants from 'product/constants/StringConstants';
@@ -144,7 +144,7 @@ const CommitteesManagement = () => {
 
   return (
     <div>
-      <Header title="Committees Management" />
+      <ProductHeader title="Committees Management" />
       <div style={{ marginBottom: '20px' }}>
         <Button type="primary" icon={<PlusOutlined />} onClick={onAddButtonClicked}>Add New Committee</Button>
       </div>
