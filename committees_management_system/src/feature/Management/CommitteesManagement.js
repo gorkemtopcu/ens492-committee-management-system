@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableSearch from 'product/components/TableSearch';
@@ -19,25 +19,27 @@ const CommitteesManagement = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const [formActionType, setFormActionType] = useState(null);
+  const [loading, setLoading] = useState(false); 
 
   useEffect(() => {
     fetchData();
   }, []);
 
   const fetchData = async () => {
+    setLoading(true);
     CommitteeService.getAll()
       .then(response => {
         let dataToSet = response.data;
         dataToSet.forEach((item) => {
           item.category = Categories[item.category - 1];
         });
+        setLoading(false);
         setData(dataToSet);
       })
       .catch(error => {
         alert(StringConstants.ERROR);
       });
   };
-
 
   const onDeleteButtonClicked = (record) => {
     Modal.confirm({
@@ -48,6 +50,7 @@ const CommitteesManagement = () => {
       cancelText: 'No',
       onOk() {
         // Call deleteById function from CommitteeService
+        setLoading(true);
         CommitteeService.deleteById(record.id)
           .then(() => {
             const updatedData = data.filter(item => item.id !== record.id);
@@ -55,6 +58,9 @@ const CommitteesManagement = () => {
           })
           .catch(error => {
             console.error('Error deleting data:', error);
+          })
+          .finally(() => {
+            setLoading(false);
           });
       },
     });
@@ -105,9 +111,6 @@ const CommitteesManagement = () => {
     handleCancel();
   };
 
-
-
-
   const handleEditCommittee = (values) => {
     if (!values) {
       return;
@@ -143,8 +146,8 @@ const CommitteesManagement = () => {
   ];
 
   return (
-    <div>
-      <ProductHeader title="Committees Management" />
+    <Spin spinning={loading}>
+     <ProductHeader title="Committees Management" />
       <div style={{ marginBottom: '20px' }}>
         <Button type="primary" icon={<PlusOutlined />} onClick={onAddButtonClicked}>Add New Committee</Button>
       </div>
@@ -157,7 +160,7 @@ const CommitteesManagement = () => {
         onFinish={formActionType === FormActionTypes.ADD ? handleCreateCommittee : handleEditCommittee}
         fields={formFields}
       />
-    </div>
+    </Spin>
   );
 };
 
