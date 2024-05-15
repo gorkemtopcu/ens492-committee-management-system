@@ -1,46 +1,45 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Table, Button, message } from 'antd';
 import { saveAs } from 'file-saver';
 import * as XLSX from 'xlsx';
 import ProductHeader from 'product/components/ProductHeader';
 import CopyButton from 'product/components/CopyButton';
 import ExcelButton from 'product/components/ExcelButton';
+import MailingListService from 'product/service/mailing_list';
+import { columnMapping } from 'product/constants/ColumnMapping';
+import TableExpandable from 'product/components/TableExpandable';
 
 const MailListTable = () => {
     const [mailListData, setMailListData] = useState(null);
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
-    useEffect(() => {
-        async function fetchDataAndOrganize() {
-            try {
-                const response = await axios.get('http://localhost:8080/api/mailing-lists/getAll');
+    useEffect(() => { fetchData() }, []);
+
+    const fetchData = async () => {
+        MailingListService.getAll()
+            .then(response => {
                 const organizedData = {};
-                response.data.forEach(item => {
-                    const listEmail = item.listEmail;
+                response.data.forEach(element => {
+                    let listEmail = element.listEmail
                     if (!organizedData[listEmail]) {
                         organizedData[listEmail] = [];
                     }
-                    organizedData[listEmail].push(item);
+                    organizedData[listEmail].push(element);
                 });
+                console.log(organizedData);
                 setMailListData(organizedData);
-                // Set expanded row keys to all keys
-                setExpandedRowKeys(Object.keys(organizedData));
-            } catch (error) {
-                console.error("Error fetching data:", error);
-            }
-        }
-        fetchDataAndOrganize();
-    }, []);
+            })
+            .catch(error => {
+                alert(error);
+            });
+    };
 
-    const nestedColumns = [
-        { title: 'Name', dataIndex: 'member', key: 'member', searchable: true },
-        { title: 'Mail', dataIndex: 'memberEmail', key: 'memberEmail', searchable: true },
+    const insideColumns = [
+        columnMapping.member,
+        columnMapping.memberEmail,
     ];
 
-    const mainColumns = [
-        { title: 'Email List', dataIndex: 'listEmail', key: 'listEmail' },
-    ];
+    const outsideColumns = [columnMapping.listEmail];
 
     const handleExportExcel = () => {
         const workbook = XLSX.utils.book_new();
@@ -70,27 +69,12 @@ const MailListTable = () => {
                     isEnabled={true}
                     style={{ marginRight: 16 }}
                 />
-
             </div>
-            <Table
-                columns={mainColumns}
+            <TableExpandable
+                outsideColumns={outsideColumns}
+                insideColumns={insideColumns}
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
-                rowKey="listEmail"
-                pagination={false}
-                expandable={{
-                    expandedRowKeys: expandedRowKeys,
-                    expandedRowRender: record => (
-                        <Table
-                            columns={nestedColumns}
-                            dataSource={mailListData[record.listEmail]}
-                            rowKey="id"
-                            pagination={false}
-                        />
-                    ),
-                    onExpand: (expanded, record) => {
-                        setExpandedRowKeys(expanded ? [...expandedRowKeys, record.listEmail] : expandedRowKeys.filter(key => key !== record.listEmail));
-                    },
-                }}
+                getNestedData={record => mailListData[record.listEmail]}
             />
         </div>
     );

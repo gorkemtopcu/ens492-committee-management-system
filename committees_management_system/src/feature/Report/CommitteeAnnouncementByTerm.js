@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table, Button } from 'antd';
+import { Table } from 'antd';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import PrimaryButton from 'product/components/PrimaryButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import ProductHeader from 'product/components/ProductHeader';
 import ExcelButton from 'product/components/ExcelButton';
+import StringConstants from 'product/constants/StringConstants';
+import TableExpandable from 'product/components/TableExpandable';
+import { columnMapping } from 'product/constants/ColumnMapping';
 
 const CommitteeAnnouncementByTerm = () => {
     const { term } = useParams();
     const [dataSource, setDataSource] = useState([]);
-    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
     const navigate = useNavigate();
 
@@ -20,6 +22,7 @@ const CommitteeAnnouncementByTerm = () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/assignments/getAllCommitteesWithMembersAndTerms?terms=${term}`);
                 const committeesData = response.data;
+                console.log(committeesData);
                 const newData = Object.keys(committeesData).map(committeeId => {
                     return {
                         key: committeeId,
@@ -34,24 +37,20 @@ const CommitteeAnnouncementByTerm = () => {
                     };
                 });
                 setDataSource(newData);
-                setExpandedRowKeys(newData.map(record => record.key)); // Expand all rows by default
             } catch (error) {
                 console.error('Error fetching data:', error);
-                // Handle error
             }
         };
 
         fetchData();
     }, []);
 
-    const mainColumns = [
-        { title: 'Committee Name', dataIndex: 'committeeName', key: 'committeeName' },
-    ];
+    const outsideColumns = [columnMapping.committeeName];
 
-    const nestedColumns = [
-        { title: 'Member ID', dataIndex: 'memberId', key: 'memberId' },
-        { title: 'Member Name', dataIndex: 'memberName', key: 'memberName' },
-        { title: 'Email', dataIndex: 'memberEmail', key: 'memberEmail' },
+    const insideColumns = [
+        columnMapping.memberId,
+        columnMapping.memberName,
+        columnMapping.memberEmail,
     ];
 
     const handleExportExcel = () => {
@@ -93,40 +92,15 @@ const CommitteeAnnouncementByTerm = () => {
                     style={{ marginRight: 16 }}
                 />
                 <PrimaryButton
-                    title="Change Term"
+                    title={StringConstants.SELECT_TERM}
                     onClick={handleBackButtonClick}
                     isEnabled={true}
-                    icon={"faCoffee"}
                     style={{ marginRight: 16 }}
                 />
             </div>
-            <div style={{ overflow: 'auto', maxHeight: 'calc(100vh - 200px)' }}> {/* Adjust the height as needed */}
-                <Table
-                    columns={mainColumns}
-                    dataSource={dataSource}
-                    pagination={false} // Disable pagination
-                    scroll={{ x: true }} // Enable horizontal scrolling if needed
-                    expandable={{
-                        expandedRowRender: record => (
-                            <Table
-                                columns={nestedColumns}
-                                dataSource={record.members}
-                                pagination={false} // Disable pagination for nested table
-                            />
-                        ),
-                        expandedRowKeys: expandedRowKeys,
-                        onExpand: (expanded, record) => {
-                            setExpandedRowKeys(expanded ? [...expandedRowKeys, record.key] : expandedRowKeys.filter(key => key !== record.key));
-                        },
-                    }}
-                />
+            <div style={{ overflow: 'auto', maxHeight: 'calc(100vh - 200px)' }}>
+                <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} dataSource={dataSource} getNestedData={record => record.members} />
             </div>
-            <PrimaryButton
-                title="Back"
-                onClick={handleBackButtonClick}
-                isEnabled={true}
-                style={{ marginRight: 16 }}
-            />
         </div>
 
 

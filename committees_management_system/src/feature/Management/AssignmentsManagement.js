@@ -18,7 +18,7 @@ const AssignmentsManagement = () => {
 
     const handleButtonClick = () => {
         // Navigate to the new page with the term information as a parameter
-        navigate(`/mgmt-assignments/byterm/${selectedTerm}`);
+        navigate(`/mgmt-assignments/byterm`);
     };
 
     return (
@@ -30,8 +30,9 @@ const AssignmentsManagement = () => {
                     title="Select Term"
                     items={Terms}
                     onChange={handleTermChange}
-                    selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined}
-                    isMultipleSelectable={false} />
+                    multipleSelection={false}
+                    selected={selectedTerm}
+                />
             </div>
 
             <PrimaryButton

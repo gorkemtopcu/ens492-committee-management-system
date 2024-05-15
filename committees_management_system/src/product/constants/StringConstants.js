@@ -11,7 +11,8 @@ const StringConstants = {
     SELECT_COMMITTEE: "Select Committee",
     ERROR: "Something went wrong.",
     EXCEL: "Excel",
-    COPY: "Copy"
+    COPY: "Copy",
+    BACK: "Back"
 };
 
 export default StringConstants;

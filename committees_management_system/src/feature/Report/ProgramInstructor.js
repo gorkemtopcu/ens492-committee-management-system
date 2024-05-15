@@ -35,21 +35,19 @@ const ProgramInstructor = () => {
       <ProductHeader title="Program/Term Select" />
       <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '50px', marginBottom: "50px" }}>
         <Picker
-          isMultipleSelectable={true}
           title={StringConstants.SELECT_PROGRAM}
           items={Programs}
           onChange={handleProgramChange}
-          selected={selectedProgram} isCollapsed={undefined} onCollapseToggle={undefined} />
+          selected={selectedProgram} />
         <Picker
-          isMultipleSelectable={true}
           title={StringConstants.SELECT_TERM}
           items={Terms}
           onChange={handleTermChange}
-          selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined} />
+          selected={selectedTerm} />
       </div>
 
       <PrimaryButton
-        title="Submit"
+        title={StringConstants.SUBMIT}
         onClick={handleButtonClick}
         isEnabled={isButtonEnabled} style={undefined} />
     </div>

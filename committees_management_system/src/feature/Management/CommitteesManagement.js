@@ -134,7 +134,7 @@ const CommitteesManagement = () => {
   };
 
 
-  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committee_category, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
+  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committeeCategory, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
   const formFields = [
     { name: 'committee', label: 'Committee', type: 'text', required: true },
     { name: 'category', label: 'Category', type: 'select', required: false, options: Categories },

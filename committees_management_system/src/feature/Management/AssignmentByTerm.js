@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import ProductHeader from 'product/components/ProductHeader';
 import ExcelButton from 'product/components/ExcelButton';
 import CopyButton from 'product/components/CopyButton';
+import StringConstants from 'product/constants/StringConstants';
 
 const AssignmentByTerm = () => {
     const { term } = useParams();
@@ -83,8 +84,6 @@ const AssignmentByTerm = () => {
                 columns={mainColumns}
                 dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
                 rowKey="listEmail"
-                expandedRowKeys={expandedRowKeys}
-                pagination={false}
                 expandable={{
                     expandedRowRender: record => (
                         <Table
@@ -100,7 +99,7 @@ const AssignmentByTerm = () => {
                 }}
             />
             <PrimaryButton
-                title="Back"
+                title={StringConstants.BACK}
                 onClick={handleBackButtonClick}
                 isEnabled={true}
                 style={{ marginRight: 16 }}

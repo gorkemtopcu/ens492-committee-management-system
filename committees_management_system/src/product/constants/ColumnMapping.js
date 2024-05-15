@@ -23,7 +23,13 @@ const columnMapping = {
         key: 'committee',
         searchable: true,
     },
-    committee_category: {
+    committeeName: {
+        title: 'Committee Name',
+        dataIndex: 'committeeName',
+        key: 'committeeName',
+        searchable: true,
+    },
+    committeeCategory: {
         title: 'Category',
         dataIndex: 'category',
         key: 'category',
@@ -41,11 +47,40 @@ const columnMapping = {
         key: 'facultyMember',
         searchable: true,
     },
+    member: {
+        title: 'Member',
+        dataIndex: 'member',
+        key: 'member',
+        searchable: true,
+    },
+    memberId: {
+        title: 'Member ID',
+        dataIndex: 'memberId',
+        key: 'memberId',
+        searchable: true,
+    },
+    memberName: {
+        title: 'Member Name',
+        dataIndex: 'memberName',
+        key: 'memberName',
+        searchable: true,
+    },
     email: {
         title: 'Email',
         dataIndex: 'email',
         key: 'email',
         searchable: true,
+    },
+    memberEmail: {
+        title: 'Email',
+        dataIndex: 'memberEmail',
+        key: 'memberEmail',
+        searchable: true,
+    },
+    listEmail: {
+        title: 'Email List',
+        dataIndex: 'listEmail',
+        key: 'listEmail',
     },
     program: {
         title: 'Program',
