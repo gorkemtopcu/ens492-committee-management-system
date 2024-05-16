@@ -1,11 +1,10 @@
 package com.commitee.commitee.Services.MemberTrackingSystem;
 
-import com.commitee.commitee.Entities.Member;
+import com.commitee.commitee.dto.ActiveCommitteeMemberDTO;
 import com.commitee.commitee.Entities.MemberTrackingSystem.ActiveCommitteeMember;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetiredCommitteeMember;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementRequest;
 import com.commitee.commitee.Repositories.MemberTrackingSystem.ActiveCommitteeMemberRepository;
-import com.commitee.commitee.Services.MemberService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,5 +71,9 @@ public class ActiveCommitteeMemberService {
         } catch (Exception e) {
             throw new RuntimeException("Error processing retirement request", e);
         }
+    }
+
+    public List<ActiveCommitteeMemberDTO> getAllActiveCommitteeMembersWithDetails() {
+        return repository.findAllActiveCommitteeMembersWithDetails();
     }
 }

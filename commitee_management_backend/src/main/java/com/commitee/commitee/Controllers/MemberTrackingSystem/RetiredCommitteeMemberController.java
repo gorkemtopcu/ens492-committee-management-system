@@ -2,6 +2,7 @@ package com.commitee.commitee.Controllers.MemberTrackingSystem;
 
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetiredCommitteeMember;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetiredCommitteeMemberService;
+import com.commitee.commitee.dto.RetiredCommitteeMemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,9 +16,14 @@ public class RetiredCommitteeMemberController {
     @Autowired
     private RetiredCommitteeMemberService retiredCommitteeMemberService;
 
-    @GetMapping("/getAll")
-    public List<RetiredCommitteeMember> getAllRetiredCommitteeMembers() {
-        return retiredCommitteeMemberService.getAll();
+    @GetMapping("/getAllRetired")
+    public List<RetiredCommitteeMemberDTO> getAllRetiredCommitteeMembers() {
+        return retiredCommitteeMemberService.getAllRetiredCommitteeMembers();
+    }
+
+    @GetMapping("/getAllInRetirementProcess")
+    public List<RetiredCommitteeMemberDTO> getAllInRetirementProcessCommitteeMembers() {
+        return retiredCommitteeMemberService.getAllInRetirementProcessCommitteeMembers();
     }
 
     @GetMapping("/getById/{suid}")

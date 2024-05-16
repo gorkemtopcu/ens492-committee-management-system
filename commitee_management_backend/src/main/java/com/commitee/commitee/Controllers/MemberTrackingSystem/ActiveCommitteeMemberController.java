@@ -1,5 +1,6 @@
 package com.commitee.commitee.Controllers.MemberTrackingSystem;
 
+import com.commitee.commitee.dto.ActiveCommitteeMemberDTO;
 import com.commitee.commitee.Entities.MemberTrackingSystem.ActiveCommitteeMember;
 import com.commitee.commitee.Requests.ActiveMemberRequest;
 import com.commitee.commitee.Services.MemberService;
@@ -24,8 +25,8 @@ public class ActiveCommitteeMemberController {
     private MemberService memberService;
 
     @GetMapping("/getAll")
-    public List<ActiveCommitteeMember> getAllActiveCommitteeMembers() {
-        return activeCommitteeMemberService.getAll();
+    public List<ActiveCommitteeMemberDTO> getAllActiveCommitteeMembers() {
+        return activeCommitteeMemberService.getAllActiveCommitteeMembersWithDetails();
     }
 
     @GetMapping("/getById/{suid}")
