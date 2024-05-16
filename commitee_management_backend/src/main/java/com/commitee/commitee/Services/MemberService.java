@@ -24,5 +24,8 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    // Other methods for updating and deleting members can be added here
+    public Member getById(int suid) {
+        return memberRepository.findById(suid).orElse(null);
+    }
+
 }

@@ -11,14 +11,16 @@ public class RetirementRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int requestId;
 
+    @Column(name = "suid", nullable = false)
     private int suid;
 
+    @Column(name = "request_date", nullable = false)
     private LocalDateTime requestDate;
 
-    @Column(columnDefinition = "BIT(1)")
+    @Column(name = "closed", columnDefinition = "BIT(1)")
     private Boolean closed;
 
-    @Column(length = 20)
+    @Column(name = "status", length = 20)
     private String status;
 
 }

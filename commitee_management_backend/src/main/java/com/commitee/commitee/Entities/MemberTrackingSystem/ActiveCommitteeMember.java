@@ -22,6 +22,7 @@ public class ActiveCommitteeMember {
     @Id
     private int suid;
 
+    @Column(name = "duration", nullable = false)
     private Integer duration;
 
     @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
