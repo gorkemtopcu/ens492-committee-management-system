@@ -10,28 +10,33 @@ import { columnMapping } from 'product/constants/ColumnMapping';
 import TableExpandable from 'product/components/TableExpandable';
 
 const MailListTable = () => {
-    const [mailListData, setMailListData] = useState(null);
+    const [mailListData, setMailListData] = useState([]);
     const [expandedRowKeys, setExpandedRowKeys] = useState([]);
 
     useEffect(() => { fetchData() }, []);
 
     const fetchData = async () => {
-        MailingListService.getAll()
-            .then(response => {
-                const organizedData = {};
-                response.data.forEach(element => {
-                    let listEmail = element.listEmail
-                    if (!organizedData[listEmail]) {
-                        organizedData[listEmail] = [];
-                    }
-                    organizedData[listEmail].push(element);
-                });
-                console.log(organizedData);
-                setMailListData(organizedData);
-            })
-            .catch(error => {
-                alert(error);
+        try {
+            const response = await MailingListService.getAll();
+            const emailMap = {};
+
+            response.data.forEach(element => {
+                const { listEmail } = element;
+                if (!emailMap[listEmail]) {
+                    emailMap[listEmail] = [];
+                }
+                emailMap[listEmail].push(element);
             });
+
+            const organizedData = Object.keys(emailMap).map(email => ({
+                listEmail: email,
+                elements: emailMap[email],
+                key: email 
+            }));
+            setMailListData(organizedData);
+        } catch (error) {
+            alert(error);
+        }
     };
 
     const insideColumns = [
@@ -43,7 +48,7 @@ const MailListTable = () => {
 
     const handleExportExcel = () => {
         const workbook = XLSX.utils.book_new();
-        const worksheet = XLSX.utils.json_to_sheet(Object.values(mailListData).flat());
+        const worksheet = XLSX.utils.json_to_sheet(mailListData.flatMap(item => item.elements));
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Mailing List');
         const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
         saveAs(new Blob([excelBuffer], { type: 'application/octet-stream' }), 'mailing_list.xlsx');
@@ -73,8 +78,8 @@ const MailListTable = () => {
             <TableExpandable
                 outsideColumns={outsideColumns}
                 insideColumns={insideColumns}
-                dataSource={mailListData ? Object.keys(mailListData).map(key => ({ listEmail: key })) : []}
-                getNestedData={record => mailListData[record.listEmail]}
+                dataSource={mailListData}
+                getNestedData={record => record.elements}
             />
         </div>
     );
