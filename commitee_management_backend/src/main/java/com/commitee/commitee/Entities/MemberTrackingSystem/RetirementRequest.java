@@ -1,5 +1,6 @@
 package com.commitee.commitee.Entities.MemberTrackingSystem;
 
+import com.commitee.commitee.Requests.DocumentRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,10 +26,14 @@ public class RetirementRequest {
     @Column(name = "request_date", nullable = false)
     private LocalDateTime requestDate;
 
+    @Column(name = "closed_date")
+    private LocalDateTime closedDate;
+
     @Column(name = "closed", columnDefinition = "BIT(1)")
     private Boolean closed;
 
     @Column(name = "status", length = 20)
     private String status;
+
 
 }

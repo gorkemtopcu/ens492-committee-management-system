@@ -62,6 +62,7 @@ public class ActiveCommitteeMemberService {
             RetirementRequest request = new RetirementRequest();
             request.setSuid(member.getSuid());
             request.setRequestDate(LocalDateTime.now());
+            request.setClosedDate(null);
             request.setClosed(false);
             request.setStatus("Pending");
             retirementRequestService.save(request);
