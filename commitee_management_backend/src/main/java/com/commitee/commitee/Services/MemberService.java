@@ -16,11 +16,11 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Member> getAllMembers() {
+    public List<Member> getAll() {
         return memberRepository.findAll();
     }
 
-    public Member saveMember(Member member) {
+    public Member save(Member member) {
         return memberRepository.save(member);
     }
 

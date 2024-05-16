@@ -22,13 +22,13 @@ public class MemberController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Member>> getAllMembers() {
-        List<Member> members = memberService.getAllMembers();
+        List<Member> members = memberService.getAll();
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Member> createMember(@RequestBody Member member) {
-        Member savedMember = memberService.saveMember(member);
+        Member savedMember = memberService.save(member);
         return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
     }
 

@@ -23,20 +23,20 @@ public class RoleController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Role>> getAllRoles() {
-        List<Role> roles = roleService.getAllRoles();
+        List<Role> roles = roleService.getAll();
         return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
     @GetMapping("/getById/{id}")
     public ResponseEntity<Role> getRoleById(@PathVariable Long id) {
-        Optional<Role> role = roleService.getRoleById(id);
+        Optional<Role> role = roleService.getById(id);
         return role.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     
     @PostMapping
     public ResponseEntity<Role> createRole(@RequestBody Role role) {
-        Role savedRole = roleService.saveRole(role);
+        Role savedRole = roleService.save(role);
         return new ResponseEntity<>(savedRole, HttpStatus.CREATED);
     }
 

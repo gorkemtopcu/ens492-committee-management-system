@@ -13,19 +13,19 @@ public class RetirementDocumentService {
     @Autowired
     private RetirementDocumentRepository repository;
 
-    public List<RetirementDocument> getAllRetirementDocuments() {
+    public List<RetirementDocument> getAll() {
         return repository.findAll();
     }
 
-    public RetirementDocument getRetirementDocumentById(int documentId) {
+    public RetirementDocument getById(int documentId) {
         return repository.findById(documentId).orElse(null);
     }
 
-    public RetirementDocument saveRetirementDocument(RetirementDocument document) {
+    public RetirementDocument save(RetirementDocument document) {
         return repository.save(document);
     }
 
-    public void deleteRetirementDocument(int documentId) {
+    public void deleteById(int documentId) {
         repository.deleteById(documentId);
     }
 }

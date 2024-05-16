@@ -25,7 +25,7 @@ public class AssignmentController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Assignment>> getAllAssignments() {
-        List<Assignment> assignments = assignmentService.getAllAssignments();
+        List<Assignment> assignments = assignmentService.getAll();
         return new ResponseEntity<>(assignments, HttpStatus.OK);
     }
 

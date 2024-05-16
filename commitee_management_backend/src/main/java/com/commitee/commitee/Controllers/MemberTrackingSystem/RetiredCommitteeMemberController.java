@@ -13,25 +13,25 @@ import java.util.List;
 public class RetiredCommitteeMemberController {
 
     @Autowired
-    private RetiredCommitteeMemberService service;
+    private RetiredCommitteeMemberService retiredCommitteeMemberService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<RetiredCommitteeMember> getAllRetiredCommitteeMembers() {
-        return service.getAllRetiredCommitteeMembers();
+        return retiredCommitteeMemberService.getAll();
     }
 
-    @GetMapping("/{suid}")
+    @GetMapping("/getById/{suid}")
     public RetiredCommitteeMember getRetiredCommitteeMemberById(@PathVariable int suid) {
-        return service.getRetiredCommitteeMemberById(suid);
+        return retiredCommitteeMemberService.getById(suid);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public RetiredCommitteeMember createRetiredCommitteeMember(@RequestBody RetiredCommitteeMember member) {
-        return service.saveRetiredCommitteeMember(member);
+        return retiredCommitteeMemberService.save(member);
     }
 
-    @DeleteMapping("/{suid}")
+    @DeleteMapping("/deleteById/{suid}")
     public void deleteRetiredCommitteeMember(@PathVariable int suid) {
-        service.deleteRetiredCommitteeMember(suid);
+        retiredCommitteeMemberService.deleteById(suid);
     }
 }

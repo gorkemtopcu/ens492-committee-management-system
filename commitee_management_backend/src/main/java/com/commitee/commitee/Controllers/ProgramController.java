@@ -24,13 +24,13 @@ public class ProgramController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Program>> getAllPrograms() {
-        List<Program> programs = programService.getAllPrograms();
+        List<Program> programs = programService.getAll();
         return new ResponseEntity<>(programs, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Program> createProgram(@RequestBody Program program) {
-        Program savedProgram = programService.saveProgram(program);
+        Program savedProgram = programService.save(program);
         return new ResponseEntity<>(savedProgram, HttpStatus.CREATED);
     }
 }

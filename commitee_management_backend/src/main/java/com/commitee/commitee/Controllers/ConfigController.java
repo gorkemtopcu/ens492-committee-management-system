@@ -22,12 +22,12 @@ public class ConfigController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Config>> getAllConfigs() {
-        List<Config> configs = configService.getAllConfigs();
+        List<Config> configs = configService.getAll();
         return new ResponseEntity<>(configs, HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<Config> createConfig(@RequestBody Config config) {
-        Config savedConfig = configService.saveConfig(config);
+        Config savedConfig = configService.save(config);
         return new ResponseEntity<>(savedConfig, HttpStatus.CREATED);
     }
 }

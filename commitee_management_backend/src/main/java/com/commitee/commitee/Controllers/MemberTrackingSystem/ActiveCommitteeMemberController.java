@@ -13,25 +13,25 @@ import java.util.List;
 public class ActiveCommitteeMemberController {
 
     @Autowired
-    private ActiveCommitteeMemberService service;
+    private ActiveCommitteeMemberService activeCommitteeMemberService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<ActiveCommitteeMember> getAllActiveCommitteeMembers() {
-        return service.getAllActiveCommitteeMembers();
+        return activeCommitteeMemberService.getAll();
     }
 
-    @GetMapping("/{suid}")
+    @GetMapping("/getById/{suid}")
     public ActiveCommitteeMember getActiveCommitteeMemberById(@PathVariable int suid) {
-        return service.getActiveCommitteeMemberById(suid);
+        return activeCommitteeMemberService.getById(suid);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ActiveCommitteeMember createActiveCommitteeMember(@RequestBody ActiveCommitteeMember member) {
-        return service.saveActiveCommitteeMember(member);
+        return activeCommitteeMemberService.save(member);
     }
 
     @DeleteMapping("/{suid}")
     public void deleteActiveCommitteeMember(@PathVariable int suid) {
-        service.deleteActiveCommitteeMember(suid);
+        activeCommitteeMemberService.deleteById(suid);
     }
 }

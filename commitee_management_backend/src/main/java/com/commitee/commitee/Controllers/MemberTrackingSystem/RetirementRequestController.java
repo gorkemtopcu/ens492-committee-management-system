@@ -13,25 +13,25 @@ import java.util.List;
 public class RetirementRequestController {
 
     @Autowired
-    private RetirementRequestService service;
+    private RetirementRequestService retirementRequestService;
 
-    @GetMapping
-    public List<RetirementRequest> getAll() {
-        return service.getAllRetirementRequests();
+    @GetMapping("/getAll")
+    public List<RetirementRequest> getAllRequests() {
+        return retirementRequestService.getAll();
     }
 
-    @GetMapping("/{requestId}")
+    @GetMapping("/getById/{requestId}")
     public RetirementRequest getRetirementRequestById(@PathVariable int requestId) {
-        return service.getRetirementRequestById(requestId);
+        return retirementRequestService.getById(requestId);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public RetirementRequest createRetirementRequest(@RequestBody RetirementRequest request) {
-        return service.saveRetirementRequest(request);
+        return retirementRequestService.save(request);
     }
 
-    @DeleteMapping("/{requestId}")
+    @DeleteMapping("/deleteById/{requestId}")
     public void deleteRetirementRequest(@PathVariable int requestId) {
-        service.deleteRetirementRequest(requestId);
+        retirementRequestService.deleteById(requestId);
     }
 }

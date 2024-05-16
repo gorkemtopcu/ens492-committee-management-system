@@ -13,25 +13,25 @@ import java.util.List;
 public class RetirementDocumentController {
 
     @Autowired
-    private RetirementDocumentService service;
+    private RetirementDocumentService retirementDocumentService;
 
-    @GetMapping
+    @GetMapping("/getAll")
     public List<RetirementDocument> getAllRetirementDocuments() {
-        return service.getAllRetirementDocuments();
+        return retirementDocumentService.getAll();
     }
 
-    @GetMapping("/{documentId}")
+    @GetMapping("/getById/{documentId}")
     public RetirementDocument getRetirementDocumentById(@PathVariable int documentId) {
-        return service.getRetirementDocumentById(documentId);
+        return retirementDocumentService.getById(documentId);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public RetirementDocument createRetirementDocument(@RequestBody RetirementDocument document) {
-        return service.saveRetirementDocument(document);
+        return retirementDocumentService.save(document);
     }
 
-    @DeleteMapping("/{documentId}")
+    @DeleteMapping("/deleteById/{documentId}")
     public void deleteRetirementDocument(@PathVariable int documentId) {
-        service.deleteRetirementDocument(documentId);
+        retirementDocumentService.deleteById(documentId);
     }
 }

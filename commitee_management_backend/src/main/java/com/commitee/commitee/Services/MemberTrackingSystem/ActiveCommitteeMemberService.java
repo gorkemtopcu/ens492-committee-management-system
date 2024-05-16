@@ -13,19 +13,19 @@ public class ActiveCommitteeMemberService {
     @Autowired
     private ActiveCommitteeMemberRepository repository;
 
-    public List<ActiveCommitteeMember> getAllActiveCommitteeMembers() {
+    public List<ActiveCommitteeMember> getAll() {
         return repository.findAll();
     }
 
-    public ActiveCommitteeMember getActiveCommitteeMemberById(int suid) {
+    public ActiveCommitteeMember getById(int suid) {
         return repository.findById(suid).orElse(null);
     }
 
-    public ActiveCommitteeMember saveActiveCommitteeMember(ActiveCommitteeMember member) {
+    public ActiveCommitteeMember save(ActiveCommitteeMember member) {
         return repository.save(member);
     }
 
-    public void deleteActiveCommitteeMember(int suid) {
+    public void deleteById(int suid) {
         repository.deleteById(suid);
     }
 }

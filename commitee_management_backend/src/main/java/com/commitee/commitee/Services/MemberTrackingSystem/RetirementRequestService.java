@@ -13,19 +13,19 @@ public class RetirementRequestService {
     @Autowired
     private RetirementRequestRepository repository;
 
-    public List<RetirementRequest> getAllRetirementRequests() {
+    public List<RetirementRequest> getAll() {
         return repository.findAll();
     }
 
-    public RetirementRequest getRetirementRequestById(int requestId) {
+    public RetirementRequest getById(int requestId) {
         return repository.findById(requestId).orElse(null);
     }
 
-    public RetirementRequest saveRetirementRequest(RetirementRequest request) {
+    public RetirementRequest save(RetirementRequest request) {
         return repository.save(request);
     }
 
-    public void deleteRetirementRequest(int requestId) {
+    public void deleteById(int requestId) {
         repository.deleteById(requestId);
     }
 }

@@ -28,7 +28,7 @@ public class AssignmentService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Assignment> getAllAssignments() {
+    public List<Assignment> getAll() {
         return assignmentRepository.findAll();
     }
 

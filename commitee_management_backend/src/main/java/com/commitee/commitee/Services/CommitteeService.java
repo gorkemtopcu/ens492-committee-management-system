@@ -18,7 +18,7 @@ public class CommitteeService {
         this.committeeRepository = committeeRepository;
     }
 
-    public List<Committee> getAllCommittees() {
+    public List<Committee> getAll() {
         return committeeRepository.findAll();
     }
     public Committee save(Committee committee) {

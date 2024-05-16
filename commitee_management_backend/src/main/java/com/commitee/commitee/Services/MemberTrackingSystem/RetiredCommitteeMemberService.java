@@ -13,19 +13,19 @@ public class RetiredCommitteeMemberService {
     @Autowired
     private RetiredCommitteeMemberRepository repository;
 
-    public List<RetiredCommitteeMember> getAllRetiredCommitteeMembers() {
+    public List<RetiredCommitteeMember> getAll() {
         return repository.findAll();
     }
 
-    public RetiredCommitteeMember getRetiredCommitteeMemberById(int suid) {
+    public RetiredCommitteeMember getById(int suid) {
         return repository.findById(suid).orElse(null);
     }
 
-    public RetiredCommitteeMember saveRetiredCommitteeMember(RetiredCommitteeMember member) {
+    public RetiredCommitteeMember save(RetiredCommitteeMember member) {
         return repository.save(member);
     }
 
-    public void deleteRetiredCommitteeMember(int suid) {
+    public void deleteById(int suid) {
         repository.deleteById(suid);
     }
 }

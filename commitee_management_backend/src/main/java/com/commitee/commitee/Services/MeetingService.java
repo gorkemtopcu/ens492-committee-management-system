@@ -16,11 +16,11 @@ public class MeetingService {
         this.meetingRepository = meetingRepository;
     }
 
-    public List<Meeting> getAllMeetings() {
+    public List<Meeting> getAll() {
         return meetingRepository.findAll();
     }
 
-    public Meeting saveMeeting(Meeting meeting) {
+    public Meeting save(Meeting meeting) {
         return meetingRepository.save(meeting);
     }
 
