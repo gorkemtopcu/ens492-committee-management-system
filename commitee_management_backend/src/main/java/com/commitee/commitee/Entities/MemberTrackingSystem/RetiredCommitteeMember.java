@@ -27,6 +27,9 @@ public class RetiredCommitteeMember {
 
     private Integer duration;
 
+    @Column(name = "retired_at", columnDefinition = "DATETIME")
+    private LocalDateTime retiredAt;
+
     @Column(name = "created_at", columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime createdAt;
 

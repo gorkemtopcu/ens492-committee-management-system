@@ -48,7 +48,7 @@ public class ActiveCommitteeMemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedMember);
     }
 
-    @DeleteMapping("deleteById/{suid}")
+    @DeleteMapping("/deleteById/{suid}")
     public ResponseEntity<Optional<ActiveCommitteeMember>> deleteActiveCommitteeMember(@PathVariable int suid) {
         Optional<ActiveCommitteeMember> member = Optional.ofNullable(activeCommitteeMemberService.getById(suid));
         if (member.isEmpty()) {
@@ -57,4 +57,15 @@ public class ActiveCommitteeMemberController {
         activeCommitteeMemberService.deleteById(suid);
         return ResponseEntity.ok(member);
     }
+
+    @DeleteMapping("/retirementRequestById/{suid}")
+    public ResponseEntity<Optional<ActiveCommitteeMember>> retirementRequestById(@PathVariable int suid) {
+        Optional<ActiveCommitteeMember> member = Optional.ofNullable(activeCommitteeMemberService.getById(suid));
+        if (member.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        activeCommitteeMemberService.retirementRequestById(suid);
+        return ResponseEntity.ok(member);
+    }
+
 }
