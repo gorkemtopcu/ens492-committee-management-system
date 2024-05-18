@@ -9,14 +9,14 @@ import java.util.List;
 
 public interface RetiredCommitteeMemberRepository extends JpaRepository<RetiredCommitteeMember, Integer> {
 
-    @Query("SELECT new com.commitee.commitee.dto.RetiredCommitteeMemberDTO(rcm.suid, m.fullName, m.email, m.program, rcm.retirementReason, " +
+    @Query("SELECT new com.commitee.commitee.dto.RetiredCommitteeMemberDTO(rcm.suid, m.fullName, m.email, m.program, " +
             "rcm.retiredAt, rcm.duration, rcm.createdAt, rcm.earlyRetirement, rcm.retired) " +
             "FROM RetiredCommitteeMember rcm " +
             "JOIN Member m ON rcm.suid = m.suid "
             )
     List<RetiredCommitteeMemberDTO> findAllRetiredCommitteeMembersWithDetails();
 
-    @Query("SELECT new com.commitee.commitee.dto.RetiredCommitteeMemberDTO(rcm.suid, m.fullName, m.email, m.program, rcm.retirementReason, " +
+    @Query("SELECT new com.commitee.commitee.dto.RetiredCommitteeMemberDTO(rcm.suid, m.fullName, m.email, m.program, " +
             "rcm.retiredAt, rcm.duration, rcm.createdAt, rcm.earlyRetirement, rcm.retired) " +
             "FROM RetiredCommitteeMember rcm " +
             "JOIN Member m ON rcm.suid = m.suid " +

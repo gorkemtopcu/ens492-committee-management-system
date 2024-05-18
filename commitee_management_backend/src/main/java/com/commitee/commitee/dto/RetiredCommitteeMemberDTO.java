@@ -17,7 +17,6 @@ public class RetiredCommitteeMemberDTO {
     private String fullName;
     private String email;
     private String program;
-    private String retirementReason;
     private LocalDateTime retiredAt;
     private int duration;
     private LocalDateTime createdAt;

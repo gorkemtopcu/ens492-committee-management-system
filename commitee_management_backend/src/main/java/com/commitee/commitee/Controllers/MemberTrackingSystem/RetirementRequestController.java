@@ -1,15 +1,22 @@
 package com.commitee.commitee.Controllers.MemberTrackingSystem;
 
+import com.commitee.commitee.Entities.MemberTrackingSystem.RetiredCommitteeMember;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementDocument;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementRequest;
+import com.commitee.commitee.Repositories.MemberTrackingSystem.RetirementRequestRepository;
 import com.commitee.commitee.Requests.DocumentRequest;
+import com.commitee.commitee.Requests.RetirementReasonPutRequest;
+import com.commitee.commitee.Services.MemberTrackingSystem.RetiredCommitteeMemberService;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetirementRequestService;
+import com.oracle.svm.core.annotate.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.commitee.commitee.Constants.ENDED;
 
 @RestController
 @CrossOrigin
@@ -32,6 +39,16 @@ public class RetirementRequestController {
     @GetMapping("/getBySuid/{suid}")
     public RetirementRequest getRetirementRequestBySuid(@PathVariable int suid) {
         return retirementRequestService.getActiveRequestsBySuid(suid);
+    }
+
+    @PutMapping("/changeRetirementReason")
+    public ResponseEntity<RetirementRequest> changeRetirementReason(@RequestBody RetirementReasonPutRequest request) {
+        RetirementRequest retirementRequest = retirementRequestService.getById(request.getRequestId());
+        if(retirementRequest == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        retirementRequest.setRetirementReason(request.getRetirementReason());
+        return ResponseEntity.status(HttpStatus.OK).body(retirementRequestService.save(retirementRequest));
     }
 
     @PostMapping("/addDocument")
@@ -58,6 +75,12 @@ public class RetirementRequestController {
     public RetirementRequest createRetirementRequest(@RequestBody RetirementRequest request) {
         return retirementRequestService.save(request);
     }
+
+    @DeleteMapping("/endRetirementProcess/{requestId}")
+    public ResponseEntity<RetirementRequest> endRetirementProcess(@PathVariable int requestId) {
+        return  retirementRequestService.retireByRequestId(requestId);
+    }
+
 
     @DeleteMapping("/deleteById/{requestId}")
     public void deleteRetirementRequest(@PathVariable int requestId) {

@@ -35,5 +35,8 @@ public class RetirementRequest {
     @Column(name = "status", length = 20)
     private String status;
 
+    @Column(name = "retirement_reason", length = 255)
+    private String retirementReason;
+
 
 }

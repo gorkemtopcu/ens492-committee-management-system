@@ -22,9 +22,6 @@ public class RetiredCommitteeMember {
     @Id
     private int suid;
 
-    @Column(columnDefinition = "TEXT")
-    private String retirementReason;
-
     private Integer duration;
 
     @Column(name = "retired_at", columnDefinition = "DATETIME")

@@ -35,7 +35,6 @@ public class RetiredCommitteeMemberController {
     public RetiredCommitteeMember createRetiredCommitteeMember(@RequestBody RetiredCommitteeMember member) {
         return retiredCommitteeMemberService.save(member);
     }
-
     @DeleteMapping("/deleteById/{suid}")
     public void deleteRetiredCommitteeMember(@PathVariable int suid) {
         retiredCommitteeMemberService.deleteById(suid);

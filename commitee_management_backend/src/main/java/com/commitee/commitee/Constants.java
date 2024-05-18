@@ -20,4 +20,6 @@ public final class Constants {
 
         // General application constants
         public static final String PENDING = "Pending";
+        public static final String ENDED = "Ended";
+
 }
