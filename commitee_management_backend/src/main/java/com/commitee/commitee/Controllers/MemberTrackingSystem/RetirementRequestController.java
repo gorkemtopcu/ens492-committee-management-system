@@ -1,14 +1,10 @@
 package com.commitee.commitee.Controllers.MemberTrackingSystem;
 
-import com.commitee.commitee.Entities.MemberTrackingSystem.RetiredCommitteeMember;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementDocument;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementRequest;
-import com.commitee.commitee.Repositories.MemberTrackingSystem.RetirementRequestRepository;
 import com.commitee.commitee.Requests.DocumentRequest;
 import com.commitee.commitee.Requests.RetirementReasonPutRequest;
-import com.commitee.commitee.Services.MemberTrackingSystem.RetiredCommitteeMemberService;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetirementRequestService;
-import com.oracle.svm.core.annotate.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.commitee.commitee.Constants.ENDED;
 
 @RestController
 @CrossOrigin

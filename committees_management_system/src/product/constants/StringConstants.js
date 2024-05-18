@@ -12,7 +12,8 @@ const StringConstants = {
     ERROR: "Something went wrong.",
     EXCEL: "Excel",
     COPY: "Copy",
-    BACK: "Back"
+    BACK: "Back",
+    ADD_MEMBER: "Add New Member",
 };
 
 export default StringConstants;

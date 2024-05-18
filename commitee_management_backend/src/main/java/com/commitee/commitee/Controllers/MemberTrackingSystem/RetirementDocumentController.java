@@ -3,7 +3,6 @@ package com.commitee.commitee.Controllers.MemberTrackingSystem;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementDocument;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetirementDocumentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
