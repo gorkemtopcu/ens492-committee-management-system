@@ -23,13 +23,13 @@ public class MailingListController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<MailingList>> getAllMailingLists() {
-        List<MailingList> mailingLists = mailingListService.getAllMailingLists();
+        List<MailingList> mailingLists = mailingListService.getAll();
         return new ResponseEntity<>(mailingLists, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<MailingList> createMailingList(@RequestBody MailingList mailingList) {
-        MailingList savedMailingList = mailingListService.saveMailingList(mailingList);
+        MailingList savedMailingList = mailingListService.save(mailingList);
         return new ResponseEntity<>(savedMailingList, HttpStatus.CREATED);
     }
 

@@ -25,7 +25,7 @@ public class CommitteeController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Committee>> getAllCommittees() {
-        List<Committee> committees = committeeService.getAllCommittees();
+        List<Committee> committees = committeeService.getAll();
         return new ResponseEntity<>(committees, HttpStatus.OK);
     }
 

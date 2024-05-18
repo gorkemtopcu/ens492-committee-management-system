@@ -17,11 +17,11 @@ public class MailingListService {
         this.mailingListRepository = mailingListRepository;
     }
 
-    public List<MailingList> getAllMailingLists() {
+    public List<MailingList> getAll() {
         return mailingListRepository.findAll();
     }
 
-    public MailingList saveMailingList(MailingList mailingList) {
+    public MailingList save(MailingList mailingList) {
         return mailingListRepository.save(mailingList);
     }
 

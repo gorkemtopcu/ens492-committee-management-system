@@ -22,13 +22,13 @@ public class MeetingController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Meeting>> getAllMeetings() {
-        List<Meeting> meetings = meetingService.getAllMeetings();
+        List<Meeting> meetings = meetingService.getAll();
         return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Meeting> createMeeting(@RequestBody Meeting meeting) {
-        Meeting savedMeeting = meetingService.saveMeeting(meeting);
+        Meeting savedMeeting = meetingService.save(meeting);
         return new ResponseEntity<>(savedMeeting, HttpStatus.CREATED);
     }
 

@@ -22,7 +22,7 @@ public class CommitteeCategoryController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<CommitteeCategory>> getAllCategories() {
-        List<CommitteeCategory> categories = committeeCategoryService.getAllCategories();
+        List<CommitteeCategory> categories = committeeCategoryService.getAll();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 

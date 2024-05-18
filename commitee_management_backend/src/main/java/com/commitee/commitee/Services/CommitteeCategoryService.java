@@ -16,7 +16,7 @@ public class CommitteeCategoryService {
         this.committeeCategoryRepository = committeeCategoryRepository;
     }
 
-    public List<CommitteeCategory> getAllCategories() {
+    public List<CommitteeCategory> getAll() {
         return committeeCategoryRepository.findAll();
     }
 
