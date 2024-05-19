@@ -100,12 +100,32 @@ const columnMapping = {
         key: 'startedAt',
         searchable: true,
     },
+    createdAt: {
+        title: 'Started At',
+        dataIndex: 'createdAt',
+        key: 'createdAt',
+        searchable: true,
+    },
     expectedRetirement: {
         title: 'Expected Retirement',
         dataIndex: 'expectedRetirement',
         key: 'expectedRetirement',
         searchable: true,
     },
+    earlyRetirement: {
+        title: 'Early Retirement',
+        dataIndex: 'earlyRetirement',
+        key: 'earlyRetirement',
+        render: (exclude) => (
+            <span>{exclude ? 'Yes' : 'No'}</span>
+        ),    },
+    retired: {
+        title: 'Retired',
+        dataIndex: 'retired',
+        key: 'retired',
+        render: (exclude) => (
+            <span>{exclude ? 'Yes' : 'No'}</span>
+        ),    },
     exclude: {
         title: 'Exclude',
         dataIndex: 'exclude',
