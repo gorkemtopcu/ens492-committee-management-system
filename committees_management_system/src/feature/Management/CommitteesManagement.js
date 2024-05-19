@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Spin } from 'antd';
+import { Button, Modal, Spin, message } from 'antd'; // Import message from antd
 import { PlusOutlined } from '@ant-design/icons';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableSearch from 'product/components/TableSearch';
@@ -20,10 +20,11 @@ const CommitteesManagement = () => {
   const [initialValues, setInitialValues] = useState(null);
   const [formActionType, setFormActionType] = useState(null);
   const [loading, setLoading] = useState(false); 
+  const [updateSuccess, setUpdateSuccess] = useState(false); // State variable for update success message
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [updateSuccess]); // Reload data when updateSuccess changes
 
   const fetchData = async () => {
     setLoading(true);
@@ -49,7 +50,6 @@ const CommitteesManagement = () => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        // Call deleteById function from CommitteeService
         setLoading(true);
         CommitteeService.deleteById(record.id)
           .then(() => {
@@ -99,43 +99,57 @@ const CommitteesManagement = () => {
       about: values.about,
       emailListAddress: values.mailingList,
     };
-    console.log(newCommittee);
+
+    setLoading(true);
     CommitteeService.add(newCommittee)
       .then(() => {
         const updatedData = [...data, newCommittee];
         setData(updatedData);
+        message.success('Committee added successfully'); // Show success message
       })
       .catch(error => {
         console.error('Error adding data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+        handleCancel();
       });
-    handleCancel();
   };
 
   const handleEditCommittee = (values) => {
-    if (!values) {
+    if (!values || !initialValues) {
       return;
     }
-
+  
     const updatedCommittee = {
-      ...initialValues,
+      id: initialValues.id, // Include the ID of the committee being updated
       committee: values.committee,
-      category: values.category,
+      category: Categories.indexOf(values.category) + 1,
       about: values.about,
-      email_list_address: values.mailingList,
+      mailingList: values.mailingList, // Use 'mailingList' instead of 'email_list_address'
     };
-
-    const updatedData = data.map(item => {
-      if (item.id === initialValues.id) {
-        return updatedCommittee;
-      }
-      return item;
-    });
-
-    setData(updatedData);
-    updateJsonFile(updatedData);
-    handleCancel();
+  
+    setLoading(true);
+    CommitteeService.update(updatedCommittee)
+      .then(() => {
+        const updatedData = data.map(item => {
+          if (item.id === initialValues.id) {
+            return updatedCommittee;
+          }
+          return item;
+        });
+        setData(updatedData);
+        setUpdateSuccess(true); // Trigger data reload
+        message.success('Committee updated successfully'); // Show success message
+      })
+      .catch(error => {
+        console.error('Error updating data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+        handleCancel();
+      });
   };
-
 
   const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committeeCategory, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
   const formFields = [

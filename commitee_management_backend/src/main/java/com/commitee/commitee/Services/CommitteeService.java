@@ -44,6 +44,25 @@ public class CommitteeService {
 
     }
 
+    public Committee update(Committee committee) {
+        if (committee.getId() == null) {
+            throw new IllegalArgumentException("Committee ID cannot be null");
+        }
+        Optional<Committee> existingCommitteeOptional = committeeRepository.findById(committee.getId());
+        if (existingCommitteeOptional.isPresent()) {
+            Committee existingCommittee = existingCommitteeOptional.get();
+            // Update the fields of the existing committee with the new values
+            existingCommittee.setCommittee(committee.getCommittee());
+            existingCommittee.setCategory(committee.getCategory());
+            existingCommittee.setAbout(committee.getAbout());
+            existingCommittee.setEmailListAddress(committee.getEmailListAddress());
+            existingCommittee.setCreatedAt(committee.getCreatedAt());
+            // Save the updated committee
+            return committeeRepository.save(existingCommittee);
+        } else {
+            throw new CommitteeNotFoundException("Committee not found with ID: " + committee.getId());
+        }
+    }
 
 
 
