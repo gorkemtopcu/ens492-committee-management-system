@@ -59,5 +59,21 @@ public class CommitteeController {
         return new ResponseEntity<>(savedCommittee, HttpStatus.CREATED);
     }
 
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<Committee> updateCommittee(@PathVariable("id") Long id, @RequestBody CommitteePayload payload) {
+        Committee existingCommittee = committeeService.getById(id);
+        existingCommittee.setCommittee(payload.getCommittee());
+        existingCommittee.setCategory(payload.getCategory());
+        existingCommittee.setAbout(payload.getAbout());
+        existingCommittee.setEmailListAddress(payload.getEmailListAddress());
+        existingCommittee.setCreatedAt(LocalDateTime.now());
+
+        Committee updatedCommittee = committeeService.save(existingCommittee);
+        return new ResponseEntity<>(updatedCommittee, HttpStatus.OK);
+    }
+
+
+
     // Other controller methods for updating and deleting committees can be added here
 }

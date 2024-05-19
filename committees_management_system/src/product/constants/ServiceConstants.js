@@ -28,6 +28,7 @@ const ServiceConstants = {
     TERM_PARAM: "term",
     DELETE: "deleteById/",
     ADD: "add",
+    UPDATE: "update/"
 };
 
 export default ServiceConstants;
