@@ -18,7 +18,7 @@ const AssignmentsManagement = () => {
 
     const handleButtonClick = () => {
         // Navigate to the new page with the term information as a parameter
-        navigate(`/mgmt-assignments/byterm`);
+        navigate(`/mgmt-assignments/byterm`, { state: { term: selectedTerm } });
     };
 
     return (
