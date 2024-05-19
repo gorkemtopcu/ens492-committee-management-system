@@ -11,6 +11,12 @@ const columnMapping = {
         key: 'suid',
         searchable: true,
     },
+    requestId: {
+        title: 'Request ID',
+        dataIndex: 'requestId',
+        key: 'requestId',
+        searchable: true,
+    },
     id: {
         title: 'ID',
         dataIndex: 'id',
@@ -106,11 +112,31 @@ const columnMapping = {
         key: 'createdAt',
         searchable: true,
     },
+    retiredAt: {
+        title: 'Retired At',
+        dataIndex: 'retiredAt',
+        key: 'retiredAt',
+        searchable: true,
+    },
+    requestDate: {
+        title: 'Request Date',
+        dataIndex: 'requestDate',
+        key: 'requestDate',
+        searchable: true,
+    },
     expectedRetirement: {
         title: 'Expected Retirement',
         dataIndex: 'expectedRetirement',
         key: 'expectedRetirement',
         searchable: true,
+    },
+    closed: {
+        title: 'Closed',
+        dataIndex: 'closed',
+        key: 'closed',
+        render: (closed) => (
+            <span>{closed ? 'Yes' : 'No'}</span>
+        ),
     },
     earlyRetirement: {
         title: 'Early Retirement',
@@ -118,7 +144,19 @@ const columnMapping = {
         key: 'earlyRetirement',
         render: (exclude) => (
             <span>{exclude ? 'Yes' : 'No'}</span>
-        ),    },
+        ),    
+    },
+    status: {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        searchable: true,
+    },
+    retirementReason: {
+        title: 'Retirement Reason',
+        dataIndex: 'retirementReason',
+        key: 'retirementReason',
+    },
     retired: {
         title: 'Retired',
         dataIndex: 'retired',
@@ -144,6 +182,19 @@ const columnMapping = {
                 onClick={() => handleRetire(record)}
             >
                 Retire
+            </Button>
+        ),
+    }),
+    retirementProcess: (handleRetirementProcess) => ({
+        title: 'Retirement Process',
+        key: 'retirementProcess',
+        render: (record) => (
+            <Button
+                type="default"
+                style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }}
+                onClick={() => handleRetirementProcess(record)}
+            >
+                Retirement Process
             </Button>
         ),
     }),

@@ -9,6 +9,7 @@ const RetiredMemberService = {
             console.error('Error fetching data:', error);
         }
     },
+   
 };
 
 export default RetiredMemberService

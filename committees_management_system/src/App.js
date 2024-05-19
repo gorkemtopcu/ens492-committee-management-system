@@ -19,6 +19,7 @@ import CreateMeetingNotes from 'feature/Meeting/CreateMeetingNotes';
 import MainCommitee from 'feature/MemberTrackingSystem/MainCommitee';
 import RetirementHistory from 'feature/MemberTrackingSystem/RetirementHistory';
 import AssignmentByTerm from 'feature/Management/AssignmentByTerm';
+import RetirementRequest from 'feature/MemberTrackingSystem/RetirementRequests';
 //import SelectedCommittee from 'feature/Report/SelectedCommittee';
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
           <Route path="main-commitee" element={< MainCommitee />} />
           <Route path="retirement-history" element={< RetirementHistory />} />
           <Route path="create-meeting-notes" element={<CreateMeetingNotes />} />
+          <Route path="retirement-requests" element={<RetirementRequest />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

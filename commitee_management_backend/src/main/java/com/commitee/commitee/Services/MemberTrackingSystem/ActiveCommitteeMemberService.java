@@ -53,7 +53,7 @@ public class ActiveCommitteeMemberService {
             retiredMember.setSuid(member.getSuid());
             retiredMember.setCreatedAt(member.getCreatedAt());
             retiredMember.setDuration(member.getDuration());
-            retiredMember.setRetiredAt(LocalDateTime.now());
+            retiredMember.setRetiredAt(null);
             retiredMember.setEarlyRetirement(false);
             retiredMember.setRetired(false);
             retiredCommitteeMemberService.save(retiredMember);
