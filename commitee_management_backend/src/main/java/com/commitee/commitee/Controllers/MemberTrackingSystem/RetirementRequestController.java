@@ -8,7 +8,6 @@ import com.commitee.commitee.Requests.DocumentRequest;
 import com.commitee.commitee.Requests.RetirementReasonPutRequest;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetiredCommitteeMemberService;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetirementRequestService;
-import com.oracle.svm.core.annotate.Delete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
