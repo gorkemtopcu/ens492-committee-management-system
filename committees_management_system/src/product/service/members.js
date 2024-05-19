@@ -8,7 +8,7 @@ const MembersService = {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
-    }
+    },
 };
 
 export default MembersService

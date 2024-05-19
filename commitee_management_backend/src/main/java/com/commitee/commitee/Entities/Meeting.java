@@ -1,10 +1,14 @@
 package com.commitee.commitee.Entities;
 
+import com.commitee.commitee.Services.ConfigService;
+import com.commitee.commitee.Services.MeetingService;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.time.LocalDateTime;
 
 @Setter
@@ -14,6 +18,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "meetings")
 public class Meeting {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -54,4 +59,8 @@ public class Meeting {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
 }
