@@ -10,6 +10,7 @@ import ExcelButton from 'product/components/ExcelButton';
 import CopyButton from 'product/components/CopyButton';
 import StringConstants from 'product/constants/StringConstants';
 import Terms from 'assets/jsons/report/terms.json';
+import COLORS from 'product/constants/ColorConstants';
 
 const AssignmentByTerm = () => {
     const location = useLocation();
@@ -65,21 +66,14 @@ const AssignmentByTerm = () => {
         }
     };
 
-    
-
     const handleAdd = () => {
         setIsModalVisible(true);
         fetchAllData(); 
     };
 
-    
-
     const handleCancel = () => {
         setIsModalVisible(false);
     };
-
-
-
 
     const nestedColumns = [
         { title: 'Name', dataIndex: 'member', key: 'member', searchable: true },
@@ -89,9 +83,12 @@ const AssignmentByTerm = () => {
             key: 'action',
             render: (text, record) => (
                 <>
-                    <Button type="link" onClick={() => showDeleteConfirmation(record.listEmail, record.id)}>
+                    <Button type="default" 
+                            onClick={() => showDeleteConfirmation(record.listEmail, record.id)}
+                            style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }}>
                         Delete
                     </Button>
+
                     <Modal
                         title= {StringConstants.CONFIRM_DELETE}
                         visible={deleteConfirmationVisible}
