@@ -14,6 +14,7 @@ const StringConstants = {
     COPY: "Copy",
     BACK: "Back",
     ADD_MEMBER: "Add New Member",
+    RETIRE_MEMBER: "Retire Member",
 };
 
 export default StringConstants;

@@ -4,7 +4,7 @@ import { columnMapping } from 'product/constants/ColumnMapping';
 import PopupForm from 'product/components/PopupForm';
 import { Button, Spin } from 'antd';
 import StringConstants from 'product/constants/StringConstants';
-import MemberTrackingService from 'product/service/member_tracking';
+import ActiveMemberService from 'product/service/active_member';
 import { PlusOutlined } from '@ant-design/icons';
 
 const MainCommitee = () => {
@@ -23,7 +23,7 @@ const MainCommitee = () => {
 
     const fetchData = async () => {
         setLoading(true); // Set loading to true before fetching data
-        MemberTrackingService.getAll()
+        ActiveMemberService.getAll()
         .then(response => {
                 setData(response.data);
             })
@@ -51,6 +51,14 @@ const MainCommitee = () => {
             const updatedData = data.filter(item => item.id !== initialValues.id);
             setData(updatedData);
         }
+        console.log(initialValues.suid);
+        ActiveMemberService.retirementRequestById(initialValues.suid)
+        .then(() => {
+            fetchData();
+        })
+        .catch(error => {
+          console.error('Error adding data:', error);
+        });
         setRetireModalVisible(false); // Close the modal after handling retirement
     };
 
@@ -62,8 +70,23 @@ const MainCommitee = () => {
     };
 
     const handleAddMember = (values) => {
+        if (!values) {
+            return;
+        }
 
-    };
+        const newActiveMemberRequest = {
+            suid: values.suid,
+            duration: values.duration,
+        };
+        
+        ActiveMemberService.add(newActiveMemberRequest)
+        .then(() => {
+            fetchData();
+        })
+        .catch(error => {
+          console.error('Error adding data:', error);
+        });
+      handleCancel();    };
 
     const tableFields = [
         columnMapping.suid,
@@ -78,7 +101,7 @@ const MainCommitee = () => {
 
     const addMemberFields = [
             { name: 'suid', label: 'SU ID', type: 'text', required: true },
-            { name: 'duration', label: 'Member Name', type: 'text', required: true },
+            { name: 'duration', label: 'Duration', type: 'text', required: true },
     ];
 
     return (
