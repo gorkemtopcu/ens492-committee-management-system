@@ -5,6 +5,7 @@ import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementRequest;
 import com.commitee.commitee.Requests.DocumentRequest;
 import com.commitee.commitee.Requests.RetirementReasonPutRequest;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetirementRequestService;
+import com.commitee.commitee.dto.RetiredCommitteeMemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,6 +25,16 @@ public class RetirementRequestController {
     @GetMapping("/getAll")
     public List<RetirementRequest> getAllRequests() {
         return retirementRequestService.getAll();
+    }
+
+    @GetMapping("/getAllInRetirementProcess")
+    public List<RetirementRequest> getAllActiveRequests() {
+        return retirementRequestService.getAllActive();
+    }
+
+    @GetMapping("/getAllRetiredInfo")
+    public List<RetiredCommitteeMemberDTO> getAllRetiredInfo() {
+        return retirementRequestService.getAllRetiredInfo();
     }
 
     @GetMapping("/getById/{requestId}")

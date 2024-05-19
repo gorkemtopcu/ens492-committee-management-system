@@ -2,6 +2,7 @@ package com.commitee.commitee.Controllers.MemberTrackingSystem;
 
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetiredCommitteeMember;
 import com.commitee.commitee.Services.MemberTrackingSystem.RetiredCommitteeMemberService;
+import com.commitee.commitee.dto.InRetirementProcessMemberDTO;
 import com.commitee.commitee.dto.RetiredCommitteeMemberDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

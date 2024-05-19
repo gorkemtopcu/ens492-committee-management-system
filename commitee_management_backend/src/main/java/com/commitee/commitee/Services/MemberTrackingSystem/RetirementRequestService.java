@@ -5,6 +5,7 @@ import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementDocument;
 import com.commitee.commitee.Entities.MemberTrackingSystem.RetirementRequest;
 import com.commitee.commitee.Repositories.MemberTrackingSystem.RetirementRequestRepository;
 import com.commitee.commitee.Requests.DocumentRequest;
+import com.commitee.commitee.dto.RetiredCommitteeMemberDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.commitee.commitee.Constants.ENDED;
@@ -84,10 +86,24 @@ public class RetirementRequestService {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         retiredCommitteeMember.setRetired(true);
+        retiredCommitteeMember.setRetiredAt(LocalDateTime.now());
+        if(ChronoUnit.SECONDS.between(retiredCommitteeMember.getCreatedAt(), LocalDateTime.now()) > 0) {
+            retiredCommitteeMember.setEarlyRetirement(true);
+        }
+
+
         retiredCommitteeMemberService.save(retiredCommitteeMember);
         retirementRequest.setStatus(ENDED);
         retirementRequest.setClosedDate(LocalDateTime.now());
         retirementRequest.setClosed(true);
         return ResponseEntity.status(HttpStatus.OK).body(save(retirementRequest));
+    }
+
+    public List<RetirementRequest> getAllActive() {
+        return repository.findAllActiveRequests();
+    }
+
+    public List<RetiredCommitteeMemberDTO> getAllRetiredInfo() {
+        return repository.findAllRetiredInfo();
     }
 }

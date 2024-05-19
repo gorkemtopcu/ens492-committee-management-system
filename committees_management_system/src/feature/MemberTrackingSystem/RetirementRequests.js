@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import StringConstants from 'product/constants/StringConstants';
-import { Spin } from 'antd';
-import RetirementRequest from './RetirementRequests';
+import RetiredMemberService from 'product/service/retired_member';
+import { Button, Spin } from 'antd';
 import RetirementRequestService from 'product/service/retirement_request';
+import COLORS from 'product/constants/ColorConstants';
 
-const RetirementHistory = () => {
+const RetirementRequest = () => {
     const [loading, setLoading] = useState(false); 
     const [data, setData] = useState([]);
 
@@ -17,7 +18,7 @@ const RetirementHistory = () => {
     
       const fetchData = async () => {
         setLoading(true); // Set loading to true before fetching data
-        RetirementRequestService.getAllRetiredInfo()
+        RetirementRequestService.getAllInRetirement()
         .then(response => {
                 setData(response.data);
                 console.log(response.data);
@@ -30,15 +31,15 @@ const RetirementHistory = () => {
             });
     };
 
+    const handleRetirementProcess = (values) => {  };
+
     const fields = [
+        columnMapping.requestId,
         columnMapping.suid,
-        columnMapping.fullName,
-        columnMapping.email,
-        columnMapping.program,
-        columnMapping.duration,
-        columnMapping.createdAt,
-        columnMapping.earlyRetirement,
-        columnMapping.retired
+        columnMapping.requestDate,
+        columnMapping.closed,
+        columnMapping.status,
+        columnMapping.retirementProcess(handleRetirementProcess),
     ];
 
     return (
@@ -48,4 +49,4 @@ const RetirementHistory = () => {
     );
 };
 
-export default RetirementHistory;
+export default RetirementRequest;

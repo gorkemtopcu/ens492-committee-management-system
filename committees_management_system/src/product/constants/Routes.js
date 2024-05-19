@@ -104,6 +104,11 @@ const CommitteeRoutes = [
                 icon: <ClockCircleTwoTone />,
                 label: 'Retirement History',
             },
+            {
+                key: 'retirement-requests',
+                icon: <ClockCircleTwoTone />,
+                label: 'Retirement Requests',
+            },
         ]
     },
 ];
