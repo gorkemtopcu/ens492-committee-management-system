@@ -38,4 +38,12 @@ public class MailingListController {
         List<MailingList> mailinglist = mailingListService.findByTerm(term);
         return new ResponseEntity<>(mailinglist, HttpStatus.OK);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteMailingList(@PathVariable Long id) {
+        mailingListService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
 }

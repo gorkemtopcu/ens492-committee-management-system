@@ -13,6 +13,10 @@ const StringConstants = {
     EXCEL: "Excel",
     COPY: "Copy",
     BACK: "Back",
+    CONFIRM_DELETE: "Confirm Delete",
+    REMOVE_WARNING: "Are you sure you want to remove this person from the mailing list?",
+    ADD_NEW_MEMBER: "Add New Member",
+
     ADD_MEMBER: "Add New Member",
     RETIRE_MEMBER: "Retire Member",
 };
