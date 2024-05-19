@@ -30,4 +30,7 @@ public class MailingListService {
     public List<MailingList> findByTerm(String term) {
         return mailingListRepository.findByTerm(term);
     }
+
+    public void deleteById(Long id) { mailingListRepository.deleteById(id);}
+
 }

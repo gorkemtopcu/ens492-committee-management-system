@@ -8,8 +8,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface ActiveCommitteeMemberRepository extends JpaRepository<ActiveCommitteeMember, Integer> {
-    @Query("SELECT new com.commitee.commitee.dto.ActiveCommitteeMemberDTO(acm.suid, m.fullName, m.email, m.program, acm.duration) " +
+    @Query("SELECT new com.commitee.commitee.dto.ActiveCommitteeMemberDTO(acm.suid, m.fullName, m.email, m.program, acm.createdAt, acm.duration) " +
             "FROM ActiveCommitteeMember acm " +
             "JOIN Member m ON acm.suid = m.suid " +
             "WHERE m.active = true")
-    List<ActiveCommitteeMemberDTO> findAllActiveCommitteeMembersWithDetails();}
+    List<ActiveCommitteeMemberDTO> findAllActiveCommitteeMembersWithDetails();
+}
