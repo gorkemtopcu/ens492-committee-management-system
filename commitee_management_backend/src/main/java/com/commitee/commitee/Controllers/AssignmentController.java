@@ -1,7 +1,6 @@
 package com.commitee.commitee.Controllers;
 
 import com.commitee.commitee.Entities.Assignment;
-import com.commitee.commitee.Entities.MailingList;
 import com.commitee.commitee.Payload.CommitteesReportPayload;
 import com.commitee.commitee.Services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
