@@ -26,10 +26,20 @@ public class MemberController {
         return new ResponseEntity<>(members, HttpStatus.OK);
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<Member> createMember(@RequestBody Member member) {
         Member savedMember = memberService.save(member);
         return new ResponseEntity<>(savedMember, HttpStatus.CREATED);
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<Member> updateMember(@RequestBody Member updatedMember) {
+        Member member = memberService.getById(updatedMember.getSuid());
+        if (member == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        member = member.copyWith(updatedMember);
+        memberService.save(member);
+        return new ResponseEntity<>(updatedMember, HttpStatus.OK);
+    }
 }

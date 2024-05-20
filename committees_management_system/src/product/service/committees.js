@@ -29,7 +29,7 @@ const CommitteeService = {
 
     update: async (data) => {
         try {
-            return await axios.put(ServiceConstants.COMMITTEES + ServiceConstants.UPDATE + data.id, data);
+            return await axios.put(ServiceConstants.COMMITTEES + ServiceConstants.UPDATE +"/" + data.id, data);
         } catch (error) {
             console.error('Error updating data:', error);
         }

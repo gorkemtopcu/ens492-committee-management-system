@@ -35,6 +35,8 @@ public class Member {
     @Column(name = "active")
     private Boolean active;
 
-    // Constructors, getters, and setters
-    // Omitted for brevity
+    // Create copy with function
+    public Member copyWith(Member member) {
+        return new Member(member.getSuid(), member.getFullName(), member.getEmail(), member.getProgram(), member.getExclude(), member.getActive());
+    }
 }

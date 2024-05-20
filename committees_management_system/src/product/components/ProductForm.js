@@ -6,14 +6,17 @@ import ProductSearch from './ProductSearch';
 const { Option } = Select;
 const { Dragger } = Upload;
 
-const ProductForm = ({ onCancel, onFinish, fields }) => {
+const ProductForm = ({ initialValues = null, onCancel, onFinish, fields }) => {
     const [form] = Form.useForm();
     const [selectedItems, setSelectedItems] = useState([]);
     const [fileList, setFileList] = useState([]);
 
     useEffect(() => {
         form.resetFields();
-    }, [form]);
+        if (initialValues) {
+            form.setFieldsValue(initialValues);
+        }
+    }, [initialValues, form]);
 
     const handleFinish = (values) => {
         const formData = {

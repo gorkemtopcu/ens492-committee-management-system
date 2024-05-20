@@ -126,7 +126,7 @@ const CommitteesManagement = () => {
       committee: values.committee,
       category: Categories.indexOf(values.category) + 1,
       about: values.about,
-      mailingList: values.mailingList, // Use 'mailingList' instead of 'email_list_address'
+      mailingList: values.mailingList, 
     };
   
     setLoading(true);
@@ -154,7 +154,8 @@ const CommitteesManagement = () => {
   const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committeeCategory, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
   const formFields = [
     { name: 'committee', label: 'Committee', type: 'text', required: true },
-    { name: 'category', label: 'Category', type: 'select', required: false, options: Categories },
+    { name: 'category', label: 'Category', type: 'select', required: false, 
+    options: Categories.map(category => ({ label: category, value: category })) },
     { name: 'about', label: 'About', type: 'textarea', required: false },
     { name: 'mailingList', label: 'Mailing List', type: 'text', required: false },
   ];
