@@ -53,21 +53,26 @@ const MembersManagement = () => {
         }
 
         const updatedMember = {
-            ...initialValues,
-            facultyMember: values.facultyMember,
+            suid: values.suid,
+            fullName: values.fullName,
             email: values.email,
             program: values.program,
             exclude: values.exclude === "Yes" ? true : false,
         };
-
-        const updatedData = data.map(item => {
-            if (item.id === initialValues.id) {
-                return updatedMember;
-            }
-            return item;
+        setLoading(true); 
+        MembersService.update(updatedMember) 
+        .then(response => {
+            console.log(response);
+            fetchData();
+        })
+        .catch(error => {
+            alert(StringConstants.ERROR);
+        })
+        .finally(() => {
+            setLoading(false); // Set loading to false after data is fetched
         });
 
-        setData(updatedData);
+        
         handleCancel();
     }
 
@@ -87,15 +92,17 @@ const MembersManagement = () => {
             <PopupForm
                 title={popupTitle}
                 open={modalVisible}
-                initialValues={initialValues} // Pass initialValues to PopupForm
+                initialValues={initialValues} 
                 onCancel={handleCancel}
                 onFinish={handleEditMember}
                 fields={[
                     { name: 'suid', label: 'SU ID', type: 'text', readOnly: true },
                     { name: 'fullName', label: 'Member Name', type: 'text', required: true },
                     { name: 'email', label: 'Email of User', type: 'text', required: false },
-                    { name: 'program', label: 'Program Name', type: 'select', required: true, options: UNIVERSITY_PROGRAMS },
-                    { name: 'exclude', label: 'Exclude', type: 'select', required: true, options: ["Yes", "No"] },
+                    { name: 'program', label: 'Program Name', type: 'select', required: true, options: 
+                    UNIVERSITY_PROGRAMS.map(program => ({ label: program, value: program }))},
+                    { name: 'exclude', label: 'Exclude', type: 'select', required: true, options:
+                     [{label: "Yes", value: "yes"}, {label: "No", value: "no"}] },
                 ]}
             />
       </Spin>

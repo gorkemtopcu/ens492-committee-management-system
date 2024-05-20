@@ -9,6 +9,13 @@ const MembersService = {
             console.error('Error fetching data:', error);
         }
     },
+    update: async (data) => {
+        try {
+            return await axios.put(ServiceConstants.MEMBERS + ServiceConstants.UPDATE, data);
+        } catch (error) {
+            console.error('Error updating data:', error);
+        }
+    }
 };
 
 export default MembersService
