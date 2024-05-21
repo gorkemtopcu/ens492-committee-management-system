@@ -16,6 +16,7 @@ const ServiceConstants = {
     // REPORTS
     REPORT_PROGRAM_INSTRUCTOR: "getInstructorByProgramAndTerm",
     REPORT_COMMITTEES: "getByCommitteeAndTerm",
+    REPORT_ASSIGNMENTS: "getCommitteeAssignment",
     // PARAMS
     PARAM_COMMITTEES: "committees=",
     PARAM_TERMS: "terms=",

@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, Card, Space, Tag } from 'antd';
 import COLORS from 'product/constants/ColorConstants';
 import StringConstants from './StringConstants';
+import Search from 'antd/es/transfer/search';
 
 // Define your mapping object
 const columnMapping = {
@@ -148,6 +149,16 @@ const columnMapping = {
                 {decisions}
             </div>
         ),
+    },
+    multipleCommittees: {
+        title: 'Committees',
+        dataIndex: 'committee',
+        key: 'committee',
+        render: (multipleCommittees) => {
+            if (!multipleCommittees || multipleCommittees.length === 0) return null;
+            const formattedCommittees = multipleCommittees.map(committee => <Tag key={committee} color={COLORS.PRIMARY_LIGHT}>{committee}</Tag>);
+            return formattedCommittees;
+        }
     },
     
     nextMeetingDate: {
