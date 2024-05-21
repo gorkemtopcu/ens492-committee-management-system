@@ -46,12 +46,9 @@ const Committees = () => {
             console.log(response);
 
             const organizedData = response.data.map(e => ({
-                key: e.committee,
-                committe: e.committee,
-                facultyMembers: e.instructors.map((i, index) => ({
-                    key: i.fullName,
-                    fullName: i.fullName
-                }))
+                "key": e.committee,
+                "committee": e.committee,
+                "facultyMember": e.instructors.map(i => i.fullName,)
             }));
             setReportData(organizedData);
             console.log(organizedData);
