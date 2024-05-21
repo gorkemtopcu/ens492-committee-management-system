@@ -3,11 +3,13 @@ package com.commitee.commitee.Services;
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Entities.Committee;
 import com.commitee.commitee.Entities.Member;
+import com.commitee.commitee.Payload.CommitteeTermPayload;
 import com.commitee.commitee.Payload.CommitteesReportPayload;
 import com.commitee.commitee.Payload.ProgramInstructorPayload;
 import com.commitee.commitee.Repositories.AssignmentRepository;
 import com.commitee.commitee.Repositories.CommitteeRepository;
 import com.commitee.commitee.Repositories.MemberRepository;
+import com.commitee.commitee.dto.CommitteesDTO;
 import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -149,6 +151,43 @@ public class AssignmentService {
         }
 
         return new ArrayList<>(groupedInstructors.values());
+    }
+
+
+    public List<CommitteeTermPayload> getCommitteeByProgramAndTerm(List<String> committee, List<Integer> terms) {
+        List<CommitteesDTO> committeesDTOS = assignmentRepository.getCommitteeByProgramAndTerm(committee, terms);
+        Map<String, CommitteeTermPayload> groupedCommittees = new HashMap<>();
+
+        // Group by committee
+        for (CommitteesDTO dto : committeesDTOS) {
+            String committeeName = dto.getCommittee();
+            String fullName = dto.getFullName();
+            int term = dto.getTerm();
+
+            // If the committee does not exist in the map, add it
+            groupedCommittees.putIfAbsent(committeeName, new CommitteeTermPayload(committeeName, new ArrayList<>()));
+
+            // Get the committee payload
+            CommitteeTermPayload committeePayload = groupedCommittees.get(committeeName);
+
+            // Find the instructor in the committee payload
+            CommitteeTermPayload.Instructor instructorPayload = committeePayload.getInstructors()
+                    .stream()
+                    .filter(i -> i.getFullName().equals(fullName))
+                    .findFirst()
+                    .orElse(null);
+
+            // If the instructor does not exist, create and add them
+            if (instructorPayload == null) {
+                instructorPayload = new CommitteeTermPayload.Instructor(fullName, new ArrayList<>());
+                committeePayload.getInstructors().add(instructorPayload);
+            }
+
+            // Add the term to the instructor's list of terms
+            instructorPayload.getTerms().add(String.valueOf(term));
+        }
+
+        return new ArrayList<>(groupedCommittees.values());
     }
 }
 

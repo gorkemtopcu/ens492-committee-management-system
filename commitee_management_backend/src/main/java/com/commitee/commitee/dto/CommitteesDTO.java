@@ -9,7 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ProgramInstructorDTO {
+public class CommitteesDTO {
+
     private String fullName;
     private String program;
     private String committee;

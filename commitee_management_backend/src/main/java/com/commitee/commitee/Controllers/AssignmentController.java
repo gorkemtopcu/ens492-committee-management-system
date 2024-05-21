@@ -3,6 +3,7 @@ package com.commitee.commitee.Controllers;
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Payload.CommitteesReportPayload;
 import com.commitee.commitee.Payload.ProgramInstructorPayload;
+import com.commitee.commitee.Requests.CommitteeRequest;
 import com.commitee.commitee.Requests.ProgramInstructorRequest;
 import com.commitee.commitee.Services.AssignmentService;
 import com.commitee.commitee.dto.ProgramInstructorDTO;
@@ -65,6 +66,12 @@ public class AssignmentController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
+    @GetMapping("/getCommitteeByProgramAndTerm")
+    public ResponseEntity<List<?>> getCommitteeByProgramAndTerm(@RequestBody CommitteeRequest request) {
+        List<?> result = assignmentService.getCommitteeByProgramAndTerm(request.getCommittee(), request.getTerms());
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 
 
