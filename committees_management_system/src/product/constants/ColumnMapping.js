@@ -72,6 +72,12 @@ const columnMapping = {
         key: 'memberName',
         searchable: true,
     },
+    guests: {
+        title: 'Guest',
+        dataIndex: 'guest',
+        key: 'guest',
+        searchable: true,
+    },
     email: {
         title: 'Email',
         dataIndex: 'email',
@@ -101,6 +107,12 @@ const columnMapping = {
         key: 'duration',
         searchable: true,
     },
+    date: {
+        title: 'Date',
+        dataIndex: 'date',
+        key: 'date',
+        searchable: true,
+    },
     startedAt: {
         title: 'Started At',
         dataIndex: 'startedAt',
@@ -119,6 +131,43 @@ const columnMapping = {
         key: 'retiredAt',
         searchable: true,
     },
+    place: {
+        title: 'Place',
+        dataIndex: 'place',
+        key: 'place',
+        searchable: true,
+    },
+    decisions: {
+        title: 'Decisions',
+        dataIndex: 'decisions',
+        key: 'decisions',
+        searchable: true,
+        // Add a custom render function to limit the height and enable scrolling
+        render: (decisions) => (
+            <div style={{ maxHeight: '50px', overflowY: 'auto' }}>
+                {decisions}
+            </div>
+        ),
+    },
+    
+    nextMeetingDate: {
+        title: 'Next Meeting Date',
+        dataIndex: 'nextMeetingDate',
+        key: 'nextMeetingDate',
+        searchable: true,
+    },
+    createdBy: {
+        title: 'Created By',
+        dataIndex: 'createdBy',
+        key: 'createdBy',
+        searchable: true,
+    },
+    attachment:
+    {
+        title: 'Attachment',
+        dataIndex: 'attachment',
+        key: 'attachment',
+    },
     requestDate: {
         title: 'Request Date',
         dataIndex: 'requestDate',
@@ -129,6 +178,12 @@ const columnMapping = {
         title: 'Expected Retirement',
         dataIndex: 'expectedRetirement',
         key: 'expectedRetirement',
+        searchable: true,
+    },
+    subject: {
+        title: 'Subject',
+        dataIndex: 'subject',
+        key: 'subject',
         searchable: true,
     },
     closed: {
@@ -173,6 +228,16 @@ const columnMapping = {
         render: (exclude) => (
             <span>{exclude ? 'Yes' : 'No'}</span>
         ),
+    },
+    participants: {
+        title: 'Participants',
+        dataIndex: 'participants',
+        key: 'participants',
+        render: (participants) => {
+            if (!participants || participants.length === 0) return null;
+            const formattedParticipants = participants.map(participant => <Tag key={participant} color={COLORS.PRIMARY_LIGHT}>{participant}</Tag>);
+            return formattedParticipants;
+        },
     },
     retire: (handleRetire) => ({
         title: 'Retire',

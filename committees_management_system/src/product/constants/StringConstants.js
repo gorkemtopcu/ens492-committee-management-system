@@ -19,6 +19,7 @@ const StringConstants = {
     RETIRE_MEMBER: "Retire Member",
     SUCCESS: "Success",
     RETIREMENT_PROCESS: "Retirement Process",
+    LIST_MEETING: "List Meeting"
 };
 
 export default StringConstants;
