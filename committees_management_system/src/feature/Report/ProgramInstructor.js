@@ -129,7 +129,7 @@ const ProgramInstructor = () => {
             outsideColumns={outsideColumns}
             insideColumns={insideColumns}
             dataSource={reportData}
-            getNestedData={record => record.instructors.map(i => ({ ...i }))}
+            getNestedData={record => record.instructors.flat()}
           />
           <PrimaryButton
             title={StringConstants.BACK}
