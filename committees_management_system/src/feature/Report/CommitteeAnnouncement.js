@@ -7,7 +7,7 @@ import StringConstants from 'product/constants/StringConstants';
 import { useNavigate } from 'react-router-dom';
 
 const CommitteeAnnouncement = () => {
-    const [selectedTerm, setSelectedTerm] = useState(null);
+    const [selectedTerm, setSelectedTerm] = useState([]);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ const CommitteeAnnouncement = () => {
                 <div style={{ marginRight: '20px' }}>
                     <Picker
                         title={StringConstants.SELECT_TERM}
-                        items={Terms}
+                        items={Terms.map(t => ({ "value": t, "label": t }))}
                         onChange={handleTermChange}
                         selected={selectedTerm}
                         multipleSelection={false}
