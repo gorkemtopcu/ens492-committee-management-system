@@ -38,10 +38,10 @@ public class Meeting {
     @Column(name = "guests", length = 255)
     private String guests;
 
-    @Column(name = "subject", nullable = false, length = 255)
+    @Column(name = "subject", length = 255)
     private String subject;
 
-    @Column(name = "decisions", columnDefinition = "LONGTEXT", nullable = false)
+    @Column(name = "decisions", columnDefinition = "LONGTEXT")
     private String decisions;
 
     @Column(name = "attachment", length = 255)
@@ -56,7 +56,7 @@ public class Meeting {
     @Column(name = "created_by")
     private Long createdBy;
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @PrePersist

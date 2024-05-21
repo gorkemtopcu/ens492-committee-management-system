@@ -60,7 +60,14 @@ const TableSearch = ({ columns, data }) => {
     )
     : data;
 
-  return <Table columns={columnsWithSearch} dataSource={filteredData} />;
+  return (
+    <div style={{ maxHeight: 800, overflow: 'auto' }}> {/* Adjust maxHeight and overflow as needed */}
+
+    <Table columns={columnsWithSearch} dataSource={filteredData} />
+    </div>
+
+  )
+  ;
 };
 
 export default TableSearch;

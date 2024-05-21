@@ -51,7 +51,6 @@ public class MeetingService {
                 payloadList.add(payload);
             } catch (IOException e) {
                 e.printStackTrace();
-                // Optionally, you could log this error or handle it in another way
             }
         }
 
