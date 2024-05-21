@@ -84,7 +84,7 @@ const CreateMeetingNotes = () => {
             "decisions": values.decisions,
             "attachment": `[${values.attachment.map(element => `"${element.name}"`).join(', ')}]`,
             "nextMeetingDate": values.nextMeetingDate,
-            // created by will be implemented after login operations
+            // createdBy will be implemented after login operations
         };
 
         console.log("Form data:", data);
@@ -124,8 +124,10 @@ const CreateMeetingNotes = () => {
 
     return (
         <Spin spinning={createMeetingLoading || membersLoading || committesLoading}>
-            <ProductHeader title={"Create Meeting Notes"} />
-            <ProductForm onCancel={handleCancel} onFinish={handleFinish} fields={formFields}></ProductForm>
+            <div style={{ maxWidth: "80%" }}>
+                <ProductHeader title={"Create Meeting Notes"} />
+                <ProductForm onCancel={handleCancel} onFinish={handleFinish} fields={formFields}></ProductForm>
+            </div>
         </Spin>
     );
 };

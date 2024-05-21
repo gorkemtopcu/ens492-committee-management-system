@@ -6,7 +6,7 @@ import PrimaryButton from 'product/components/PrimaryButton';
 import ProductHeader from 'product/components/ProductHeader';
 
 const AssignmentsManagement = () => {
-    const [selectedTerm, setSelectedTerm] = useState(null);
+    const [selectedTerm, setSelectedTerm] = useState([]);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
     const navigate = useNavigate(); // Initialize useNavigate hook
@@ -28,7 +28,7 @@ const AssignmentsManagement = () => {
             <div style={{ width: "300px" }}>
                 <Picker
                     title="Select Term"
-                    items={Terms}
+                    items={Terms.map(t => ({ "value": t, "label": t }))}
                     onChange={handleTermChange}
                     multipleSelection={false}
                     selected={selectedTerm}
@@ -38,7 +38,8 @@ const AssignmentsManagement = () => {
             <PrimaryButton
                 title="Submit"
                 onClick={handleButtonClick}
-                isEnabled={isButtonEnabled} style={undefined} />
+                isEnabled={isButtonEnabled}
+                style={{ marginTop: '30px' }} />
         </div>
     );
 };

@@ -9,8 +9,8 @@ import MembersService from 'product/service/members';
 
 
 const MeetingParticipation = () => {
-    const [members, setMembers] = useState(null);
-    const [selectedTerm, setSelectedTerm] = useState(null);
+    const [members, setMembers] = useState([]);
+    const [selectedTerm, setSelectedTerm] = useState([]);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
 
     useEffect(() => {
@@ -41,7 +41,7 @@ const MeetingParticipation = () => {
 
     const namesOptions = members ? members.map(item => ({
         label: item.fullName,
-        value: item.suid,
+        value: item.fullName,
     })) : [];
 
     return (
@@ -54,7 +54,7 @@ const MeetingParticipation = () => {
                 <div>
                     <Picker
                         title={StringConstants.SELECT_TERM}
-                        items={Terms}
+                        items={Terms.map(t => ({ "value": t, "label": t }))}
                         onChange={handleTermChange}
                         selected={selectedTerm} />
                 </div>
