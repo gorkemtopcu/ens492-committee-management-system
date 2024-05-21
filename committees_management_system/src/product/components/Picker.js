@@ -1,13 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { List, Checkbox } from 'antd';
 import COLORS from '../constants/ColorConstants';
 import { CaretDownOutlined, CaretRightOutlined } from '@ant-design/icons';
 
-const Picker = ({ title, items, selected, onChange, multipleSelection = true, style = null }) => {
-  const initialSelectedItems = selected ? selected : [];
-  const [selectedItems, setSelectedItems] = useState(initialSelectedItems);
+const Picker = ({ title, items, selected, onChange, multipleSelection = true, style = null, isCollapsible = true }) => {
+  const [selectedItems, setSelectedItems] = useState(selected);
   const [shiftClickStartIndex, setShiftClickStartIndex] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
+
+  useEffect(() => {
+    setSelectedItems(selected);
+  }, [selected]);
 
   const handleSelectAllChange = (e) => {
     const updatedSelectedItems = e.target.checked ? items : [];
@@ -16,34 +19,47 @@ const Picker = ({ title, items, selected, onChange, multipleSelection = true, st
   };
 
   const handleCollapseToggle = () => {
-    setIsCollapsed(!isCollapsed);
+    if (isCollapsible) {
+      setIsCollapsed(!isCollapsed);
+    }
   };
 
-  function handleClick(item, index, event) {
+  const handleClick = (item, index, event) => {
     let updatedSelectedItems;
 
     if (multipleSelection) {
       if (event.ctrlKey || event.metaKey) {
-        if (selectedItems.includes(item)) {
-          updatedSelectedItems = selectedItems.filter(selectedItem => selectedItem !== item);
+        // Toggle selection for ctrl/cmd key click
+        if (selectedItems.some(selectedItem => selectedItem.value === item.value)) {
+          updatedSelectedItems = selectedItems.filter(selectedItem => selectedItem.value !== item.value);
         } else {
           updatedSelectedItems = [...selectedItems, item];
         }
-      } else if (event.shiftKey && shiftClickStartIndex !== null) {
-        const minIndex = Math.min(shiftClickStartIndex, index);
-        const maxIndex = Math.max(shiftClickStartIndex, index);
-        updatedSelectedItems = items.slice(minIndex, maxIndex + 1);
+      } else if (event.shiftKey) {
+        // Range selection for shift key click
+        if (shiftClickStartIndex !== null) {
+          const startIndex = Math.min(shiftClickStartIndex, index);
+          const endIndex = Math.max(shiftClickStartIndex, index);
+          const rangeItems = items.slice(startIndex, endIndex + 1);
+          updatedSelectedItems = Array.from(new Set([...selectedItems, ...rangeItems])); // Ensure unique items
+          setShiftClickStartIndex(null);
+        } else {
+          setShiftClickStartIndex(index);
+          updatedSelectedItems = [...selectedItems, item];
+        }
       } else {
+        // Regular click resets selection to the clicked item
         updatedSelectedItems = [item];
         setShiftClickStartIndex(index);
       }
     } else {
+      // Single selection mode
       updatedSelectedItems = [item];
     }
 
     setSelectedItems(updatedSelectedItems);
     onChange(updatedSelectedItems);
-  }
+  };
 
   return (
     <div style={style}>
@@ -53,11 +69,11 @@ const Picker = ({ title, items, selected, onChange, multipleSelection = true, st
           justifyContent: 'space-between',
           alignItems: 'center',
           padding: '8px',
-          cursor: 'pointer',
+          cursor: isCollapsible ? 'pointer' : 'default',
         }}
         onClick={handleCollapseToggle}
       >
-        {isCollapsed ? <CaretRightOutlined /> : <CaretDownOutlined />}
+        {isCollapsible && (isCollapsed ? <CaretRightOutlined /> : <CaretDownOutlined />)}
         <h3 style={{ marginRight: '5vh' }}>{title}</h3>
         {multipleSelection && (
           <Checkbox
@@ -68,7 +84,7 @@ const Picker = ({ title, items, selected, onChange, multipleSelection = true, st
           </Checkbox>
         )}
       </div>
-      {!isCollapsed && (
+      {(!isCollapsible || !isCollapsed) && (
         <List
           size="small"
           bordered
@@ -77,11 +93,11 @@ const Picker = ({ title, items, selected, onChange, multipleSelection = true, st
             <List.Item
               onClick={(event) => handleClick(item, index, event)}
               style={{
-                backgroundColor: selectedItems.includes(item) ? COLORS.PRIMARYCONTAINER : 'inherit',
+                backgroundColor: selectedItems.some(selectedItem => selectedItem.value === item.value) ? COLORS.PRIMARYCONTAINER : 'inherit',
                 cursor: 'pointer',
               }}
             >
-              {item}
+              {item.label}
             </List.Item>
           )}
           style={{

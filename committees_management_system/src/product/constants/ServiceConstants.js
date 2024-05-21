@@ -8,25 +8,27 @@ const ServiceConstants = {
     MEMBERS: "http://localhost:8080/api/members/",
     PROGRAMS: "http://localhost:8080/api/programs/",
     ROLES: "http://localhost:8080/api/roles/",
-    //FENS Committee
+    // FENS Committee
     ACTIVE_COMMITTEE_MEMBERS: "http://localhost:8080/api/active-committee-members/",
     RETIRED_COMMITTEE_MEMBERS: "http://localhost:8080/api/retired-committee-members/",
     RETIREMENT_REQUESTS: "http://localhost:8080/api/retirement-requests/",
     RETIREMENT_DOCUMENTS: "http://localhost:8080/api/retirement-documents/",
+    // REPORTS
+    REPORT_PROGRAM_INSTRUCTOR: "getInstructorsByProgramAndTerm",
+    // PARAMS
+    COMMITTEES_PARAM: "committees",
+    TERMS_PARAM: "terms",
 
     GET_ALL: "getAll",
     GET_BY_ID: "getById/",
     GET_BY_SUID: "getBySuid/",
     GET_ALL_RETIRED_INFO: "getAllRetiredInfo",
-    RETIREMENT_REQUEST_BY_ID :"retirementRequestById/",
-    COMMITTEES_PARAM: "committees",
+    RETIREMENT_REQUEST_BY_ID: "retirementRequestById/",
     CHANGE_RETIREMENT_REASON: "changeRetirementReason",
-    TERMS_PARAM: "terms",
-    GET_ALL_RETIRED : "getAllRetired",
-    GET_ALL_IN_RETIREMENT_PROCESS:"getAllInRetirementProcess",
+    GET_ALL_RETIRED: "getAllRetired",
+    GET_ALL_IN_RETIREMENT_PROCESS: "getAllInRetirementProcess",
     END_RETIREMENT: "endRetirementProcess",
     ADD_DOCUMENT: "addDocument",
-    TERM_PARAM: "term",
     DELETE: "deleteById/",
     ADD: "add",
     UPDATE: "update"

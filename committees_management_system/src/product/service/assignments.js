@@ -10,16 +10,6 @@ const AssignmentsService = {
         }
     },
 
-    searchByTerm: async (term) => {
-        try {
-            const queryParams = new URLSearchParams();
-            queryParams.append(ServiceConstants.TERM_PARAM, term);
-            return await axios.get(`${ServiceConstants.ASSIGNMENTS}getByTerm?${queryParams.toString()}`);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    },
-
     searchByCommitteeAndTerm: async (committees, terms) => {
         try {
             const queryParams = new URLSearchParams();
@@ -33,7 +23,25 @@ const AssignmentsService = {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    },
+
+
+    getInstructorByProgramAndTerm: async (programs, terms) => {
+        try {
+            const programsParam = programs.join(',');
+            const termsParam = terms.join(',');
+
+            const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.REPORT_PROGRAM_INSTRUCTOR}?programs=${programsParam}&terms=${termsParam}`;
+            console.log(url);
+
+            const response = await axios.get(url);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            throw error;
+        }
     }
+
 };
 
 export default AssignmentsService
