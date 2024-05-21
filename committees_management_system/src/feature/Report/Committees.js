@@ -43,16 +43,15 @@ const Committees = () => {
                 selectedTerms.map(t => t.value)
             );
 
-            console.log(response);
-
-            const organizedData = response.data.map(e => ({
-                key: e.committee,
-                committe: e.committee,
-                facultyMembers: e.instructors.map((i, index) => ({
-                    key: i.fullName,
-                    fullName: i.fullName
-                }))
-            }));
+            const organizedData = response.data.map(item => {
+                const committee = item.committee;
+                const instructors = item.instructors.map(instructor => ({
+                    fullName: instructor.fullName,
+                    terms: instructor.terms.join(',')
+                }));
+                return { committee, instructors };
+            });
+            
             setReportData(organizedData);
             console.log(organizedData);
             setLoading(false);
@@ -84,7 +83,7 @@ const Committees = () => {
     }
 
     const outsideColumns = [columnMapping.committee];
-    const insideColumns = [columnMapping.facultyMember];
+    const insideColumns = [columnMapping.fullName, columnMapping.terms];
 
     return (
         <Spin spinning={isLoading}>
@@ -112,7 +111,7 @@ const Committees = () => {
                 />
             )}
             {!isFilterMode && (<div>
-                <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} dataSource={reportData} getNestedData={record => record.facultyMember} />
+                <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} dataSource={reportData} getNestedData={record => record.instructors} />
                 <PrimaryButton
                     title={StringConstants.BACK}
                     onClick={handleBackButtonClick}
