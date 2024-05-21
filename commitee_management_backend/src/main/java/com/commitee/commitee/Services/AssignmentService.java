@@ -2,12 +2,13 @@ package com.commitee.commitee.Services;
 
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Entities.Committee;
-import com.commitee.commitee.Entities.MailingList;
 import com.commitee.commitee.Entities.Member;
 import com.commitee.commitee.Payload.CommitteesReportPayload;
+import com.commitee.commitee.Payload.ProgramInstructorPayload;
 import com.commitee.commitee.Repositories.AssignmentRepository;
 import com.commitee.commitee.Repositories.CommitteeRepository;
 import com.commitee.commitee.Repositories.MemberRepository;
+import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,4 +106,51 @@ public class AssignmentService {
         return groupedAssignments;
     }
 
+
+    public List<ProgramInstructorPayload> getInstructorByProgramAndTerm(List<String> programs, List<Integer> terms) {
+        List<ProgramInstructorDTO> instructors = assignmentRepository.getInstructorByProgramAndTerm(programs, terms);
+        Map<String, ProgramInstructorPayload> groupedInstructors = new HashMap<>();
+
+        for (ProgramInstructorDTO instructor : instructors) {
+            String program = instructor.getProgram();
+            String fullName = instructor.getFullName();
+            String committee = instructor.getCommittee();
+            int term = instructor.getTerm();
+
+            // Group by program
+            groupedInstructors.computeIfAbsent(program, k -> new ProgramInstructorPayload(program, new ArrayList<>()));
+
+            ProgramInstructorPayload programInstructorPayload = groupedInstructors.get(program);
+
+            // Group by instructor within the program
+            ProgramInstructorPayload.Instructor instructorPayload = programInstructorPayload.getInstructors().stream()
+                    .filter(i -> i.getFullName().equals(fullName))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        ProgramInstructorPayload.Instructor newInstructor = new ProgramInstructorPayload.Instructor(fullName, new ArrayList<>());
+                        programInstructorPayload.getInstructors().add(newInstructor);
+                        return newInstructor;
+                    });
+
+            // Group by committee within the instructor
+            ProgramInstructorPayload.Instructor.CommitteeTerm committeeTerm = instructorPayload.getCommittees().stream()
+                    .filter(c -> c.getCommittee().equals(committee))
+                    .findFirst()
+                    .orElseGet(() -> {
+                        ProgramInstructorPayload.Instructor.CommitteeTerm newCommittee = new ProgramInstructorPayload.Instructor.CommitteeTerm(committee, new ArrayList<>());
+                        instructorPayload.getCommittees().add(newCommittee);
+                        return newCommittee;
+                    });
+
+            // Add term to the committee
+            if (!committeeTerm.getTerms().contains(term)) {
+                committeeTerm.getTerms().add(term);
+            }
+        }
+
+        return new ArrayList<>(groupedInstructors.values());
+    }
 }
+
+
+
