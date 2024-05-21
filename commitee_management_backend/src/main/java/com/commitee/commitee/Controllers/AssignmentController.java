@@ -71,7 +71,7 @@ public class AssignmentController {
 
 
     @GetMapping("/getCommitteeByProgramAndTerm")
-    public ResponseEntity<List<CommitteeTermPayload>> getCommitteeByProgramAndTerm(
+    public ResponseEntity<List<CommitteeTermPayload>> getCommitteeByAndTerm(
             @RequestParam(value = "committee") List<String> committee, @RequestParam(value = "terms")  List<Integer> terms) {
         List<CommitteeTermPayload> result = assignmentService.getCommitteeByProgramAndTerm(committee, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);

@@ -24,6 +24,7 @@ const ServiceConstants = {
     GET_BY_SUID: "getBySuid/",
     GET_ALL_RETIRED_INFO: "getAllRetiredInfo",
     RETIREMENT_REQUEST_BY_ID: "retirementRequestById/",
+    GET_INSTRUCTOR:"getInstructorByProgramAndTerm",
     CHANGE_RETIREMENT_REASON: "changeRetirementReason",
     GET_ALL_RETIRED: "getAllRetired",
     GET_ALL_IN_RETIREMENT_PROCESS: "getAllInRetirementProcess",

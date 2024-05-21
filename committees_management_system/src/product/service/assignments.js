@@ -31,7 +31,7 @@ const AssignmentsService = {
             const programsParam = programs.join(',');
             const termsParam = terms.join(',');
 
-            const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.REPORT_PROGRAM_INSTRUCTOR}?programs=${programsParam}&terms=${termsParam}`;
+            const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.GET_INSTRUCTOR}?programs=${programsParam}&terms=${termsParam}`;
             console.log(url);
 
             const response = await axios.get(url);
