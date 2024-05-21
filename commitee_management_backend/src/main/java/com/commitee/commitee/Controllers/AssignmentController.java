@@ -2,6 +2,7 @@ package com.commitee.commitee.Controllers;
 
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Payload.CommitteeAssignmentPayload;
+import com.commitee.commitee.Payload.CommitteeTermPayload;
 import com.commitee.commitee.Payload.CommitteesReportPayload;
 import com.commitee.commitee.Payload.ProgramInstructorPayload;
 import com.commitee.commitee.Requests.CommitteeRequest;
@@ -62,23 +63,28 @@ public class AssignmentController {
     }
 
     @GetMapping("/getInstructorByProgramAndTerm")
-    public ResponseEntity<List<ProgramInstructorPayload>> getInstructorByProgramAndTerm(@RequestBody  ProgramInstructorRequest request) {
-        List<ProgramInstructorPayload> result = assignmentService.getInstructorByProgramAndTerm(request.getProgram(), request.getTerms());
+    public ResponseEntity<List<ProgramInstructorPayload>> getInstructorByProgramAndTerm(
+            @RequestParam(value = "programs") List<String> program, @RequestParam(value = "terms") List<Integer> terms) {
+        List<ProgramInstructorPayload> result = assignmentService.getInstructorByProgramAndTerm(program, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 
     @GetMapping("/getCommitteeByProgramAndTerm")
-    public ResponseEntity<List<?>> getCommitteeByProgramAndTerm(@RequestBody CommitteeRequest request) {
-        List<?> result = assignmentService.getCommitteeByProgramAndTerm(request.getCommittee(), request.getTerms());
+    public ResponseEntity<List<CommitteeTermPayload>> getCommitteeByProgramAndTerm(
+            @RequestParam(value = "committee") List<String> committee, @RequestParam(value = "terms")  List<Integer> terms) {
+        List<CommitteeTermPayload> result = assignmentService.getCommitteeByProgramAndTerm(committee, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+
     @GetMapping("/getCommitteeAssignment")
-    public ResponseEntity<?> getCommitteeAssignment(@RequestBody  ProgramInstructorRequest request ) {
-        List<?> result = assignmentService.getCommitteeAssignment(request.getProgram(), request.getTerms());
+    public ResponseEntity<List<CommitteeAssignmentPayload>> getCommitteeAssignment(
+            @RequestParam(value = "programs") List<String> program, @RequestParam(value = "terms") List<Integer> terms) {
+        List<CommitteeAssignmentPayload> result = assignmentService.getCommitteeAssignment(program, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
+
 
 
 
