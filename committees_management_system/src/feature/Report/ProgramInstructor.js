@@ -43,15 +43,20 @@ const ProgramInstructor = () => {
         selectedPrograms.map(p => p.value),
         selectedTerms.map(t => t.value)
       );
+      console.log(response);
 
-      const organizedData = response.data.map(e => ({
-        key: e.program,
-        program: e.program,
-        facultyMembers: e.instructors.map((i, index) => ({
-          key: i.id ? `${e.program}-${i.id}` : `${e.program}-index-${index}`,
-          fullName: i.fullName
-        }))
-      }));
+      const organizedData = response.data.map(item => {
+        const key = item.program;
+        const program = item.program;
+        const instructors = item.instructors.map(i => i.committees.map(c => ({
+          fullName: i.fullName,
+          committee: c.committee,
+          terms: c.terms,
+        })));
+        return { key, program, instructors };
+      });
+
+      console.log(organizedData);
 
       setReportData(organizedData);
       setLoading(false);
@@ -60,6 +65,8 @@ const ProgramInstructor = () => {
       setLoading(false);
     }
   };
+
+
 
   useEffect(() => {
     fetchPrograms();
@@ -83,7 +90,13 @@ const ProgramInstructor = () => {
   };
 
   const outsideColumns = [columnMapping.program];
-  const insideColumns = [{ title: 'Faculty Member', dataIndex: 'fullName', key: 'fullName' }];
+
+  const insideColumns = [
+    columnMapping.fullName,
+    columnMapping.committee,
+    columnMapping.terms,
+  ];
+
 
   return (
     <Spin spinning={isLoading}>
@@ -116,7 +129,7 @@ const ProgramInstructor = () => {
             outsideColumns={outsideColumns}
             insideColumns={insideColumns}
             dataSource={reportData}
-            getNestedData={record => record.facultyMembers}
+            getNestedData={record => record.instructors.map(i => ({ ...i }))}
           />
           <PrimaryButton
             title={StringConstants.BACK}

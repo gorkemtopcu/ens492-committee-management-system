@@ -53,8 +53,8 @@ const Committees = () => {
                 return { key, committee, instructors };
             });
 
-            setReportData(organizedData);
             console.log(organizedData);
+            setReportData(organizedData);
             setLoading(false);
         } catch (error) {
             alert(StringConstants.ERROR);

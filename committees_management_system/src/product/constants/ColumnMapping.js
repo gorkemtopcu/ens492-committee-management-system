@@ -1,8 +1,7 @@
 // ColumnMapping.js
 import React from 'react';
-import { Button, Card, Space, Tag } from 'antd';
+import { Button, Space, Tag } from 'antd';
 import COLORS from 'product/constants/ColorConstants';
-import StringConstants from './StringConstants';
 
 // Define your mapping object
 const columnMapping = {
