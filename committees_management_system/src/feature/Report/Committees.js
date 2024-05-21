@@ -44,14 +44,15 @@ const Committees = () => {
             );
 
             const organizedData = response.data.map(item => {
+                const key = item.committee;
                 const committee = item.committee;
                 const instructors = item.instructors.map(instructor => ({
                     fullName: instructor.fullName,
-                    terms: instructor.terms.join(',')
+                    terms: instructor.terms,
                 }));
-                return { committee, instructors };
+                return { key, committee, instructors };
             });
-            
+
             setReportData(organizedData);
             console.log(organizedData);
             setLoading(false);
