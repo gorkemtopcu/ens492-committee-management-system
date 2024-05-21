@@ -5,10 +5,7 @@ import com.commitee.commitee.Payload.CommitteeAssignmentPayload;
 import com.commitee.commitee.Payload.CommitteeTermPayload;
 import com.commitee.commitee.Payload.CommitteesReportPayload;
 import com.commitee.commitee.Payload.ProgramInstructorPayload;
-import com.commitee.commitee.Requests.CommitteeRequest;
-import com.commitee.commitee.Requests.ProgramInstructorRequest;
 import com.commitee.commitee.Services.AssignmentService;
-import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -70,10 +67,10 @@ public class AssignmentController {
     }
 
 
-    @GetMapping("/getCommitteeByProgramAndTerm")
-    public ResponseEntity<List<CommitteeTermPayload>> getCommitteeByAndTerm(
-            @RequestParam(value = "committee") List<String> committee, @RequestParam(value = "terms")  List<Integer> terms) {
-        List<CommitteeTermPayload> result = assignmentService.getCommitteeByProgramAndTerm(committee, terms);
+    @GetMapping("/getByCommitteeAndTerm")
+    public ResponseEntity<List<CommitteeTermPayload>> getByCommitteeAndTerm(
+            @RequestParam(value = "committees") List<String> committees, @RequestParam(value = "terms")  List<Integer> terms) {
+        List<CommitteeTermPayload> result = assignmentService.getByCommitteeAndTerm(committees, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

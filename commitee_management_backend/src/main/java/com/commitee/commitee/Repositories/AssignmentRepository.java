@@ -31,7 +31,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
             "JOIN Member m ON a.member = m.suid " +
             "JOIN Committee c ON a.committee = c.id " +
             "WHERE c.committee IN :committees AND a.term IN :terms")
-    List<CommitteesDTO> getCommitteeByProgramAndTerm(@Param("committees") List<String> committees, @Param("terms") List<Integer> terms);
+    List<CommitteesDTO> getByCommitteeAndTerm(@Param("committees") List<String> committees, @Param("terms") List<Integer> terms);
 
 }
 

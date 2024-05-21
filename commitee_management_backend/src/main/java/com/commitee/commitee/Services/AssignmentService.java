@@ -155,8 +155,8 @@ public class AssignmentService {
     }
 
 
-    public List<CommitteeTermPayload> getCommitteeByProgramAndTerm(List<String> committee, List<Integer> terms) {
-        List<CommitteesDTO> committeesDTOS = assignmentRepository.getCommitteeByProgramAndTerm(committee, terms);
+    public List<CommitteeTermPayload> getByCommitteeAndTerm(List<String> committees, List<Integer> terms) {
+        List<CommitteesDTO> committeesDTOS = assignmentRepository.getByCommitteeAndTerm(committees, terms);
         Map<String, CommitteeTermPayload> groupedCommittees = new HashMap<>();
 
         // Group by committee

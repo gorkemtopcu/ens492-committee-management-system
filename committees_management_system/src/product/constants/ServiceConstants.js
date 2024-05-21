@@ -14,17 +14,19 @@ const ServiceConstants = {
     RETIREMENT_REQUESTS: "http://localhost:8080/api/retirement-requests/",
     RETIREMENT_DOCUMENTS: "http://localhost:8080/api/retirement-documents/",
     // REPORTS
-    REPORT_PROGRAM_INSTRUCTOR: "getInstructorsByProgramAndTerm",
+    REPORT_PROGRAM_INSTRUCTOR: "getInstructorByProgramAndTerm",
+    REPORT_COMMITTEES: "getByCommitteeAndTerm",
     // PARAMS
-    COMMITTEES_PARAM: "committees",
-    TERMS_PARAM: "terms",
+    PARAM_COMMITTEES: "committees=",
+    PARAM_TERMS: "terms=",
+    PARAM_PROGRAMS: "programs=",
 
     GET_ALL: "getAll",
     GET_BY_ID: "getById/",
     GET_BY_SUID: "getBySuid/",
     GET_ALL_RETIRED_INFO: "getAllRetiredInfo",
     RETIREMENT_REQUEST_BY_ID: "retirementRequestById/",
-    GET_INSTRUCTOR:"getInstructorByProgramAndTerm",
+    GET_INSTRUCTOR: "getInstructorByProgramAndTerm",
     CHANGE_RETIREMENT_REASON: "changeRetirementReason",
     GET_ALL_RETIRED: "getAllRetired",
     GET_ALL_IN_RETIREMENT_PROCESS: "getAllInRetirementProcess",

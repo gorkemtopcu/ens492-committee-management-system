@@ -17,13 +17,16 @@ const TableExpandable = ({ outsideColumns, insideColumns, dataSource, getNestedD
               columns={insideColumns}
               dataSource={nestedData}
               pagination={false}
+              rowKey="key"
             />
           );
         },
+        expandedRowKeys: expandedRowKeys,
         onExpand: (expanded, record) => {
           setExpandedRowKeys(expanded ? [...expandedRowKeys, record.key] : expandedRowKeys.filter(key => key !== record.key));
         },
       }}
+      rowKey="key"
     />
   );
 };

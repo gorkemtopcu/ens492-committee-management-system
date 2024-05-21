@@ -1,19 +1,23 @@
 import React, { useEffect, useState } from 'react';
+import { Spin } from 'antd';
 import Terms from 'assets/jsons/report/terms.json';
 import ProductHeader from 'product/components/ProductHeader';
 import PrimaryButton from 'product/components/PrimaryButton';
 import StringConstants from 'product/constants/StringConstants';
 import ProgramService from 'product/service/programs';
-import { Spin } from 'antd';
-import Filter from 'product/components/Filter';
 import AssignmentsService from 'product/service/assignments';
+import { columnMapping } from 'product/constants/ColumnMapping';
+import TableExpandable from 'product/components/TableExpandable';
+import Filter from 'product/components/Filter';
 
 const ProgramInstructor = () => {
+  const [reportData, setReportData] = useState([]);
   const [programsData, setProgramsData] = useState([]);
   const [selectedPrograms, setSelectedPrograms] = useState([]);
   const [selectedTerms, setSelectedTerms] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [isFilterMode, setIsFilterMode] = useState(true);
+
   const isFilterable = () => selectedPrograms.length > 0 && selectedTerms.length > 0;
 
   const fetchPrograms = async () => {
@@ -28,24 +32,34 @@ const ProgramInstructor = () => {
       setLoading(false);
     } catch (error) {
       alert(StringConstants.ERROR);
+      setLoading(false);
     }
   };
 
   const fetchReportData = async () => {
     try {
       setLoading(true);
-      const response = await AssignmentsService.getInstructorByProgramAndTerm(selectedPrograms.map(p => p.value), selectedTerms.map(t => t.value));
-      console.log(response);
-      // const formattedData = response.data.map(program => ({
-      //   value: program.program,
-      //   label: program.programFull
-      // }));
-      // setProgramsData(formattedData);
+      const response = await AssignmentsService.getInstructorByProgramAndTerm(
+        selectedPrograms.map(p => p.value),
+        selectedTerms.map(t => t.value)
+      );
+
+      const organizedData = response.data.map(e => ({
+        key: e.program,
+        program: e.program,
+        facultyMembers: e.instructors.map((i, index) => ({
+          key: i.id ? `${e.program}-${i.id}` : `${e.program}-index-${index}`,
+          fullName: i.fullName
+        }))
+      }));
+
+      setReportData(organizedData);
       setLoading(false);
     } catch (error) {
       alert(StringConstants.ERROR);
+      setLoading(false);
     }
-  }
+  };
 
   useEffect(() => {
     fetchPrograms();
@@ -62,13 +76,14 @@ const ProgramInstructor = () => {
   const handleFilterButtonClick = () => {
     fetchReportData();
     setIsFilterMode(false);
-  }
+  };
 
   const handleBackButtonClick = () => {
-    setSelectedPrograms(null);
-    setSelectedTerms([]);
     setIsFilterMode(true);
-  }
+  };
+
+  const outsideColumns = [columnMapping.program];
+  const insideColumns = [{ title: 'Faculty Member', dataIndex: 'fullName', key: 'fullName' }];
 
   return (
     <Spin spinning={isLoading}>
@@ -95,13 +110,21 @@ const ProgramInstructor = () => {
           isFilterable={isFilterable}
         />
       )}
-      {!isFilterMode && (<div>
-        <PrimaryButton
-          title={StringConstants.BACK}
-          onClick={handleBackButtonClick}
-          style={{ marginTop: '30px' }}
-        />
-      </div>)}
+      {!isFilterMode && (
+        <div>
+          <TableExpandable
+            outsideColumns={outsideColumns}
+            insideColumns={insideColumns}
+            dataSource={reportData}
+            getNestedData={record => record.facultyMembers}
+          />
+          <PrimaryButton
+            title={StringConstants.BACK}
+            onClick={handleBackButtonClick}
+            style={{ marginTop: '30px' }}
+          />
+        </div>
+      )}
     </Spin>
   );
 };
