@@ -1,9 +1,7 @@
 // ColumnMapping.js
 import React from 'react';
-import { Button, Card, Space, Tag } from 'antd';
+import { Button, Space, Tag } from 'antd';
 import COLORS from 'product/constants/ColorConstants';
-import StringConstants from './StringConstants';
-import Search from 'antd/es/transfer/search';
 
 // Define your mapping object
 const columnMapping = {
@@ -160,7 +158,7 @@ const columnMapping = {
             return formattedCommittees;
         }
     },
-    
+
     nextMeetingDate: {
         title: 'Next Meeting Date',
         dataIndex: 'nextMeetingDate',
