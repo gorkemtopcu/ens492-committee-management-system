@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import Terms from 'assets/jsons/report/terms.json';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 import StringConstants from 'product/constants/StringConstants';
-
+import { useNavigate } from 'react-router-dom';
 
 const CommitteeAnnouncement = () => {
     const [selectedTerm, setSelectedTerm] = useState(null);
     const [isButtonEnabled, setIsButtonEnabled] = useState(false);
+
+    const navigate = useNavigate();
 
     const handleTermChange = (terms) => {
         setSelectedTerm(terms);
@@ -16,30 +18,31 @@ const CommitteeAnnouncement = () => {
     };
 
     const handleButtonClick = () => {
-        console.log("Button clicked");
-        alert("Button clicked");
+        navigate('/committee-announcement/byterm', { state: { term: selectedTerm } });
     };
 
     return (
-
         <div>
-            <Header title="Committee Announcement" />
-            <div>
-                <div style={{ width: "300px" }}>
+            <ProductHeader title="Committee Announcement" />
+            <div style={{ display: 'flex', alignItems: 'flex-start' }}>
+                <div style={{ marginRight: '20px' }}>
                     <Picker
                         title={StringConstants.SELECT_TERM}
                         items={Terms}
                         onChange={handleTermChange}
-                        selected={selectedTerm} isCollapsed={undefined} onCollapseToggle={undefined} />
+                        selected={selectedTerm}
+                        multipleSelection={false}
+                    />
                 </div>
-                <PrimaryButton
-                    title={StringConstants.SUBMIT}
-                    onClick={handleButtonClick}
-                    isEnabled={isButtonEnabled}
-                    style={{ marginTop: '15px' }}
-                />
+                <div>
+                    <PrimaryButton
+                        title={StringConstants.SUBMIT}
+                        onClick={handleButtonClick}
+                        isEnabled={isButtonEnabled}
+                        style={{ marginTop: '15px' }}
+                    />
+                </div>
             </div>
-
         </div>
     );
 };

@@ -1,6 +1,7 @@
 package com.commitee.commitee.Controllers;
 
 import com.commitee.commitee.Entities.MailingList;
+import com.commitee.commitee.Entities.Meeting;
 import com.commitee.commitee.Services.MailingListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,13 +23,27 @@ public class MailingListController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<MailingList>> getAllMailingLists() {
-        List<MailingList> mailingLists = mailingListService.getAllMailingLists();
+        List<MailingList> mailingLists = mailingListService.getAll();
         return new ResponseEntity<>(mailingLists, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<MailingList> createMailingList(@RequestBody MailingList mailingList) {
-        MailingList savedMailingList = mailingListService.saveMailingList(mailingList);
+        MailingList savedMailingList = mailingListService.save(mailingList);
         return new ResponseEntity<>(savedMailingList, HttpStatus.CREATED);
     }
+
+    @GetMapping("/findByTerm/{term}")
+    public ResponseEntity<List<MailingList>> findByTerm(@PathVariable String term) {
+        List<MailingList> mailinglist = mailingListService.findByTerm(term);
+        return new ResponseEntity<>(mailinglist, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteMailingList(@PathVariable Long id) {
+        mailingListService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+
 }

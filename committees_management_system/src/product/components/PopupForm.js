@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { Modal, Form, Input, Select } from 'antd';
+import ProductForm from './ProductForm';
 
 const { Option } = Select;
 
@@ -28,34 +29,17 @@ const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) =
             open={open}
             onCancel={handleOnCancel}
             onOk={() => form.submit()}
+            footer={null} 
         >
-            <Form
-                form={form}
-                name="popupForm"
+            <ProductForm
+                initialValues={initialValues}
+                onCancel={handleOnCancel}
+                fields={fields}
                 onFinish={handleOnFinish}
-            >
-                {fields.map((field) => (
-                    <Form.Item
-                        key={field.name}
-                        label={field.label}
-                        name={field.name}
-                        rules={[{ required: field.required, message: `Please input ${field.label}!` }]}
-                    >
-                        {field.type === 'select' ? (
-                            <Select>
-                                {field.options.map((option) => (
-                                    <Option key={option} value={option}>{option}</Option>
-                                ))}
-                            </Select>
-                        ) : field.type === 'textarea' ? (
-                            <Input.TextArea />
-                        ) : (
-                            <Input />
-                        )}
-                    </Form.Item>
-                ))}
-            </Form>
+            />
+        
         </Modal>
+        
     );
 };
 

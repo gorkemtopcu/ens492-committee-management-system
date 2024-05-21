@@ -8,6 +8,7 @@ import CommitteesAssignment from 'feature/Report/CommitteesAssignment';
 import Committees from 'feature/Report/Committees';
 import MeetingParticipation from 'feature/Report/MeetingParticipation';
 import CommitteeAnnouncement from 'feature/Report/CommitteeAnnouncement';
+import CommitteeAnnouncementByTerm from 'feature/Report/CommitteeAnnouncementByTerm';
 import MembersManagement from 'feature/Management/MembersManagement';
 import CommitteesManagement from 'feature/Management/CommitteesManagement';
 import AssignmentsManagement from 'feature/Management/AssignmentsManagement';
@@ -17,6 +18,9 @@ import ListMeeting from 'feature/Meeting/ListMeeting';
 import CreateMeetingNotes from 'feature/Meeting/CreateMeetingNotes';
 import MainCommitee from 'feature/MemberTrackingSystem/MainCommitee';
 import RetirementHistory from 'feature/MemberTrackingSystem/RetirementHistory';
+import AssignmentByTerm from 'feature/Management/AssignmentByTerm';
+import RetirementRequest from 'feature/MemberTrackingSystem/RetirementRequests';
+//import SelectedCommittee from 'feature/Report/SelectedCommittee';
 
 function App() {
   return (
@@ -28,14 +32,17 @@ function App() {
           <Route path="committees-assignment" element={<CommitteesAssignment />} />
           <Route path="meeting-participation" element={<MeetingParticipation />} />
           <Route path="committee-announcement" element={<CommitteeAnnouncement />} />
+          <Route path="committee-announcement/byterm" element={<CommitteeAnnouncementByTerm />} />
           <Route path="mgmt-committees" element={<CommitteesManagement />} />
           <Route path="mgmt-members" element={<MembersManagement />} />
           <Route path="mgmt-assignments" element={<AssignmentsManagement />} />
+          <Route path="mgmt-assignments/byterm" element={<AssignmentByTerm />} />
           <Route path="mgmt-mailing" element={<MailingListsManagement />} />
           <Route path="list-meeting" element={<ListMeeting />} />
-          <Route path="main-commitee" element={< MainCommitee/>} />
-          <Route path="retirement-history" element={< RetirementHistory/>} />
+          <Route path="main-commitee" element={< MainCommitee />} />
+          <Route path="retirement-history" element={< RetirementHistory />} />
           <Route path="create-meeting-notes" element={<CreateMeetingNotes />} />
+          <Route path="retirement-requests" element={<RetirementRequest />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

@@ -16,11 +16,11 @@ public class GroupService {
         this.groupRepository = groupRepository;
     }
 
-    public List<Group> getAllGroups() {
+    public List<Group> getAll() {
         return groupRepository.findAll();
     }
 
-    public Group saveGroup(Group group) {
+    public Group save(Group group) {
         return groupRepository.save(group);
     }
 

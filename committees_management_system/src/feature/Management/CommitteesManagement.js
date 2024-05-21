@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal } from 'antd';
+import { Button, Modal, Spin, message } from 'antd'; // Import message from antd
 import { PlusOutlined } from '@ant-design/icons';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableSearch from 'product/components/TableSearch';
 import PopupForm from 'product/components/PopupForm';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Categories from 'assets/jsons/report/committee_categories.json';
 import CommitteeService from 'product/service/committees';
 import StringConstants from 'product/constants/StringConstants';
@@ -19,25 +19,28 @@ const CommitteesManagement = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const [formActionType, setFormActionType] = useState(null);
+  const [loading, setLoading] = useState(false); 
+  const [updateSuccess, setUpdateSuccess] = useState(false); // State variable for update success message
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [updateSuccess]); // Reload data when updateSuccess changes
 
   const fetchData = async () => {
+    setLoading(true);
     CommitteeService.getAll()
       .then(response => {
         let dataToSet = response.data;
         dataToSet.forEach((item) => {
           item.category = Categories[item.category - 1];
         });
+        setLoading(false);
         setData(dataToSet);
       })
       .catch(error => {
         alert(StringConstants.ERROR);
       });
   };
-
 
   const onDeleteButtonClicked = (record) => {
     Modal.confirm({
@@ -47,7 +50,7 @@ const CommitteesManagement = () => {
       okType: 'danger',
       cancelText: 'No',
       onOk() {
-        // Call deleteById function from CommitteeService
+        setLoading(true);
         CommitteeService.deleteById(record.id)
           .then(() => {
             const updatedData = data.filter(item => item.id !== record.id);
@@ -55,6 +58,9 @@ const CommitteesManagement = () => {
           })
           .catch(error => {
             console.error('Error deleting data:', error);
+          })
+          .finally(() => {
+            setLoading(false);
           });
       },
     });
@@ -93,58 +99,70 @@ const CommitteesManagement = () => {
       about: values.about,
       emailListAddress: values.mailingList,
     };
-    console.log(newCommittee);
+
+    setLoading(true);
     CommitteeService.add(newCommittee)
       .then(() => {
         const updatedData = [...data, newCommittee];
         setData(updatedData);
+        message.success('Committee added successfully'); // Show success message
       })
       .catch(error => {
         console.error('Error adding data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+        handleCancel();
       });
-    handleCancel();
   };
-
-
-
 
   const handleEditCommittee = (values) => {
-    if (!values) {
+    if (!values || !initialValues) {
       return;
     }
-
+  
     const updatedCommittee = {
-      ...initialValues,
+      id: initialValues.id, // Include the ID of the committee being updated
       committee: values.committee,
-      category: values.category,
+      category: Categories.indexOf(values.category) + 1,
       about: values.about,
-      email_list_address: values.mailingList,
+      mailingList: values.mailingList, 
     };
-
-    const updatedData = data.map(item => {
-      if (item.id === initialValues.id) {
-        return updatedCommittee;
-      }
-      return item;
-    });
-
-    setData(updatedData);
-    updateJsonFile(updatedData);
-    handleCancel();
+  
+    setLoading(true);
+    CommitteeService.update(updatedCommittee)
+      .then(() => {
+        const updatedData = data.map(item => {
+          if (item.id === initialValues.id) {
+            return updatedCommittee;
+          }
+          return item;
+        });
+        setData(updatedData);
+        setUpdateSuccess(true); // Trigger data reload
+        message.success('Committee updated successfully'); // Show success message
+      })
+      .catch(error => {
+        console.error('Error updating data:', error);
+      })
+      .finally(() => {
+        setLoading(false);
+        handleCancel();
+      });
   };
 
-
-  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committee_category, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
+  const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committeeCategory, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
   const formFields = [
     { name: 'committee', label: 'Committee', type: 'text', required: true },
-    { name: 'category', label: 'Category', type: 'select', required: false, options: Categories },
+    { name: 'category', label: 'Category', type: 'select', required: false, 
+    options: Categories.map(category => ({ label: category, value: category })) },
     { name: 'about', label: 'About', type: 'textarea', required: false },
     { name: 'mailingList', label: 'Mailing List', type: 'text', required: false },
   ];
 
   return (
-    <div>
-      <Header title="Committees Management" />
+    <Spin spinning={loading}>
+     <ProductHeader title="Committees Management" />
       <div style={{ marginBottom: '20px' }}>
         <Button type="primary" icon={<PlusOutlined />} onClick={onAddButtonClicked}>Add New Committee</Button>
       </div>
@@ -157,7 +175,7 @@ const CommitteesManagement = () => {
         onFinish={formActionType === FormActionTypes.ADD ? handleCreateCommittee : handleEditCommittee}
         fields={formFields}
       />
-    </div>
+    </Spin>
   );
 };
 

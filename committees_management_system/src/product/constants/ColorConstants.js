@@ -10,6 +10,8 @@ const COLORS = {
     WARNING: '#ffc107',
     INFO: '#17a2b8',
     DISABLED: '#ced4da',
+    FORESTGREEN: '#228B22',
+    SEAGREEN: '#2E8B57'
 };
 
 export default COLORS;

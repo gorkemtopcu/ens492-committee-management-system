@@ -16,13 +16,16 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public List<Member> getAllMembers() {
+    public List<Member> getAll() {
         return memberRepository.findAll();
     }
 
-    public Member saveMember(Member member) {
+    public Member save(Member member) {
         return memberRepository.save(member);
     }
 
-    // Other methods for updating and deleting members can be added here
+    public Member getById(int suid) {
+        return memberRepository.findById(suid).orElse(null);
+    }
+
 }

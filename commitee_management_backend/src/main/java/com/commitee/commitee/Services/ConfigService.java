@@ -16,11 +16,11 @@ public class ConfigService {
         this.configRepository = configRepository;
     }
 
-    public Config saveConfig(Config config) {
+    public Config save(Config config) {
         return configRepository.save(config);
     }
 
-    public List<Config> getAllConfigs() {
+    public List<Config> getAll() {
         return configRepository.findAll();
     }
 

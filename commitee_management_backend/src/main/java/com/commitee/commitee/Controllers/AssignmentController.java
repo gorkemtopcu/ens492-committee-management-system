@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +24,7 @@ public class AssignmentController {
 
     @GetMapping("/getAll")
     public ResponseEntity<List<Assignment>> getAllAssignments() {
-        List<Assignment> assignments = assignmentService.getAllAssignments();
+        List<Assignment> assignments = assignmentService.getAll();
         return new ResponseEntity<>(assignments, HttpStatus.OK);
     }
 
@@ -35,11 +34,26 @@ public class AssignmentController {
         return new ResponseEntity<>(savedAssignment, HttpStatus.CREATED);
     }
 
+    @GetMapping("/findByTerm/{term}")
+    public ResponseEntity<List<Assignment>> findByTerm(@PathVariable Integer term) {
+        List<Assignment> assignments = assignmentService.findByTerm(term);
+        return new ResponseEntity<>(assignments, HttpStatus.OK);
+    }
+
     @GetMapping("/getCommitteesWithMembersAndTerms")
     public ResponseEntity<?> getCommitteesWithMembersAndTerms(
             @RequestParam(value = "committees", required = false) List<Integer> committees,
             @RequestParam(value = "terms", required = false) List<Integer> terms) {
-        Map<String, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService.getCommitteesWithMembersAndTerms(committees, terms);
+        Map<String, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService
+                .getCommitteesWithMembersAndTerms(committees, terms);
         return new ResponseEntity<>(groupedAssignments, HttpStatus.OK);
     }
+
+    @GetMapping("/getAllCommitteesWithMembersAndTerms")
+    public ResponseEntity<?> getCommitteesWithMembersAndTerms(@RequestParam(value = "terms") List<Integer> terms) {
+        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService
+                .getAllCommitteesWithMembersAndTerms(terms);
+        return new ResponseEntity<>(groupedAssignments, HttpStatus.OK);
+    }
+
 }

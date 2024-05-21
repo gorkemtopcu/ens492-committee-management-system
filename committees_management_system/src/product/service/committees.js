@@ -26,6 +26,17 @@ const CommitteeService = {
             console.error('Error adding data:', error);
         }
     },
+
+    update: async (data) => {
+        try {
+            return await axios.put(ServiceConstants.COMMITTEES + ServiceConstants.UPDATE +"/" + data.id, data);
+        } catch (error) {
+            console.error('Error updating data:', error);
+        }
+    }
+    
+
+    
 };
 
 export default CommitteeService

@@ -17,11 +17,11 @@ public class ProgramService {
         this.programRepository = programRepository;
     }
 
-    public List<Program> getAllPrograms() {
+    public List<Program> getAll() {
         return programRepository.findAll();
     }
 
-    public Program saveProgram(Program program) {
+    public Program save(Program program) {
         return programRepository.save(program);
     }
 

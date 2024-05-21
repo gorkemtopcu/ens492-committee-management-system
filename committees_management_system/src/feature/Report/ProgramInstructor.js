@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Programs from 'assets/jsons/report/programs.json';
 import Terms from 'assets/jsons/report/terms.json';
-import Header from 'product/components/Header';
+import ProductHeader from 'product/components/ProductHeader';
 import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 import StringConstants from 'product/constants/StringConstants';
@@ -32,26 +32,24 @@ const ProgramInstructor = () => {
 
   return (
     <div>
-      <Header title="Program/Term Select" />
+      <ProductHeader title="Program/Term Select" />
       <div style={{ display: 'flex', justifyContent: 'flex-start', gap: '50px', marginBottom: "50px" }}>
         <Picker
           title={StringConstants.SELECT_PROGRAM}
           items={Programs}
           onChange={handleProgramChange}
-          selected={selectedProgram}
-        />
+          selected={selectedProgram} />
         <Picker
           title={StringConstants.SELECT_TERM}
           items={Terms}
           onChange={handleTermChange}
-          selected={selectedTerm}
-        />
+          selected={selectedTerm} />
       </div>
 
       <PrimaryButton
-        title="Submit"
+        title={StringConstants.SUBMIT}
         onClick={handleButtonClick}
-        isEnabled={isButtonEnabled} style={undefined}      />
+        isEnabled={isButtonEnabled} style={undefined} />
     </div>
   );
 };
