@@ -3,6 +3,7 @@ package com.commitee.commitee.Services;
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Entities.Committee;
 import com.commitee.commitee.Entities.Member;
+import com.commitee.commitee.Payload.CommitteeAssignmentPayload;
 import com.commitee.commitee.Payload.CommitteeTermPayload;
 import com.commitee.commitee.Payload.CommitteesReportPayload;
 import com.commitee.commitee.Payload.ProgramInstructorPayload;
@@ -188,6 +189,44 @@ public class AssignmentService {
         }
 
         return new ArrayList<>(groupedCommittees.values());
+    }
+
+    public List<CommitteeAssignmentPayload> getCommitteeAssignment(List<String> programs, List<Integer> terms) {
+        List<ProgramInstructorDTO> instructors = assignmentRepository.getInstructorByProgramAndTerm(programs, terms);
+        Map<String, CommitteeAssignmentPayload> groupedPrograms = new HashMap<>();
+
+        // Group by program
+        for (ProgramInstructorDTO instructor : instructors) {
+            String program = instructor.getProgram();
+            String fullName = instructor.getFullName();
+            String committee = instructor.getCommittee();
+
+            // If the program does not exist in the map, add it
+            groupedPrograms.putIfAbsent(program, new CommitteeAssignmentPayload(program, new ArrayList<>()));
+
+            // Get the program payload
+            CommitteeAssignmentPayload programPayload = groupedPrograms.get(program);
+
+            // Find the instructor in the program payload
+            CommitteeAssignmentPayload.Instructor instructorPayload = programPayload.getInstructors()
+                    .stream()
+                    .filter(i -> i.getFullName().equals(fullName))
+                    .findFirst()
+                    .orElse(null);
+
+            // If the instructor does not exist, create and add them
+            if (instructorPayload == null) {
+                instructorPayload = new CommitteeAssignmentPayload.Instructor(fullName, new ArrayList<>());
+                programPayload.getInstructors().add(instructorPayload);
+            }
+
+            // Add the committee to the instructor's list of committees if not already present
+            if (!instructorPayload.getCommittees().contains(committee)) {
+                instructorPayload.getCommittees().add(committee);
+            }
+        }
+
+        return new ArrayList<>(groupedPrograms.values());
     }
 }
 
