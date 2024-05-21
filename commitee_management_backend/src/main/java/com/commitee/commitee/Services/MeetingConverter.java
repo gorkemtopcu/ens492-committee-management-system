@@ -39,7 +39,6 @@ public class MeetingConverter {
 
     // Convert JSON string to List<String>
     private static List<String> parseParticipants(String participantsJson) throws IOException {
-
         return objectMapper.readValue(participantsJson, new TypeReference<List<String>>() {});
     }
 

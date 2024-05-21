@@ -12,6 +12,6 @@ import java.util.List;
 @Setter
 @Getter
 public class CommitteeRequest {
-    List<String> committee;
+    List<String> committees;
     List<Integer> terms;
 }

@@ -41,7 +41,7 @@ public class MeetingController {
 
     @GetMapping("/getMeetingByCommitteeAndTerm")
     public ResponseEntity<List<?>> getMeetingByCommitteeAndTerm(
-            @RequestParam(value = "committee") List<String> committee, @RequestParam(value = "terms")  List<Integer> terms) {
+            @RequestParam(value = "committees") List<String> committee, @RequestParam(value = "terms")  List<Integer> terms) {
         List<?> result = meetingService.getMeetingByCommitteeAndTerm(committee, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
