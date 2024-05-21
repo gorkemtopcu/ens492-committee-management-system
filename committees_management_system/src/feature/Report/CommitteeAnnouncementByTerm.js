@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { Table } from 'antd';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import PrimaryButton from 'product/components/PrimaryButton';
@@ -12,7 +11,7 @@ import TableExpandable from 'product/components/TableExpandable';
 import { columnMapping } from 'product/constants/ColumnMapping';
 
 const CommitteeAnnouncementByTerm = () => {
-    
+
     const navigate = useNavigate();
     const location = useLocation();
     const [dataSource, setDataSource] = useState([]);

@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import { Modal, Form, Input, Select } from 'antd';
+import { Modal, Form } from 'antd';
 import ProductForm from './ProductForm';
 
-const { Option } = Select;
 
 const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) => {
     const [form] = Form.useForm();
@@ -29,7 +28,7 @@ const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) =
             open={open}
             onCancel={handleOnCancel}
             onOk={() => form.submit()}
-            footer={null} 
+            footer={null}
         >
             <ProductForm
                 initialValues={initialValues}
@@ -37,9 +36,9 @@ const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) =
                 fields={fields}
                 onFinish={handleOnFinish}
             />
-        
+
         </Modal>
-        
+
     );
 };
 

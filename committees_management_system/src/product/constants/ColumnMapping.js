@@ -1,7 +1,8 @@
 // ColumnMapping.js
 import React from 'react';
-import { Button, Space } from 'antd';
+import { Button, Card, Space, Tag } from 'antd';
 import COLORS from 'product/constants/ColorConstants';
+import StringConstants from './StringConstants';
 
 // Define your mapping object
 const columnMapping = {
@@ -144,7 +145,7 @@ const columnMapping = {
         key: 'earlyRetirement',
         render: (exclude) => (
             <span>{exclude ? 'Yes' : 'No'}</span>
-        ),    
+        ),
     },
     status: {
         title: 'Status',
@@ -163,7 +164,8 @@ const columnMapping = {
         key: 'retired',
         render: (exclude) => (
             <span>{exclude ? 'Yes' : 'No'}</span>
-        ),    },
+        ),
+    },
     exclude: {
         title: 'Exclude',
         dataIndex: 'exclude',
@@ -225,13 +227,8 @@ const columnMapping = {
         searchable: true,
         render: (terms) => {
             if (!terms || terms.length === 0) return null;
-            // Split terms by every two characters to get the year and term number
-            const formattedTerms = terms
-                .match(/.{1,2}/g) // Split terms into pairs of characters
-                .map(term => `20${term.substr(0, 2)}${term.substr(2)}`) // Format year and term number
-                .sort((a, b) => parseInt(b) - parseInt(a)); // Sort terms in descending order
-            // Join the formatted terms with commas
-            return formattedTerms.join(', ');
+            const formattedTerms = terms.map(term => <Tag key={term} color={COLORS.PRIMARY_LIGHT}>{term}</Tag>);
+            return formattedTerms;
         },
     },
 };

@@ -10,30 +10,27 @@ const AssignmentsService = {
         }
     },
 
-    searchByTerm: async (term) => {
+    getInstructorByProgramAndTerm: async (programs, terms) => {
         try {
-            const queryParams = new URLSearchParams();
-            queryParams.append(ServiceConstants.TERM_PARAM, term);
-            return await axios.get(`${ServiceConstants.ASSIGNMENTS}getByTerm?${queryParams.toString()}`);
+            const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.REPORT_PROGRAM_INSTRUCTOR}?${ServiceConstants.PARAM_PROGRAMS}${programs.join(',')}&${ServiceConstants.PARAM_TERMS}${terms.join(',')}`;
+            return await axios.get(url);
         } catch (error) {
             console.error('Error fetching data:', error);
+            throw error;
         }
     },
 
-    searchByCommitteeAndTerm: async (committees, terms) => {
+    getByCommitteeAndTerm: async (committees, terms) => {
         try {
-            const queryParams = new URLSearchParams();
-            committees.forEach(committee => {
-                queryParams.append(ServiceConstants.COMMITTEES_PARAM, committee);
-            });
-            terms.forEach(term => {
-                queryParams.append(ServiceConstants.TERMS_PARAM, term);
-            });
-            return await axios.get(`${ServiceConstants.ASSIGNMENTS}getCommitteesWithMembersAndTerms?${queryParams.toString()}`);
+            const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.REPORT_COMMITTEES}?${ServiceConstants.PARAM_COMMITTEES}${committees.join(',')}&${ServiceConstants.PARAM_TERMS}${terms.join(',')}`;
+            console.log(url);
+            return await axios.get(url);
         } catch (error) {
             console.error('Error fetching data:', error);
+            throw error;
         }
     }
+
 };
 
 export default AssignmentsService

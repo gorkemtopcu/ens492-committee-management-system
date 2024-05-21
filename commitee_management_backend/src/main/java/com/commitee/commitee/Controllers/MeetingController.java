@@ -1,6 +1,7 @@
 package com.commitee.commitee.Controllers;
 
 import com.commitee.commitee.Entities.Meeting;
+import com.commitee.commitee.Payload.CommitteeTermPayload;
 import com.commitee.commitee.Services.MeetingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,5 +39,11 @@ public class MeetingController {
         return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
 
-    // Other controller methods for updating and deleting meetings can be added here
+    @GetMapping("/getMeetingByCommitteeAndTerm")
+    public ResponseEntity<List<?>> getMeetingByCommitteeAndTerm(
+            @RequestParam(value = "committee") List<String> committee, @RequestParam(value = "terms")  List<Integer> terms) {
+        List<?> result = meetingService.getMeetingByCommitteeAndTerm(committee, terms);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 }
