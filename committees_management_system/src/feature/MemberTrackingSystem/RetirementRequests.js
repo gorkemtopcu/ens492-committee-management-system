@@ -103,15 +103,13 @@ const RetirementRequest = () => {
     const handleCancel = (form) => {
         setModalInitialValues(null);
         setModalVisible(false);
-        form.resetFields();
     };
 
     const tableColumns = [
         columnMapping.requestId,
-        columnMapping.suid,
+        columnMapping.fullName,
         columnMapping.requestDate,
-        columnMapping.closed,
-        columnMapping.status,
+        columnMapping.duration,
         columnMapping.retirementProcess(handleRetirementProcessButtonClick),
     ];
 

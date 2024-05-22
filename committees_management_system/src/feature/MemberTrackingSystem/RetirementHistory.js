@@ -5,6 +5,8 @@ import StringConstants from 'product/constants/StringConstants';
 import { Spin } from 'antd';
 import RetirementRequestService from 'product/service/retirement_request';
 import PopupForm from 'product/components/PopupForm';
+import RetirementDocumentsService from 'product/service/retirement_documents';
+import FileUtils from 'product/utils/file_utils';
 
 const RetirementHistory = () => {
     const [loading, setLoading] = useState(false);
@@ -31,27 +33,66 @@ const RetirementHistory = () => {
             });
     };
 
-    const handleSubmit = async () => {
-
+    const addDocument = async (document) => {
+        setLoading(true);
+        try {
+            const response = await RetirementDocumentsService.add(document);
+            return response.data;
+        } catch (error) {
+            alert(StringConstants.ERROR);
+            throw error;
+        } finally {
+            setLoading(false);
+        }
     }
 
-    const handleCancel = async () => {
+    const handleSubmit = async (values, form) => {
+        try {
+            for (const d of values.attachment) {
+                const documentData = {
+                    documentType: FileUtils.getDocumentType(d.name),
+                    filePath: d.name,
+                    requestId: values.requestId,
+                };
+                await addDocument(documentData);
+            }
+            setModalInitialValues(null);
+            setModalVisible(false);
+            fetchData();
+        } catch (error) {
+            console.error('Error finishing retirement:', error);
+        }
+    };
 
-    }
+    const handleCancel = () => {
+        setModalInitialValues(null);
+        setModalVisible(false);
+    };
 
-    const handleEditButtonClick = async () => {
-
+    const handleEditButtonClick = async (values) => {
+        setLoading(true);
+        RetirementDocumentsService.getByRequestId(values.requestId)
+            .then(response => {
+                setModalInitialValues({
+                    requestId: values.requestId,
+                    suid: values.suid,
+                });
+            })
+            .catch(error => {
+                console.error('Error adding data:', error);
+            })
+            .finally(() => {
+                setLoading(false);
+                setModalVisible(true);
+            });
     }
 
     const tableFields = [
-        columnMapping.suid,
         columnMapping.fullName,
         columnMapping.email,
         columnMapping.program,
         columnMapping.duration,
-        columnMapping.createdAt,
         columnMapping.earlyRetirement,
-        columnMapping.retired,
         columnMapping.action(handleEditButtonClick, null),
     ];
 

@@ -28,7 +28,7 @@ public class RetirementRequestController {
     }
 
     @GetMapping("/getAllInRetirementProcess")
-    public List<RetirementRequest> getAllActiveRequests() {
+    public List<RetiredCommitteeMemberDTO> getAllActiveRequests() {
         return retirementRequestService.getAllActive();
     }
 

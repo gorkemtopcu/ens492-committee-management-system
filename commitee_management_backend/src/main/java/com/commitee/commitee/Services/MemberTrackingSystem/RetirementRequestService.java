@@ -87,7 +87,7 @@ public class RetirementRequestService {
         }
         retiredCommitteeMember.setRetired(true);
         retiredCommitteeMember.setRetiredAt(LocalDateTime.now());
-        if(ChronoUnit.SECONDS.between(retiredCommitteeMember.getCreatedAt(), LocalDateTime.now()) > 0) {
+        if (retiredCommitteeMember.getCreatedAt().plusYears(retiredCommitteeMember.getDuration()).isAfter(LocalDateTime.now())) {
             retiredCommitteeMember.setEarlyRetirement(true);
         }
 
@@ -98,7 +98,7 @@ public class RetirementRequestService {
         return ResponseEntity.status(HttpStatus.OK).body(save(retirementRequest));
     }
 
-    public List<RetirementRequest> getAllActive() {
+    public List<RetiredCommitteeMemberDTO> getAllActive() {
         return repository.findAllActiveRequests();
     }
 

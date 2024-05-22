@@ -13,11 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RetiredCommitteeMemberDTO {
+    private int requestId;
     private int suid;
     private String fullName;
     private String email;
     private String program;
     private LocalDateTime retiredAt;
+    private LocalDateTime requestDate;
     private int duration;
     private LocalDateTime createdAt;
     private boolean earlyRetirement;
