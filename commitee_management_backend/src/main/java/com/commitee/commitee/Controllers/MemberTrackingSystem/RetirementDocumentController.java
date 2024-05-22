@@ -25,6 +25,11 @@ public class RetirementDocumentController {
         return retirementDocumentService.getById(documentId);
     }
 
+    @GetMapping("/getByRequestId/{requestId}")
+    public List<RetirementDocument> getRetirementDocumentsByRequestId(@PathVariable int requestId) {
+        return retirementDocumentService.getByRequestId(requestId);
+    }
+
     @GetMapping("/getBySuid/{suid}")
     public List<RetirementDocument> getRetirementDocumentsBySuid(@PathVariable int suid) {
         return retirementDocumentService.getBySuid(suid);

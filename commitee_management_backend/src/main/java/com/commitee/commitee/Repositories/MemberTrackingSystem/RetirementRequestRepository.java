@@ -17,7 +17,7 @@ public interface RetirementRequestRepository extends JpaRepository<RetirementReq
     @Query("SELECT new com.commitee.commitee.dto.RetiredCommitteeMemberDTO(r.suid, m.fullName, m.email, m.program, rm.retiredAt, rm.duration, rm.createdAt, rm.earlyRetirement, rm.retired) " +
             "FROM RetirementRequest r " +
             "JOIN Member m ON r.suid = m.suid " +
-            "LEFT JOIN RetiredCommitteeMember rm ON r.suid = rm.suid "
-           )
+            "LEFT JOIN RetiredCommitteeMember rm ON r.suid = rm.suid " +
+            "WHERE rm.retired = true")
     List<RetiredCommitteeMemberDTO> findAllRetiredInfo();
 }

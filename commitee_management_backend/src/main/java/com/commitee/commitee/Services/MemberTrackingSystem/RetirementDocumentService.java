@@ -42,4 +42,6 @@ public class RetirementDocumentService {
         }
         return Collections.emptyList();
     }
+
+    public List<RetirementDocument> getByRequestId(int requestId) {return repository.findByRequestId(requestId);}
 }

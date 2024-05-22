@@ -10,6 +10,14 @@ const RetirementDocumentsService = {
         }
     },
 
+    getByRequestId: async (id) => {
+        try {
+            return await axios.get(ServiceConstants.RETIREMENT_DOCUMENTS + ServiceConstants.GET_BY_REQUEST_ID + id);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    },
+
     add: async (document) => {
         try {
             console.log(document);

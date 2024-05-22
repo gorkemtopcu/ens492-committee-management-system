@@ -60,7 +60,7 @@ const RetirementRequest = () => {
 
     const handleRetirementProcessButtonClick = (values) => {
         setLoading(true);
-        RetirementDocumentsService.getBySuid(values.suid)
+        RetirementDocumentsService.getByRequestId(values.requestId)
             .then(response => {
                 setModalInitialValues({
                     requestId: values.requestId,
