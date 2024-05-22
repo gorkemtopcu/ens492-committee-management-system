@@ -104,7 +104,6 @@ const CreateMeetingNotes = () => {
         });
 
         setCreateMeetingLoading(false);
-        form.resetFields();
         setFileList([]);
     };
 
@@ -116,7 +115,6 @@ const CreateMeetingNotes = () => {
             okType: 'danger',
             cancelText: 'No',
             onOk() {
-                form.resetFields();
                 setFileList([]);
             },
         });

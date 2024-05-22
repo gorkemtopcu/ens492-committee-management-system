@@ -60,7 +60,7 @@ const AssignmentsManagement = () => {
 
   return (
     <Spin spinning={isLoading}>
-        <ProductHeader title={`Assignments Management` }/>
+      <ProductHeader title={`Assignments Management`} />
       {isFilterMode && (
         <Filter
           filterProps={[
@@ -69,7 +69,7 @@ const AssignmentsManagement = () => {
               items: Terms.map(term => ({ value: term, label: term })),
               onChange: handleSelectedTermsChange,
               selected: selectedTerms,
-              multipleSelection: true
+              multipleSelection: false,
             }
           ]}
           handleFilterButtonClick={handleFilterButtonClick}
@@ -82,7 +82,7 @@ const AssignmentsManagement = () => {
             outsideColumns={outsideColumns}
             insideColumns={insideColumns}
             dataSource={reportData}
-            getNestedData={record => record.instructors} 
+            getNestedData={record => record.instructors}
           />
           <PrimaryButton
             title={StringConstants.BACK}
