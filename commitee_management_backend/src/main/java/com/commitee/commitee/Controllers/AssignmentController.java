@@ -1,11 +1,9 @@
 package com.commitee.commitee.Controllers;
 
 import com.commitee.commitee.Entities.Assignment;
-import com.commitee.commitee.Payload.CommitteeAssignmentPayload;
-import com.commitee.commitee.Payload.CommitteeTermPayload;
-import com.commitee.commitee.Payload.CommitteesReportPayload;
-import com.commitee.commitee.Payload.ProgramInstructorPayload;
+import com.commitee.commitee.Payload.*;
 import com.commitee.commitee.Services.AssignmentService;
+import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -37,25 +35,12 @@ public class AssignmentController {
         return new ResponseEntity<>(savedAssignment, HttpStatus.CREATED);
     }
 
-    @GetMapping("/findByTerm/{term}")
-    public ResponseEntity<List<Assignment>> findByTerm(@PathVariable Integer term) {
-        List<Assignment> assignments = assignmentService.findByTerm(term);
-        return new ResponseEntity<>(assignments, HttpStatus.OK);
-    }
-
     @GetMapping("/getCommitteesWithMembersAndTerms")
     public ResponseEntity<?> getCommitteesWithMembersAndTerms(
             @RequestParam(value = "committees", required = false) List<Integer> committees,
             @RequestParam(value = "terms", required = false) List<Integer> terms) {
         Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService
                 .getCommitteesWithMembersAndTerms(committees, terms);
-        return new ResponseEntity<>(groupedAssignments, HttpStatus.OK);
-    }
-
-    @GetMapping("/getAllCommitteesWithMembersAndTerms")
-    public ResponseEntity<?> getCommitteesWithMembersAndTerms(@RequestParam(value = "terms") List<Integer> terms) {
-        Map<Integer, Map<Integer, CommitteesReportPayload>> groupedAssignments = assignmentService
-                .getAllCommitteesWithMembersAndTerms(terms);
         return new ResponseEntity<>(groupedAssignments, HttpStatus.OK);
     }
 
@@ -80,6 +65,12 @@ public class AssignmentController {
             @RequestParam(value = "programs") List<String> program, @RequestParam(value = "terms") List<Integer> terms) {
         List<CommitteeAssignmentPayload> result = assignmentService.getCommitteeAssignment(program, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @GetMapping("/getByTerm/{term}")
+    public ResponseEntity<List<AssignmentPayload>> findByTerm(@PathVariable Integer term) {
+        List<AssignmentPayload> result = assignmentService.findByTerm(term);
+        return ResponseEntity.ok(result);
     }
 
 

@@ -12,11 +12,15 @@ import java.util.List;
 
 @Repository
 public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
-    List<Assignment> findByTerm(Integer term);
-
     List<Assignment> findByCommitteeInAndTermIn(List<Integer> committees, List<Integer> terms);
 
-    List<Assignment> findByTermIn(List<Integer> terms);
+    @Query("SELECT new com.commitee.commitee.dto.ProgramInstructorDTO(m.fullName, m.program, c.committee, a.term) " +
+            "FROM Assignment a " +
+            "JOIN Member m ON a.member = m.suid " +
+            "JOIN Committee c ON a.committee = c.id " +
+            "WHERE a.term = :term")
+    List<ProgramInstructorDTO> getInstructorByTerm(@Param("term") Integer term);
+
 
     @Query("SELECT new com.commitee.commitee.dto.ProgramInstructorDTO(m.fullName, m.program, c.committee, a.term) " +
             "FROM Assignment a " +
