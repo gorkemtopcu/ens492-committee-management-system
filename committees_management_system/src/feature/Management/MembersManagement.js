@@ -3,35 +3,35 @@ import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import PopupForm from 'product/components/PopupForm';
 import ProductHeader from 'product/components/ProductHeader';
-import { Spin } from 'antd'; 
+import { Spin } from 'antd';
 
 import UNIVERSITY_PROGRAMS from 'product/constants/ProgramConstants';
 import MembersService from 'product/service/members';
 import StringConstants from 'product/constants/StringConstants';
-import { wait } from '@testing-library/user-event/dist/utils';
 
 const MembersManagement = () => {
     const [data, setData] = useState([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [initialValues, setInitialValues] = useState(null);
     const [popupTitle, setPopupTitle] = useState(null);
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         fetchData();
     }, []);
 
     const fetchData = async () => {
-        setLoading(true); // Set loading to true before fetching data
+        setLoading(true);
         MembersService.getAll()
             .then(response => {
+                response.data.map(e => { if (e.exclude === null) { e.exclude = false; } });
                 setData(response.data);
             })
             .catch(error => {
                 alert(StringConstants.ERROR);
             })
             .finally(() => {
-                setLoading(false); // Set loading to false after data is fetched
+                setLoading(false);
             });
     };
 
@@ -57,23 +57,24 @@ const MembersManagement = () => {
             fullName: values.fullName,
             email: values.email,
             program: values.program,
-            exclude: values.exclude === "Yes" ? true : false,
+            exclude: values.exclude,
         };
-        setLoading(true); 
-        MembersService.update(updatedMember) 
-        .then(response => {
-            console.log(response);
-            fetchData();
-        })
-        .catch(error => {
-            alert(StringConstants.ERROR);
-        })
-        .finally(() => {
-            setLoading(false); // Set loading to false after data is fetched
-        });
 
-        
-        handleCancel();
+        console.log(updatedMember);
+
+        setLoading(true);
+        MembersService.update(updatedMember)
+            .then(response => {
+                console.log(response);
+                fetchData();
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            })
+            .finally(() => {
+                setLoading(false);
+                handleCancel();
+            });
     }
 
     const fields = [
@@ -87,25 +88,29 @@ const MembersManagement = () => {
 
     return (
         <Spin spinning={loading}>
-           <ProductHeader title="Members Management" />
+            <ProductHeader title="Members Management" />
             <TableSearch columns={fields} data={data} />
             <PopupForm
                 title={popupTitle}
                 open={modalVisible}
-                initialValues={initialValues} 
+                initialValues={initialValues}
                 onCancel={handleCancel}
                 onFinish={handleEditMember}
                 fields={[
                     { name: 'suid', label: 'SU ID', type: 'text', readOnly: true },
                     { name: 'fullName', label: 'Member Name', type: 'text', required: true },
                     { name: 'email', label: 'Email of User', type: 'text', required: false },
-                    { name: 'program', label: 'Program Name', type: 'select', required: true, options: 
-                    UNIVERSITY_PROGRAMS.map(program => ({ label: program, value: program }))},
-                    { name: 'exclude', label: 'Exclude', type: 'select', required: true, options:
-                     [{label: "Yes", value: "yes"}, {label: "No", value: "no"}] },
+                    {
+                        name: 'program', label: 'Program Name', type: 'select', required: false, options:
+                            UNIVERSITY_PROGRAMS.map(program => ({ label: program, value: program }))
+                    },
+                    {
+                        name: 'exclude', label: 'Exclude', type: 'select', required: true, options:
+                            [{ label: "Yes", value: true }, { label: "No", value: false }]
+                    },
                 ]}
             />
-      </Spin>
+        </Spin>
     );
 };
 
