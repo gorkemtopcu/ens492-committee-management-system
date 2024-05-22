@@ -47,6 +47,9 @@ const MeetingParticipation = () => {
                     id: item.id,
                     suid: item.suid,
                     fullName: item.fullName,
+                    committee: item.committee,
+                    numberOfMeetings: item.numberOfMeetings,
+                    numberOfMeetingsAttended: item.numberOfMeetingsAttended,
                     term: item.term,
                 }));
                 setReportData(organizedData);
@@ -80,7 +83,7 @@ const MeetingParticipation = () => {
         value: item.fullName,
     }));
 
-    const insideColumns = [columnMapping.fullName, columnMapping.suid, columnMapping.meetingId, columnMapping.term];
+    const insideColumns = [columnMapping.fullName, columnMapping.suid, columnMapping.committee, columnMapping.term, columnMapping.numberOfMeetings, columnMapping.numberOfMeetingsAttended];
 
     return (
         <Spin spinning={isLoading}>

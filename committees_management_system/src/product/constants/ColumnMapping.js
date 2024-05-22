@@ -154,6 +154,18 @@ const columnMapping = {
         key: 'place',
         searchable: true,
     },
+    numberOfMeetings: {
+        title: 'Number of Meetings',
+        dataIndex: 'numberOfMeetings',
+        key: 'numberOfMeetings',
+        searchable: true,
+    },
+    numberOfMeetingsAttended: {
+        title: 'Number of Meetings Attended',
+        dataIndex: 'numberOfMeetingsAttended',
+        key: 'numberOfMeetingsAttended',
+        searchable: true,
+    },
     decisions: {
         title: 'Decisions',
         dataIndex: 'decisions',
