@@ -7,6 +7,7 @@ import com.commitee.commitee.Payload.*;
 import com.commitee.commitee.Repositories.AssignmentRepository;
 import com.commitee.commitee.Repositories.CommitteeRepository;
 import com.commitee.commitee.Repositories.MemberRepository;
+import com.commitee.commitee.dto.CommitteeAnnouncementDTO;
 import com.commitee.commitee.dto.CommitteesDTO;
 import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -223,6 +224,51 @@ public class AssignmentService {
 
         return new ArrayList<>(groupedPrograms.values());
     }
+
+    public List<CommitteeAnnouncementPayload> getInstructorWithInfoByTerm(Integer term) {
+        // Map the committee to their instructors
+        List<CommitteeAnnouncementDTO> instructors = assignmentRepository.getInstructorWithInfoByTerm(term);
+        Map<String, CommitteeAnnouncementPayload> groupedPrograms = new HashMap<>();
+
+        // Group by committee
+        for (CommitteeAnnouncementDTO instructor : instructors) {
+            String committee = instructor.getCommittee();
+            String fullName = instructor.getFullName();
+            String role = instructor.getRole();
+            String program = instructor.getProgram();
+            int order = instructor.getOrder();
+
+            // If the committee does not exist in the map, add it
+            if (!groupedPrograms.containsKey(committee)) {
+                groupedPrograms.put(committee, new CommitteeAnnouncementPayload(committee, new ArrayList<>()));
+            }
+
+            // Get the committee payload
+            CommitteeAnnouncementPayload committeePayload = groupedPrograms.get(committee);
+
+            // Find the instructor in the committee payload
+            CommitteeAnnouncementPayload.Instructor instructorPayload = committeePayload.getInstructors()
+                    .stream()
+                    .filter(i -> i.getFullName().equals(fullName))
+                    .findFirst()
+                    .orElse(null);
+
+            // If the instructor does not exist, create and add them
+            if (instructorPayload == null) {
+                instructorPayload = new CommitteeAnnouncementPayload.Instructor(fullName, term, program, role, order);
+                committeePayload.getInstructors().add(instructorPayload);
+            } else {
+                // If the instructor exists, update their information
+                instructorPayload.setTerm(term);
+                instructorPayload.setRole(role);
+                instructorPayload.setOrder(order);
+                instructorPayload.setProgram(program);
+            }
+        }
+
+        return new ArrayList<>(groupedPrograms.values());
+    }
+
 }
 
 

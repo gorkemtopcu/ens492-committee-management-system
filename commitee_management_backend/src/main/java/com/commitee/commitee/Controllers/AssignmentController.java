@@ -3,7 +3,6 @@ package com.commitee.commitee.Controllers;
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Payload.*;
 import com.commitee.commitee.Services.AssignmentService;
-import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,6 +72,11 @@ public class AssignmentController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/getCommitteeAnnouncement/{term}")
+    public ResponseEntity<List<CommitteeAnnouncementPayload>> getCommitteeAnnouncement(@PathVariable Integer term) {
+        List<CommitteeAnnouncementPayload> result = assignmentService.getInstructorWithInfoByTerm(term);
+        return ResponseEntity.ok(result);
+    }
 
 
 

@@ -46,6 +46,15 @@ const AssignmentsService = {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    },
+
+    getCommitteeAnnoucement: async (term) => {
+        try {
+            return await axios.get(ServiceConstants.ASSIGNMENTS + ServiceConstants.REPORT_COMMITTEE_ANNOUNCEMENT + term);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+            throw error;
+        }
     }
 
 };
