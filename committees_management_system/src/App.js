@@ -18,7 +18,6 @@ import ListMeeting from 'feature/Meeting/ListMeeting';
 import CreateMeetingNotes from 'feature/Meeting/CreateMeetingNotes';
 import MainCommitee from 'feature/MemberTrackingSystem/MainCommitee';
 import RetirementHistory from 'feature/MemberTrackingSystem/RetirementHistory';
-import AssignmentByTerm from 'feature/Management/AssignmentByTerm';
 import RetirementRequest from 'feature/MemberTrackingSystem/RetirementRequests';
 //import SelectedCommittee from 'feature/Report/SelectedCommittee';
 
@@ -36,7 +35,6 @@ function App() {
           <Route path="mgmt-committees" element={<CommitteesManagement />} />
           <Route path="mgmt-members" element={<MembersManagement />} />
           <Route path="mgmt-assignments" element={<AssignmentsManagement />} />
-          <Route path="mgmt-assignments/byterm" element={<AssignmentByTerm />} />
           <Route path="mgmt-mailing" element={<MailingListsManagement />} />
           <Route path="list-meeting" element={<ListMeeting />} />
           <Route path="main-commitee" element={< MainCommitee />} />
