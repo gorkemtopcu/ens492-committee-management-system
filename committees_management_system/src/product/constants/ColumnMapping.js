@@ -23,6 +23,12 @@ const columnMapping = {
         key: 'id',
         searchable: true,
     },
+    meetingId: {
+        title: 'Meeting ID',
+        dataIndex: 'id',
+        key: 'id',
+        searchable: true,
+    },
     committee: {
         title: 'Committee',
         dataIndex: 'committee',
@@ -122,6 +128,12 @@ const columnMapping = {
         title: 'Started At',
         dataIndex: 'startedAt',
         key: 'startedAt',
+        searchable: true,
+    },
+    term: {
+        title: 'Term',
+        dataIndex: 'term',
+        key: 'term',
         searchable: true,
     },
     createdAt: {

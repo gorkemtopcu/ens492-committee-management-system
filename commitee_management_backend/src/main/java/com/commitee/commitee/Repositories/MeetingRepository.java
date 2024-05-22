@@ -2,6 +2,7 @@ package com.commitee.commitee.Repositories;
 
 import com.commitee.commitee.Entities.Meeting;
 import com.commitee.commitee.dto.MeetingDTO;
+import com.commitee.commitee.dto.MeetingParticipationDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -23,4 +24,13 @@ public interface MeetingRepository extends JpaRepository<Meeting, Long> {
             "JOIN Member mem ON m.createdBy = mem.suid " +
             "WHERE c.committee IN :committees AND m.term IN :terms")
     List<MeetingDTO> getMeetingByCommitteeAndTerm(@Param("committees") List<String> committees, @Param("terms") List<Integer> terms);
+
+    @Query("SELECT new com.commitee.commitee.dto.MeetingParticipationDTO(m.id, c.committee, m.participants, m.term) " +
+            "FROM Meeting m " +
+            "JOIN Committee c ON m.committee = c.id " +
+            "WHERE m.term IN :terms")
+    List<MeetingParticipationDTO> getMeetingByMemberAndTerm(List<Integer> terms);
+
+
+
 }

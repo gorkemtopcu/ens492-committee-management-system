@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import Terms from 'assets/jsons/report/terms.json';
 import ProductHeader from 'product/components/ProductHeader';
-import Picker from 'product/components/Picker';
 import PrimaryButton from 'product/components/PrimaryButton';
 import StringConstants from 'product/constants/StringConstants';
-import { useNavigate } from 'react-router-dom';
 import { Spin } from 'antd';
 import AssignmentsService from 'product/service/assignments';
 import { columnMapping } from 'product/constants/ColumnMapping';
@@ -63,8 +61,8 @@ const CommitteeAnnouncement = () => {
     const insideColumns = [columnMapping.fullName, columnMapping.role, columnMapping.program];
       
     return (
-        <Spin spinning={isLoading}>
-            <ProductHeader title={`Committee Announcement` }/>
+    <Spin spinning={isLoading}>
+      <ProductHeader title={`Committee Announcement` }/>
       {isFilterMode && (
         <Filter
           filterProps={[
@@ -73,7 +71,7 @@ const CommitteeAnnouncement = () => {
               items: Terms.map(term => ({ value: term, label: term })),
               onChange: handleSelectedTermsChange,
               selected: selectedTerms,
-              multipleSelection: true
+              multipleSelection: false
             }
           ]}
           handleFilterButtonClick={handleFilterButtonClick}
@@ -94,8 +92,8 @@ const CommitteeAnnouncement = () => {
             style={{ marginTop: '30px' }}
           />
         </div>
-      )}
-        </Spin>
+    )}
+  </Spin>
         
     );
 };

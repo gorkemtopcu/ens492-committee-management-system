@@ -82,7 +82,7 @@ const AssignmentsManagement = () => {
             outsideColumns={outsideColumns}
             insideColumns={insideColumns}
             dataSource={reportData}
-            getNestedData={record => record.instructors} // Correctly accessing instructors data
+            getNestedData={record => record.instructors} 
           />
           <PrimaryButton
             title={StringConstants.BACK}
