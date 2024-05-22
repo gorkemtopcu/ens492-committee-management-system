@@ -8,7 +8,6 @@ import CommitteesAssignment from 'feature/Report/CommitteesAssignment';
 import Committees from 'feature/Report/Committees';
 import MeetingParticipation from 'feature/Report/MeetingParticipation';
 import CommitteeAnnouncement from 'feature/Report/CommitteeAnnouncement';
-import CommitteeAnnouncementByTerm from 'feature/Report/CommitteeAnnouncementByTerm';
 import MembersManagement from 'feature/Management/MembersManagement';
 import CommitteesManagement from 'feature/Management/CommitteesManagement';
 import AssignmentsManagement from 'feature/Management/AssignmentsManagement';
@@ -31,7 +30,6 @@ function App() {
           <Route path="committees-assignment" element={<CommitteesAssignment />} />
           <Route path="meeting-participation" element={<MeetingParticipation />} />
           <Route path="committee-announcement" element={<CommitteeAnnouncement />} />
-          <Route path="committee-announcement/byterm" element={<CommitteeAnnouncementByTerm />} />
           <Route path="mgmt-committees" element={<CommitteesManagement />} />
           <Route path="mgmt-members" element={<MembersManagement />} />
           <Route path="mgmt-assignments" element={<AssignmentsManagement />} />

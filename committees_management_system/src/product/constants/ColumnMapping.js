@@ -29,6 +29,12 @@ const columnMapping = {
         key: 'committee',
         searchable: true,
     },
+    role: {
+        title: 'Committee Role',
+        dataIndex: 'role',
+        key: 'role',
+        searchable: true,
+    },
     committeeName: {
         title: 'Committee Name',
         dataIndex: 'committeeName',

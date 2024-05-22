@@ -1,6 +1,7 @@
 package com.commitee.commitee.Repositories;
 
 import com.commitee.commitee.Entities.Assignment;
+import com.commitee.commitee.dto.CommitteeAnnouncementDTO;
 import com.commitee.commitee.dto.CommitteesDTO;
 import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,6 +21,15 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
             "JOIN Committee c ON a.committee = c.id " +
             "WHERE a.term = :term")
     List<ProgramInstructorDTO> getInstructorByTerm(@Param("term") Integer term);
+
+
+    @Query("SELECT new com.commitee.commitee.dto.CommitteeAnnouncementDTO(m.fullName, m.program, c.committee, a.term, r.role, r.order) " +
+            "FROM Assignment a " +
+            "JOIN Member m ON a.member = m.suid " +
+            "JOIN Committee c ON a.committee = c.id " +
+            "JOIN Role r ON a.role = r.id " +
+            "WHERE a.term = :term")
+    List<CommitteeAnnouncementDTO> getInstructorWithInfoByTerm(@Param("term") Integer term);
 
 
     @Query("SELECT new com.commitee.commitee.dto.ProgramInstructorDTO(m.fullName, m.program, c.committee, a.term) " +
