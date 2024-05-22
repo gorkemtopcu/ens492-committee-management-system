@@ -134,8 +134,7 @@ const CommitteesManagement = () => {
           }
           return item;
         });
-        setData(updatedData);
-        setUpdateSuccess(true);
+        fetchData();
         message.success('Committee updated successfully');
       })
       .catch(error => {

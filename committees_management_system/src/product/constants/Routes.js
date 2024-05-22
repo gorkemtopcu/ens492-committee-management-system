@@ -7,9 +7,9 @@ import {
 
 const CommitteeRoutes = [
     {
-        key: 'reports-do',
+        key: 'reports',
         icon: <BarChartOutlined />,
-        label: 'Reports (DO)',
+        label: 'Reports',
         children: [
             {
                 key: 'program-instructor',
@@ -30,14 +30,7 @@ const CommitteeRoutes = [
                 key: 'meeting-participation',
                 icon: <BarChartOutlined />,
                 label: 'Meeting Participation',
-            }
-        ]
-    },
-    {
-        key: 'reports',
-        icon: <BarChartOutlined />,
-        label: 'Reports',
-        children: [
+            },
             {
                 key: 'committee-announcement',
                 icon: <BarChartOutlined />,
