@@ -19,7 +19,7 @@ const CommitteesManagement = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const [formActionType, setFormActionType] = useState(null);
-  const [loading, setLoading] = useState(false); 
+  const [loading, setLoading] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false); // State variable for update success message
 
   useEffect(() => {
@@ -64,10 +64,6 @@ const CommitteesManagement = () => {
           });
       },
     });
-  };
-
-  const updateJsonFile = (updatedData) => {
-    localStorage.setItem('committeesData', JSON.stringify(updatedData));
   };
 
   const onEditButtonClicked = (record) => {
@@ -120,15 +116,15 @@ const CommitteesManagement = () => {
     if (!values || !initialValues) {
       return;
     }
-  
+
     const updatedCommittee = {
       id: initialValues.id, // Include the ID of the committee being updated
       committee: values.committee,
       category: Categories.indexOf(values.category) + 1,
       about: values.about,
-      mailingList: values.mailingList, 
+      mailingList: values.mailingList,
     };
-  
+
     setLoading(true);
     CommitteeService.update(updatedCommittee)
       .then(() => {
@@ -139,8 +135,8 @@ const CommitteesManagement = () => {
           return item;
         });
         setData(updatedData);
-        setUpdateSuccess(true); // Trigger data reload
-        message.success('Committee updated successfully'); // Show success message
+        setUpdateSuccess(true);
+        message.success('Committee updated successfully');
       })
       .catch(error => {
         console.error('Error updating data:', error);
@@ -154,15 +150,17 @@ const CommitteesManagement = () => {
   const tableColumns = [columnMapping.id, columnMapping.committee, columnMapping.committeeCategory, columnMapping.action(onEditButtonClicked, onDeleteButtonClicked)];
   const formFields = [
     { name: 'committee', label: 'Committee', type: 'text', required: true },
-    { name: 'category', label: 'Category', type: 'select', required: false, 
-    options: Categories.map(category => ({ label: category, value: category })) },
+    {
+      name: 'category', label: 'Category', type: 'select', required: false,
+      options: Categories.map(category => ({ label: category, value: category }))
+    },
     { name: 'about', label: 'About', type: 'textarea', required: false },
     { name: 'mailingList', label: 'Mailing List', type: 'text', required: false },
   ];
 
   return (
     <Spin spinning={loading}>
-     <ProductHeader title="Committees Management" />
+      <ProductHeader title="Committees Management" />
       <div style={{ marginBottom: '20px' }}>
         <Button type="primary" icon={<PlusOutlined />} onClick={onAddButtonClicked}>Add New Committee</Button>
       </div>

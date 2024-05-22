@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Table, Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons';
+import COLORS from 'product/constants/ColorConstants';
 
 const TableSearch = ({ columns, data }) => {
   const [searchText, setSearchText] = useState('');
@@ -24,11 +25,11 @@ const TableSearch = ({ columns, data }) => {
         />
       </div>
     ),
-    filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? '#1890ff' : undefined }} />,
+    filterIcon: (filtered) => <SearchOutlined style={{ color: filtered ? COLORS.PRIMARY : undefined }} />,
     onFilter: (value, record) =>
       record[dataIndex]
         ? record[dataIndex].toString().toLowerCase().includes(value.toLowerCase())
-        : '',
+        : false,
     render: (text) =>
       searchedColumn === dataIndex ? (
         <span>{text}</span>
@@ -52,6 +53,7 @@ const TableSearch = ({ columns, data }) => {
       columns.some(
         (col) =>
           col.searchable &&
+          record[col.dataIndex] &&
           record[col.dataIndex]
             .toString()
             .toLowerCase()
@@ -62,12 +64,9 @@ const TableSearch = ({ columns, data }) => {
 
   return (
     <div style={{ maxHeight: 800, overflow: 'auto' }}> {/* Adjust maxHeight and overflow as needed */}
-
-    <Table columns={columnsWithSearch} dataSource={filteredData} />
+      <Table columns={columnsWithSearch} dataSource={filteredData} />
     </div>
-
-  )
-  ;
+  );
 };
 
 export default TableSearch;
