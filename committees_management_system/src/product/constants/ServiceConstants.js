@@ -23,9 +23,11 @@ const ServiceConstants = {
     PARAM_COMMITTEES: "committees=",
     PARAM_TERMS: "terms=",
     PARAM_PROGRAMS: "programs=",
+    PARAM_MEMBERS: "members=",
 
     //Mail List
     MEETING_LIST: "getMeetingByCommitteeAndTerm",
+    MEETING_MEMBER_TERM: "getMeetingByMemberAndTerm",
 
     GET_ALL: "getAll",
     GET_BY_ID: "getById/",

@@ -1,6 +1,7 @@
 package com.commitee.commitee.Repositories;
 
 import com.commitee.commitee.Entities.Assignment;
+import com.commitee.commitee.Entities.Committee;
 import com.commitee.commitee.dto.CommitteeAnnouncementDTO;
 import com.commitee.commitee.dto.CommitteesDTO;
 import com.commitee.commitee.dto.ProgramInstructorDTO;
@@ -47,5 +48,18 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
             "WHERE c.committee IN :committees AND a.term IN :terms")
     List<CommitteesDTO> getByCommitteeAndTerm(@Param("committees") List<String> committees, @Param("terms") List<Integer> terms);
 
+    @Query("SELECT new com.commitee.commitee.dto.CommitteesDTO(m.fullName, m.program, c.committee, a.term) " +
+            "FROM Assignment a " +
+            "JOIN Member m ON a.member = m.suid " +
+            "JOIN Committee c ON a.committee = c.id " +
+            "WHERE c.committee = :committee AND a.term = :term")
+    List<Assignment> findByCommitteeAndTerm(String committee, String term);
+
+    @Query("SELECT new com.commitee.commitee.Entities.Committee(c.id, c.committee, c.category, c.about, c.emailListAddress, c.createdAt)" +
+            "FROM Assignment a " +
+            "JOIN Member m ON a.member = m.suid " +
+            "JOIN Committee c ON a.committee = c.id " +
+            "WHERE m.suid = :member")
+    List<Committee> getCommitteesByMember(@Param("member") Integer member);
 }
 

@@ -6,11 +6,9 @@ import CommitteeService from 'product/service/committees';
 import Terms from 'assets/jsons/report/terms.json';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
-import TableExpandable from 'product/components/TableExpandable';
 import PrimaryButton from 'product/components/PrimaryButton';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import MeetingsService from 'product/service/meetings';
-import TableVertical from 'product/components/TableVertical';
 import TableSearch from 'product/components/TableSearch';
 
 const ListMeeting = () => {

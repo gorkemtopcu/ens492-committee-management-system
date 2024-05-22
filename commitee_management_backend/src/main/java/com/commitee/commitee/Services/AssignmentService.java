@@ -269,6 +269,13 @@ public class AssignmentService {
         return new ArrayList<>(groupedPrograms.values());
     }
 
+    public List<Assignment> findByCommitteeAndTerm(String committee, String term) {
+        return assignmentRepository.findByCommitteeAndTerm(committee, term);
+    }
+
+    public List<Committee> getCommitteesByMember(Integer member) {
+        return assignmentRepository.getCommitteesByMember(member);
+    }
 }
 
 

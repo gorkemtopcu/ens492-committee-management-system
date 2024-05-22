@@ -38,6 +38,13 @@ public class MeetingController {
         List<Meeting> meetings = meetingService.findByTerm(term);
         return new ResponseEntity<>(meetings, HttpStatus.OK);
     }
+    @GetMapping("/getMeetingByMemberAndTerm")
+    public ResponseEntity<List<?>> getMeetingByMemberAndTerm(
+            @RequestParam(value = "members") List<Integer> members, @RequestParam(value = "terms")  List<Integer> terms) {
+        List<?> result = meetingService.getMeetingByMemberAndTerm(members, terms);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
 
     @GetMapping("/getMeetingByCommitteeAndTerm")
     public ResponseEntity<List<?>> getMeetingByCommitteeAndTerm(

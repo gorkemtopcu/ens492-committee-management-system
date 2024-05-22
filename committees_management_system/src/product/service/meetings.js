@@ -26,6 +26,16 @@ const MeetingsService = {
         } catch (error) {
             console.error('Error fetching data:', error);
         }
+    },
+
+    getByMemberIdAndTerm: async (members, terms) => {
+        try {
+            const url = `${ServiceConstants.MEETINGS}${ServiceConstants.MEETING_MEMBER_TERM}?${ServiceConstants.PARAM_TERMS}${terms.join(',')}&${ServiceConstants.PARAM_MEMBERS}${members.join(',')}`;
+            console.log(url);
+            return await axios.get(url);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     }
 };
 
