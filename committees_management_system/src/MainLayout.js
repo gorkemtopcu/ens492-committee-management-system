@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { IoMdNotifications } from "react-icons/io";
 import CommitteeRoutes from './product/constants/Routes';
 import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
+import UserProfileWithNotification from 'product/components/UserProfileWithNotification';
 
 const { Header, Sider, Content } = Layout;
 
@@ -49,36 +50,20 @@ const MainLayout = () => {
                 />
             </Sider>
             <Layout style={{ marginLeft: collapsed ? 80 : 250 }}>
-                <Header
-                    className="d-flex justify-content-between ps-2 pe-5"
-                    style={{ padding: 0, background: colorBgContainer }}>
-                    <Button
-                        type="text"
-                        icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                        onClick={() => setCollapsed(!collapsed)}
-                        style={{
-                            fontSize: '16px',
-                            width: 64,
-                            height: 64,
-                        }}
-                    />
-                    <div className="d-sm-flex gap-3 align-items-center" style={{ marginTop: '20px' }}>
-                        <div className="position-relative">
-                            <IoMdNotifications className="fs-4" />
-                            <span className="badge bg-warning rounded-circle p-1 position-absolute"> 3</span>
-                        </div>
-                        <div>
-                            <div className="d-flex gap-3 align-items-center">
-                                <img width={32}
-                                    height={32}
-                                    src="https://img.freepik.com/free-icon/user_318-563642.jpg?w=360" alt="" />
-                            </div>
-                        </div>
-                        <div className="user-info">
-                        <h5 className="mb-0">Username</h5>
-                        <p className="mb-0">username@sabanciuniv.edu</p>
-                        </div>
-                    </div>
+            <Header className="d-flex justify-content-between ps-2 pe-5" style={{ padding: 0, background: colorBgContainer }}>
+                <Button
+                    type="text"
+                    icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+                    onClick={() => setCollapsed(!collapsed)}
+                    style={{
+                    fontSize: '16px',
+                    width: 64,
+                    height: 64,
+                    }}
+                />
+                <div className="header-right" style={{ display: 'flex', alignItems: 'center', maxHeight: '60px', padding: '0', borderRadius: '0' }}>
+                <UserProfileWithNotification />
+                </div>
                 </Header>
                 <Content
                     style={{
