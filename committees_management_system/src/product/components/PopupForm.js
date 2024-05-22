@@ -2,33 +2,34 @@ import React, { useEffect } from 'react';
 import { Modal, Form } from 'antd';
 import ProductForm from './ProductForm';
 
-
 const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) => {
     const [form] = Form.useForm();
 
     useEffect(() => {
         if (open && initialValues) {
             form.setFieldsValue(initialValues);
+        } else {
+            form.resetFields();
         }
     }, [open, initialValues, form]);
 
     const handleOnFinish = (values) => {
         form.resetFields();
-        onFinish(values);
+        onFinish(values, form);
     };
 
     const handleOnCancel = () => {
         form.resetFields();
-        onCancel();
-    }
+        onCancel(form);
+    };
 
     return (
         <Modal
             title={title}
             open={open}
             onCancel={handleOnCancel}
-            onOk={() => form.submit()}
             footer={null}
+            destroyOnClose
         >
             <ProductForm
                 initialValues={initialValues}
@@ -36,9 +37,7 @@ const PopupForm = ({ title, open, initialValues, onCancel, onFinish, fields }) =
                 fields={fields}
                 onFinish={handleOnFinish}
             />
-
         </Modal>
-
     );
 };
 

@@ -28,7 +28,7 @@ public class RetirementRequestController {
     }
 
     @GetMapping("/getAllInRetirementProcess")
-    public List<RetirementRequest> getAllActiveRequests() {
+    public List<RetiredCommitteeMemberDTO> getAllActiveRequests() {
         return retirementRequestService.getAllActive();
     }
 
@@ -86,7 +86,6 @@ public class RetirementRequestController {
     public ResponseEntity<RetirementRequest> endRetirementProcess(@PathVariable int requestId) {
         return  retirementRequestService.retireByRequestId(requestId);
     }
-
 
     @DeleteMapping("/deleteById/{requestId}")
     public void deleteRetirementRequest(@PathVariable int requestId) {

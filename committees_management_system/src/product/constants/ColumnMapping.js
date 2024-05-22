@@ -137,7 +137,7 @@ const columnMapping = {
         searchable: true,
     },
     createdAt: {
-        title: 'Started At',
+        title: 'Created At',
         dataIndex: 'createdAt',
         key: 'createdAt',
         searchable: true,

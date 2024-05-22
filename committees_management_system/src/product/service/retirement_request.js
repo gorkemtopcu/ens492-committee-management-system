@@ -23,6 +23,13 @@ const RetirementRequestService = {
             console.error('Error fetching data:', error);
         }
     },
+    endRetirementProcess: async (requestId) => {
+        try {
+            return await axios.delete(ServiceConstants.RETIREMENT_REQUESTS + ServiceConstants.END_RETIREMENT_PROCESS + requestId);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 };
 
 export default RetirementRequestService

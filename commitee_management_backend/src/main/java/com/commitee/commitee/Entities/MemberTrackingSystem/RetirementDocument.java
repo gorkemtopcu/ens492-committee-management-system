@@ -28,4 +28,9 @@ public class RetirementDocument {
     private String filePath;
 
     private LocalDateTime uploadedDate;
+
+    @PrePersist
+    protected void onCreate() {
+        uploadedDate = LocalDateTime.now();
+    }
 }
