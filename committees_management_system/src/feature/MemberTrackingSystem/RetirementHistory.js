@@ -3,30 +3,28 @@ import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import StringConstants from 'product/constants/StringConstants';
 import { Spin } from 'antd';
-import RetirementRequest from './RetirementRequests';
 import RetirementRequestService from 'product/service/retirement_request';
 
 const RetirementHistory = () => {
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
 
 
     useEffect(() => {
         fetchData();
-      }, []);
-    
-      const fetchData = async () => {
-        setLoading(true); // Set loading to true before fetching data
+    }, []);
+
+    const fetchData = async () => {
+        setLoading(true);
         RetirementRequestService.getAllRetiredInfo()
-        .then(response => {
+            .then(response => {
                 setData(response.data);
-                console.log(response.data);
             })
             .catch(error => {
                 alert(StringConstants.ERROR);
             })
             .finally(() => {
-                setLoading(false); // Set loading to false after data is fetched
+                setLoading(false);
             });
     };
 

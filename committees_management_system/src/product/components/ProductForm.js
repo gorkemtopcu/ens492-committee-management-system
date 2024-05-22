@@ -15,6 +15,9 @@ const ProductForm = ({ initialValues = null, onCancel, onFinish, fields }) => {
         form.resetFields();
         if (initialValues) {
             form.setFieldsValue(initialValues);
+            setFileList(initialValues.attachment || []);
+        } else {
+            setFileList([]);
         }
     }, [initialValues, form]);
 
@@ -23,11 +26,13 @@ const ProductForm = ({ initialValues = null, onCancel, onFinish, fields }) => {
             ...values,
             attachment: fileList
         };
-        onFinish(formData, form, setFileList);
+        onFinish(formData);
     };
 
     const handleCancel = () => {
-        onCancel(form, setFileList);
+        form.resetFields();
+        setFileList([]);
+        onCancel();
     };
 
     const handleSearchSelect = (value) => {
@@ -60,13 +65,14 @@ const ProductForm = ({ initialValues = null, onCancel, onFinish, fields }) => {
                     rules={[{ required: field.required, message: `Please input ${field.label}!` }]}
                 >
                     {field.type === 'textarea' ? (
-                        <Input.TextArea />
+                        <Input.TextArea readOnly={field.readOnly} />
                     ) : field.type === 'select' ? (
-                        <Select>
+                        <Select
+                            disabled={field.readOnly}
                             filterOption={(input, option) =>
                                 option.label.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
-
+                        >
                             {field.options.map((option) => (
                                 <Option key={option.value} value={option.value} label={option.label}>{option.label}</Option>
                             ))}
@@ -75,6 +81,7 @@ const ProductForm = ({ initialValues = null, onCancel, onFinish, fields }) => {
                         <Select
                             mode="multiple"
                             placeholder="Please select"
+                            disabled={field.readOnly}
                             filterOption={(input, option) =>
                                 option.label.toString().toLowerCase().indexOf(input.toLowerCase()) >= 0
                             }
@@ -84,25 +91,26 @@ const ProductForm = ({ initialValues = null, onCancel, onFinish, fields }) => {
                             ))}
                         </Select>
                     ) : field.type === 'date' ? (
-                        <DatePicker style={{ width: '100%' }} />
+                        <DatePicker style={{ width: '100%' }} disabled={field.readOnly} />
                     ) : field.type === 'search' ? (
                         <ProductSearch options={field.options} onSelect={handleSearchSelect} />
                     ) : field.type === 'file' ? (
                         <Dragger
                             fileList={fileList}
                             onChange={handleUploadChange}
-                            beforeUpload={() => false} // Prevent automatic upload
+                            beforeUpload={() => false}
+                            disabled={field.readOnly}
                         >
                             <p className="ant-upload-drag-icon">
                                 <InboxOutlined />
                             </p>
                             <p className="ant-upload-text">Click or drag file to this area to upload</p>
                             <p className="ant-upload-hint">
-                                Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files
+                                Support for a single or bulk upload. Strictly prohibit from uploading company data or other banned files
                             </p>
                         </Dragger>
                     ) : (
-                        <Input />
+                        <Input readOnly={field.readOnly} />
                     )}
                 </Form.Item>
             ))}

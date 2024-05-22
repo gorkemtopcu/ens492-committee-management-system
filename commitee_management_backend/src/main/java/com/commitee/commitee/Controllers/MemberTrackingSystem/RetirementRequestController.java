@@ -87,7 +87,6 @@ public class RetirementRequestController {
         return  retirementRequestService.retireByRequestId(requestId);
     }
 
-
     @DeleteMapping("/deleteById/{requestId}")
     public void deleteRetirementRequest(@PathVariable int requestId) {
         retirementRequestService.deleteById(requestId);

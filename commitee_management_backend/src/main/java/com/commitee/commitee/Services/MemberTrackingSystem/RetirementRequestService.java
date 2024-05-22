@@ -91,7 +91,6 @@ public class RetirementRequestService {
             retiredCommitteeMember.setEarlyRetirement(true);
         }
 
-
         retiredCommitteeMemberService.save(retiredCommitteeMember);
         retirementRequest.setStatus(ENDED);
         retirementRequest.setClosedDate(LocalDateTime.now());

@@ -9,7 +9,15 @@ const RetirementDocumentsService = {
             console.error('Error fetching data:', error);
         }
     },
-   
+
+    add: async (document) => {
+        try {
+            console.log(document);
+            return await axios.post(ServiceConstants.RETIREMENT_DOCUMENTS + ServiceConstants.ADD, document);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    }
 };
 
 export default RetirementDocumentsService

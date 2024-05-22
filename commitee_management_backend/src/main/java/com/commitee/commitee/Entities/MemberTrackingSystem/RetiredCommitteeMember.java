@@ -1,10 +1,7 @@
 package com.commitee.commitee.Entities.MemberTrackingSystem;
 
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,5 +32,4 @@ public class RetiredCommitteeMember {
 
     @Column(columnDefinition = "BIT(1)")
     private Boolean retired;
-
 }
