@@ -44,7 +44,8 @@ const ServiceConstants = {
     DELETE: "deleteById/",
     DELETE_ASSIGNMENT: "deleteAssignment/",
     ADD: "add",
-    UPDATE: "update"
+    UPDATE: "update",
+    DUPLICATE_TERM: "duplicateTerm",
 };
 
 export default ServiceConstants;

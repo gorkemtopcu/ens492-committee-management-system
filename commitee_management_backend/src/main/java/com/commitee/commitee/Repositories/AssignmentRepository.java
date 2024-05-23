@@ -63,5 +63,7 @@ public interface AssignmentRepository extends JpaRepository<Assignment, Long> {
     List<Committee> getCommitteesByMember(@Param("member") Integer member);
 
     Assignment findByCommitteeAndMemberAndTerm(int committee, Integer member, Integer term);
+
+    List<Assignment> findByTerm(Integer fromTerm);
 }
 

@@ -323,6 +323,34 @@ public class AssignmentService {
         Assignment savedAssignment = assignmentRepository.save(newAssignment);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedAssignment);
     }
+
+    public ResponseEntity<?> duplicateTerm(Integer fromTerm, Integer toTerm) {
+        if(fromTerm.equals(toTerm)) {
+            return ResponseEntity.badRequest().body("Cannot duplicate to the same term");
+        }
+
+        if(fromTerm > toTerm) {
+            return ResponseEntity.badRequest().body("Cannot duplicate to a term that is greater than the current term");
+        }
+        List<Assignment> assignments = assignmentRepository.findByTerm(fromTerm);
+        List<Assignment> existingAssignments = assignmentRepository.findByTerm(toTerm);
+
+        if(existingAssignments != null && !existingAssignments.isEmpty()) {
+            return ResponseEntity.badRequest().body("Cannot duplicate to a term that already has assignments");
+        }
+
+        for(Assignment assignment : assignments) {
+            Assignment newAssignment = new Assignment();
+            newAssignment.setCommittee(assignment.getCommittee());
+            newAssignment.setMember(assignment.getMember());
+            newAssignment.setTerm(toTerm);
+            newAssignment.setCreatedAt(LocalDateTime.now());
+            newAssignment.setRole(assignment.getRole());
+            newAssignment.setPrograms(assignment.getPrograms());
+            assignmentRepository.save(newAssignment);
+        }
+       return ResponseEntity.ok(assignments);
+    }
 }
 
 
