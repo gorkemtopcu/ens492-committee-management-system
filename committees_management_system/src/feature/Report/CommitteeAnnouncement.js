@@ -10,59 +10,59 @@ import TableExpandable from 'product/components/TableExpandable';
 import Filter from 'product/components/Filter';
 
 const CommitteeAnnouncement = () => {
-    const [reportData, setReportData] = useState([]);
-    const [isLoading, setLoading] = useState(false);
-    const [selectedTerms, setSelectedTerms] = useState([]);
-    const [isFilterMode, setIsFilterMode] = useState(true);
+  const [reportData, setReportData] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const [selectedTerms, setSelectedTerms] = useState([]);
+  const [isFilterMode, setIsFilterMode] = useState(true);
 
-    const isFilterable = () => selectedTerms.length > 0;
+  const isFilterable = () => selectedTerms.length > 0;
 
-    const fetchReportData = async () => {
-        try {
-          setLoading(true);
-          const response = await AssignmentsService.getCommitteeAnnoucement(
-            selectedTerms.map(t => t.value)
-          );
-    
-          const organizedData = response.data.map(item => ({
-            key: item.committee,
-            committee: item.committee,
-            instructors: item.instructors.map(instructor => ({
-              fullName: instructor.fullName,
-              program: instructor.program,
-              role: instructor.role,
-              order: instructor.order,
-            }))
-          }));
-    
-          setReportData(organizedData);
-          console.log(response);
-          setLoading(false);
-        } catch (error) {
-          alert(StringConstants.ERROR);
-          setLoading(false);
-        }
-      };
+  const fetchReportData = async () => {
+    setLoading(true);
 
-    const handleBackButtonClick = () => {
+    AssignmentsService.getCommitteeAnnoucement(selectedTerms.map(t => t.value))
+      .then(response => {
+        const organizedData = response.data.map(item => ({
+          key: item.committee,
+          committee: item.committee,
+          instructors: item.instructors.map(instructor => ({
+            fullName: instructor.fullName,
+            program: instructor.program,
+            role: instructor.role,
+            order: instructor.order,
+          }))
+        }));
+
+        setReportData(organizedData);
+        console.log(response);
+      })
+      .catch(error => {
+        alert(StringConstants.ERROR);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  const handleBackButtonClick = () => {
     setIsFilterMode(true);
-    };
+  };
 
-    const handleSelectedTermsChange = (terms) => {
+  const handleSelectedTermsChange = (terms) => {
     setSelectedTerms(terms);
-    };
+  };
 
-    const handleFilterButtonClick = () => {
+  const handleFilterButtonClick = () => {
     fetchReportData();
     setIsFilterMode(false);
-    };
-      
-    const outsideColumns = [columnMapping.committee];
-    const insideColumns = [columnMapping.fullName, columnMapping.role, columnMapping.program];
-      
-    return (
+  };
+
+  const outsideColumns = [columnMapping.committee];
+  const insideColumns = [columnMapping.fullName, columnMapping.role, columnMapping.program];
+
+  return (
     <Spin spinning={isLoading}>
-      <ProductHeader title={`Committee Announcement` }/>
+      <ProductHeader title={`Committee Announcement`} />
       {isFilterMode && (
         <Filter
           filterProps={[
@@ -92,10 +92,10 @@ const CommitteeAnnouncement = () => {
             style={{ marginTop: '30px' }}
           />
         </div>
-    )}
-  </Spin>
-        
-    );
+      )}
+    </Spin>
+
+  );
 };
 
 export default CommitteeAnnouncement;

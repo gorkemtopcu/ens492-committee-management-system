@@ -66,8 +66,6 @@ const ProgramInstructor = () => {
     }
   };
 
-
-
   useEffect(() => {
     fetchPrograms();
   }, []);

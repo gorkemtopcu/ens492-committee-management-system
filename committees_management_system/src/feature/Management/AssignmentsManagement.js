@@ -18,28 +18,26 @@ const AssignmentsManagement = () => {
   const isFilterable = () => selectedTerms.length > 0;
 
   const fetchReportData = async () => {
-    try {
-      setLoading(true);
-      const response = await AssignmentsService.getByTerm(
-        selectedTerms.map(t => t.value)
-      );
-
-      const organizedData = response.data.map(item => ({
-        key: item.committee,
-        committee: item.committee,
-        instructors: item.instructors.map(instructor => ({
-          fullName: instructor.fullName,
-          program: instructor.program,
-        }))
-      }));
-
-      setReportData(organizedData);
-      console.log(response);
-      setLoading(false);
-    } catch (error) {
-      alert(StringConstants.ERROR);
-      setLoading(false);
-    }
+    setLoading(true);
+    AssignmentsService.getByTerm(selectedTerms.map(t => t.value))
+      .then(response => {
+        const organizedData = response.data.map(item => ({
+          key: item.committee,
+          committee: item.committee,
+          instructors: item.instructors.map(instructor => ({
+            fullName: instructor.fullName,
+            program: instructor.program,
+          }))
+        }));
+        setReportData(organizedData);
+        console.log(response);
+      })
+      .catch(error => {
+        alert(StringConstants.ERROR);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
 
   const handleBackButtonClick = () => {

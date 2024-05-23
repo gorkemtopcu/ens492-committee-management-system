@@ -35,32 +35,40 @@ const RetirementHistory = () => {
 
     const addDocument = async (document) => {
         setLoading(true);
-        try {
-            const response = await RetirementDocumentsService.add(document);
-            return response.data;
-        } catch (error) {
-            alert(StringConstants.ERROR);
-            throw error;
-        } finally {
-            setLoading(false);
-        }
+        RetirementDocumentsService.add(document)
+            .then(response => {
+                return response.data;
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+                throw error;
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     }
 
-    const handleSubmit = async (values, form) => {
+    const handleSubmit = async (values) => {
+        setLoading(true);
         try {
-            for (const d of values.attachment) {
-                const documentData = {
-                    documentType: FileUtils.getDocumentType(d.name),
-                    filePath: d.name,
-                    requestId: values.requestId,
-                };
-                await addDocument(documentData);
+            if (values.attachment) {
+                for (const d of values.attachment) {
+                    const documentData = {
+                        documentType: FileUtils.getDocumentType(d.name),
+                        filePath: d.name,
+                        requestId: values.requestId,
+                    };
+                    await addDocument(documentData);
+                }
             }
             setModalInitialValues(null);
             setModalVisible(false);
             fetchData();
         } catch (error) {
+            alert(StringConstants.ERROR);
             console.error('Error finishing retirement:', error);
+        } finally {
+            setLoading(false);
         }
     };
 

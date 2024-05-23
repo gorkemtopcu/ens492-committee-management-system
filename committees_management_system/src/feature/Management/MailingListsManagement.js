@@ -11,32 +11,35 @@ import TableExpandable from 'product/components/TableExpandable';
 
 const MailListTable = () => {
     const [mailListData, setMailListData] = useState([]);
-    const [expandedRowKeys, setExpandedRowKeys] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => { fetchData() }, []);
 
     const fetchData = async () => {
-        try {
-            const response = await MailingListService.getAll();
-            const emailMap = {};
-
-            response.data.forEach(element => {
-                const { listEmail } = element;
-                if (!emailMap[listEmail]) {
-                    emailMap[listEmail] = [];
-                }
-                emailMap[listEmail].push(element);
+        setLoading(true);
+        MailingListService.getAll()
+            .then(response => {
+                const emailMap = {};
+                response.data.forEach(element => {
+                    const { listEmail } = element;
+                    if (!emailMap[listEmail]) {
+                        emailMap[listEmail] = [];
+                    }
+                    emailMap[listEmail].push(element);
+                });
+                const organizedData = Object.keys(emailMap).map(email => ({
+                    listEmail: email,
+                    elements: emailMap[email],
+                    key: email
+                }));
+                setMailListData(organizedData);
+            })
+            .catch(error => {
+                alert(error);
+            })
+            .finally(() => {
+                setLoading(false);
             });
-
-            const organizedData = Object.keys(emailMap).map(email => ({
-                listEmail: email,
-                elements: emailMap[email],
-                key: email 
-            }));
-            setMailListData(organizedData);
-        } catch (error) {
-            alert(error);
-        }
     };
 
     const insideColumns = [

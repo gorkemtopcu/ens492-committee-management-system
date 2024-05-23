@@ -22,17 +22,17 @@ const ProductForm = ({ initialValues = null, onCancel, onFinish, fields }) => {
     }, [initialValues, form]);
 
     const handleFinish = (values) => {
-        const formData = {
-            ...values,
-            attachment: fileList
-        };
-        onFinish(formData);
+        if (values.attachment) { values.attachment = values.attachment.fileList; }
+        console.log(values);
+        onFinish(values, form);
+        setFileList([]);
+        form.resetFields();
     };
 
     const handleCancel = () => {
-        form.resetFields();
-        setFileList([]);
         onCancel();
+        setFileList([]);
+        form.resetFields();
     };
 
     const handleSearchSelect = (value) => {

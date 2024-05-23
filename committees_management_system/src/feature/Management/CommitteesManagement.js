@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Spin, message } from 'antd'; // Import message from antd
+import { Button, Modal, Spin, notification } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableSearch from 'product/components/TableSearch';
@@ -20,11 +20,11 @@ const CommitteesManagement = () => {
   const [initialValues, setInitialValues] = useState(null);
   const [formActionType, setFormActionType] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [updateSuccess, setUpdateSuccess] = useState(false); // State variable for update success message
+  const [updateSuccess] = useState(false);
 
   useEffect(() => {
     fetchData();
-  }, [updateSuccess]); // Reload data when updateSuccess changes
+  }, [updateSuccess]);
 
   const fetchData = async () => {
     setLoading(true);
@@ -34,11 +34,12 @@ const CommitteesManagement = () => {
         dataToSet.forEach((item) => {
           item.category = Categories[item.category - 1];
         });
-        setLoading(false);
         setData(dataToSet);
       })
       .catch(error => {
         alert(StringConstants.ERROR);
+      }).finally(() => {
+        setLoading(false);
       });
   };
 
@@ -58,8 +59,7 @@ const CommitteesManagement = () => {
           })
           .catch(error => {
             console.error('Error deleting data:', error);
-          })
-          .finally(() => {
+          }).finally(() => {
             setLoading(false);
           });
       },
@@ -99,26 +99,28 @@ const CommitteesManagement = () => {
     setLoading(true);
     CommitteeService.add(newCommittee)
       .then(() => {
-        const updatedData = [...data, newCommittee];
-        setData(updatedData);
-        message.success('Committee added successfully'); // Show success message
+        notification.success({
+          message: StringConstants.SUCCESS,
+          description: 'Committee added successfully',
+        });
+        fetchData();
       })
       .catch(error => {
         console.error('Error adding data:', error);
-      })
-      .finally(() => {
+      }).finally(() => {
         setLoading(false);
         handleCancel();
       });
   };
 
   const handleEditCommittee = (values) => {
+    console.log(values);
     if (!values || !initialValues) {
       return;
     }
 
     const updatedCommittee = {
-      id: initialValues.id, // Include the ID of the committee being updated
+      id: initialValues.id,
       committee: values.committee,
       category: Categories.indexOf(values.category) + 1,
       about: values.about,
@@ -128,14 +130,11 @@ const CommitteesManagement = () => {
     setLoading(true);
     CommitteeService.update(updatedCommittee)
       .then(() => {
-        const updatedData = data.map(item => {
-          if (item.id === initialValues.id) {
-            return updatedCommittee;
-          }
-          return item;
-        });
         fetchData();
-        message.success('Committee updated successfully');
+        notification.success({
+          message: StringConstants.SUCCESS,
+          description: 'Committee updated successfully',
+        });
       })
       .catch(error => {
         console.error('Error updating data:', error);
