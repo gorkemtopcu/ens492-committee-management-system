@@ -11,6 +11,8 @@ import com.commitee.commitee.dto.CommitteeAnnouncementDTO;
 import com.commitee.commitee.dto.CommitteesDTO;
 import com.commitee.commitee.dto.ProgramInstructorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -275,6 +277,51 @@ public class AssignmentService {
 
     public List<Committee> getCommitteesByMember(Integer member) {
         return assignmentRepository.getCommitteesByMember(member);
+    }
+
+    public Assignment deleteAssignment(String committeeName, String instructor, Integer term) {
+        Committee committee = committeeRepository.findByCommittee(committeeName);
+        if (committee == null) {
+            return null;
+        }
+        Member member = memberRepository.findByFullName(instructor);
+        if (member == null) {
+            return null;
+        }
+        Assignment assignment = assignmentRepository.findByCommitteeAndMemberAndTerm(Math.toIntExact(committee.getId()), member.getSuid(), term);
+        if (assignment == null) {
+            return null;
+        }
+        assignmentRepository.delete(assignment);
+        return assignment;
+    }
+
+    public ResponseEntity<Assignment> addAssignment(Integer committeeId, Integer suid, Integer term, Integer role) {
+        Committee committee = committeeRepository.findById(committeeId);
+        if (committee == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Member member = memberRepository.findBySuid(suid);
+        if (member == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Assignment existingAssignment = assignmentRepository.findByCommitteeAndMemberAndTerm(Math.toIntExact(committee.getId()), member.getSuid(), term);
+        if (existingAssignment != null) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+
+        Assignment newAssignment = new Assignment();
+        newAssignment.setCommittee(Math.toIntExact(committee.getId()));
+        newAssignment.setMember(member.getSuid());
+        newAssignment.setTerm(term);
+        newAssignment.setCreatedAt(LocalDateTime.now());
+        newAssignment.setRole(role);
+        newAssignment.setPrograms(null);
+
+        Assignment savedAssignment = assignmentRepository.save(newAssignment);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedAssignment);
     }
 }
 

@@ -42,6 +42,7 @@ const ServiceConstants = {
     GET_ALL_IN_RETIREMENT_PROCESS: "getAllInRetirementProcess",
     END_RETIREMENT: "endRetirementProcess",
     DELETE: "deleteById/",
+    DELETE_ASSIGNMENT: "deleteAssignment/",
     ADD: "add",
     UPDATE: "update"
 };

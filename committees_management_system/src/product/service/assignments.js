@@ -20,6 +20,16 @@ const AssignmentsService = {
         }
     },
 
+    deleteAssignment: async (record, term) => {
+        try {
+            const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.DELETE_ASSIGNMENT}${record.committee}/${record.fullName}/${term}`;
+            console.log(url);
+            return await axios.delete(url);
+        } catch (error) {
+            console.error('Error deleting data:', error);
+        }
+    },
+
     getByCommitteeAndTerm: async (committees, terms) => {
         try {
             const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.REPORT_COMMITTEES}?${ServiceConstants.PARAM_COMMITTEES}${committees.join(',')}&${ServiceConstants.PARAM_TERMS}${terms.join(',')}`;
@@ -55,7 +65,26 @@ const AssignmentsService = {
             console.error('Error fetching data:', error);
             throw error;
         }
+    },
+
+    add: async (record) => {
+        try {
+            console.log(record);
+            return await axios.post(ServiceConstants.ASSIGNMENTS + ServiceConstants.ADD, {
+                params: {
+                    term: record. term,
+                    committee: record.committee,
+                    role: record.role,
+                    fullName: record.fullName,
+                }
+            });
+        } catch (error) {
+            console.error('Error adding data:', error);
+        }
     }
+
+
+
 
 };
 

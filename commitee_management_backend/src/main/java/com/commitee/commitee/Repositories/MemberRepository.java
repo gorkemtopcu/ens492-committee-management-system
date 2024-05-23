@@ -11,4 +11,6 @@ import java.util.List;
 public interface MemberRepository extends JpaRepository<Member, Integer> {
     // You can add custom query methods here if needed
     Member findBySuid(Integer suid);
+
+    Member findByFullName(String fullName);
 }
