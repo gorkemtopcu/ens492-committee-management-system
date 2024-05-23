@@ -46,6 +46,7 @@ const ServiceConstants = {
     ADD: "add",
     UPDATE: "update",
     DUPLICATE_TERM: "duplicateTerm",
+    GET_NEAR_RETIREMENT: "getNearRetirement",
 };
 
 export default ServiceConstants;

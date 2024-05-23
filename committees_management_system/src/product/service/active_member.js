@@ -25,6 +25,14 @@ const ActiveMemberService = {
             console.error('Error fetching data:', error);
         }
     },
+
+    getNearRetirement: async () => {
+        try {
+            return await axios.get(ServiceConstants.ACTIVE_COMMITTEE_MEMBERS + ServiceConstants.GET_NEAR_RETIREMENT);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    },
 };
 
 export default ActiveMemberService
