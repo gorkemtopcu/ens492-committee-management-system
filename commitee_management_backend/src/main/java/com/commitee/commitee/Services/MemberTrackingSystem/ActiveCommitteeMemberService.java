@@ -77,4 +77,10 @@ public class ActiveCommitteeMemberService {
     public List<ActiveCommitteeMemberDTO> getAllActiveCommitteeMembersWithDetails() {
         return repository.findAllActiveCommitteeMembersWithDetails();
     }
+
+    public List<ActiveCommitteeMemberDTO> getNearRetirement() {
+        List<ActiveCommitteeMemberDTO> dto = repository.findAllActiveCommitteeMembersWithDetails();
+        dto.removeIf(member -> member.getExpectedRetirement().isAfter(LocalDateTime.now().plusMonths(1)));
+        return dto;
+    }
 }

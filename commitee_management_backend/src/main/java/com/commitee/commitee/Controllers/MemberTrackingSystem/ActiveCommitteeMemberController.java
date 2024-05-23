@@ -69,4 +69,9 @@ public class ActiveCommitteeMemberController {
         return ResponseEntity.ok(member);
     }
 
+    @GetMapping("/getNearRetirement")
+    public List<ActiveCommitteeMemberDTO> getNearRetirement() {
+        return activeCommitteeMemberService.getNearRetirement();
+    }
+
 }
