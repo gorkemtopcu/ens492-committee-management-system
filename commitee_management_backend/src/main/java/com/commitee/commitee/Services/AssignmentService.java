@@ -161,6 +161,7 @@ public class AssignmentService {
         for (CommitteesDTO dto : committeesDTOS) {
             String committeeName = dto.getCommittee();
             String fullName = dto.getFullName();
+            String program = dto.getProgram();
             int term = dto.getTerm();
 
             // If the committee does not exist in the map, add it
@@ -178,7 +179,7 @@ public class AssignmentService {
 
             // If the instructor does not exist, create and add them
             if (instructorPayload == null) {
-                instructorPayload = new CommitteeTermPayload.Instructor(fullName, new ArrayList<>());
+                instructorPayload = new CommitteeTermPayload.Instructor(fullName, new ArrayList<>(), program);
                 committeePayload.getInstructors().add(instructorPayload);
             }
 

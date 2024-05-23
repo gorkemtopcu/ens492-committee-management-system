@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import StringConstants from 'product/constants/StringConstants';
-import { Spin } from 'antd';
+import { Spin, notification } from 'antd';
 import RetirementRequestService from 'product/service/retirement_request';
 import PopupForm from 'product/components/PopupForm';
 import RetirementDocumentsService from 'product/service/retirement_documents';
@@ -90,6 +90,10 @@ const RetirementRequest = () => {
                     await addDocument(documentData);
                 }
             }
+            notification.success({
+                message: StringConstants.SUCCESS,
+                description: 'Retirement submitted successfully',
+            });
             setModalInitialValues(null);
             setModalVisible(false);
             form.resetFields();

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Terms from 'assets/jsons/report/terms.json';
 import PrimaryButton from 'product/components/PrimaryButton';
 import ProductHeader from 'product/components/ProductHeader';
@@ -14,6 +14,8 @@ import CommitteeService from 'product/service/committees';
 import Categories from 'assets/jsons/report/committee_categories.json';
 import MembersService from 'product/service/members';
 import RolesService from 'product/service/roles';
+import ExportButtons from 'product/components/ExportButtons';
+import ReportUtils from 'product/utils/report_utils';
 
 
 const AssignmentsManagement = () => {
@@ -24,7 +26,7 @@ const AssignmentsManagement = () => {
   const [committees, setCommittees] = useState([]);
   const [members, setMembers] = useState([]);
   const [addModalVisible, setAddModalVisible] = useState(false);
-  const [initialValues, setInitialValues] = useState(null);
+  const [initialValues] = useState(null);
   const [roles, setRoles] = useState([]);
   const [duplicateModalVisible, setDuplicateModalVisible] = useState(false);
 
@@ -152,7 +154,7 @@ const AssignmentsManagement = () => {
   const handleCancel = () => {
     setAddModalVisible(false);
     setDuplicateModalVisible(false);
-    };
+  };
 
   const handleCreateAssigment = (values) => {
     if (!values) {
@@ -172,38 +174,57 @@ const AssignmentsManagement = () => {
 
   const handleDuplicateTerm = (record) => {
     if (!record) {
-        return;
+      return;
     }
 
     Modal.confirm({
-        title: 'Confirm Duplicate',
-        content: `Are you sure you want to duplicate term ${record.term} to last term ${getLastTerm()}?`,
-        okText: 'Yes',
-        okType: 'primary',
-        cancelText: 'No',
-        onOk() {
-            setLoading(true);
-            AssignmentsService.duplicateTerm(record.term, getLastTerm())
-                .then(() => {
-                    fetchReportData();
-                    setDuplicateModalVisible(false);
-                })
-                .catch(error => {
-                    console.error('Error duplicating term:', error);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        },
-        onCancel() {
-            console.log('Duplicate term operation canceled');
-        }
+      title: 'Confirm Duplicate',
+      content: `Are you sure you want to duplicate term ${record.term} to last term ${getLastTerm()}?`,
+      okText: 'Yes',
+      okType: 'primary',
+      cancelText: 'No',
+      onOk() {
+        setLoading(true);
+        AssignmentsService.duplicateTerm(record.term, getLastTerm())
+          .then(() => {
+            fetchReportData();
+            setDuplicateModalVisible(false);
+          })
+          .catch(error => {
+            console.error('Error duplicating term:', error);
+          })
+          .finally(() => {
+            setLoading(false);
+          });
+      },
+      onCancel() {
+        console.log('Duplicate term operation canceled');
+      }
     });
 
     console.log(record);
-};
+  };
 
-      
+
+  const getExportData = () => {
+    if (!reportData) { return null; }
+    console.log(reportData);
+    return reportData.flatMap(c => c.instructors.map(m => ({
+      "Committee": c.committee,
+      "Name": m.fullName,
+      "Program": m.program
+    })));
+  }
+
+  const exportExcel = () => {
+    ReportUtils.exportExcel(getExportData, 'assignments.xlsx');
+  };
+
+  const copyClipboard = () => {
+    ReportUtils.copyClipboard(getExportData);
+  };
+
+
 
   const outsideColumns = [columnMapping.committee];
   const insideColumns = [columnMapping.fullName, columnMapping.program, columnMapping.action(null, handleDeleteButtonClicked)];
@@ -217,9 +238,9 @@ const AssignmentsManagement = () => {
       name: 'fullName', label: 'Member', type: 'select', required: true,
       options: members.map(member => ({ label: member.fullName, value: member.suid }))
     },
-    { 
-      name: 'term', label: 'Term', type: 'select', required: true, 
-      options: Terms.map(term => ({ value: term, label: term })) 
+    {
+      name: 'term', label: 'Term', type: 'select', required: true,
+      options: Terms.map(term => ({ value: term, label: term }))
     },
     {
       name: 'role', label: 'Role', type: 'select', required: true,
@@ -261,7 +282,8 @@ const AssignmentsManagement = () => {
             <div style={{ marginBottom: '20px' }}>
               <Button type="primary" icon={<PlusOutlined />} onClick={onDuplicateButtonClicked}>Duplicate Term</Button>
             </div>
-         </div>
+          </div>
+          <ExportButtons handleCopy={copyClipboard} handleExcel={exportExcel} />
           <TableExpandable
             outsideColumns={outsideColumns}
             insideColumns={insideColumns}
@@ -273,22 +295,22 @@ const AssignmentsManagement = () => {
             onClick={handleBackButtonClick}
             style={{ marginTop: '30px' }}
           />
-            <PopupForm
-              title={StringConstants.ADD_ASSIGNMENT}
-              open={addModalVisible}
-              initialValues={initialValues}
-              onCancel={handleCancel}
-              onFinish={handleCreateAssigment}
-              fields={addButtonFormFields}
-            />
           <PopupForm
-              title={StringConstants.DUPLICATE_TERM}
-              open={duplicateModalVisible}
-              initialValues={initialValues}
-              onCancel={handleCancel}
-              onFinish={handleDuplicateTerm}
-              fields={duplicateButtonFromFields}
-            />
+            title={StringConstants.ADD_ASSIGNMENT}
+            open={addModalVisible}
+            initialValues={initialValues}
+            onCancel={handleCancel}
+            onFinish={handleCreateAssigment}
+            fields={addButtonFormFields}
+          />
+          <PopupForm
+            title={StringConstants.DUPLICATE_TERM}
+            open={duplicateModalVisible}
+            initialValues={initialValues}
+            onCancel={handleCancel}
+            onFinish={handleDuplicateTerm}
+            fields={duplicateButtonFromFields}
+          />
         </div>
       )}
     </Spin>

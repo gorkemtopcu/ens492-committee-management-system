@@ -9,6 +9,8 @@ import Filter from 'product/components/Filter';
 import AssignmentsService from 'product/service/assignments';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableExpandable from 'product/components/TableExpandable';
+import ReportUtils from 'product/utils/report_utils';
+import ExportButtons from 'product/components/ExportButtons';
 
 const Committees = () => {
     const [reportData, setReportData] = useState([]);
@@ -48,10 +50,11 @@ const Committees = () => {
                     const instructors = item.instructors.map(instructor => ({
                         fullName: instructor.fullName,
                         terms: instructor.terms,
+                        program: instructor.program,
+                        countOfMembership: instructor.terms.length
                     }));
                     return { key, committee, instructors };
                 });
-                console.log(organizedData);
                 setReportData(organizedData);
             })
             .catch(error => {
@@ -84,8 +87,29 @@ const Committees = () => {
         setIsFilterMode(true);
     }
 
+    const getExportData = () => {
+        if (!reportData) { return null; }
+        return reportData.flatMap(c =>
+            c.instructors.flatMap(i =>
+            ({
+                "Faculty Member": i.fullName,
+                "Committee": c.committee,
+                "Count of Membership": i.countOfMembership,
+                "Terms": i.terms.join(', '),
+            }))
+        );
+    }
+
+    const exportToExcel = () => {
+        ReportUtils.exportExcel(getExportData, 'committees.xlsx');
+    };
+
+    const copyToClipboard = () => {
+        ReportUtils.copyClipboard(getExportData);
+    };
+
     const outsideColumns = [columnMapping.committee];
-    const insideColumns = [columnMapping.fullName, columnMapping.terms];
+    const insideColumns = [columnMapping.fullName, columnMapping.program, columnMapping.countOfMembership, columnMapping.terms];
 
     return (
         <Spin spinning={isLoading}>
@@ -113,6 +137,7 @@ const Committees = () => {
                 />
             )}
             {!isFilterMode && (<div>
+                <ExportButtons handleCopy={copyToClipboard} handleExcel={exportToExcel} />
                 <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} dataSource={reportData} getNestedData={record => record.instructors} />
                 <PrimaryButton
                     title={StringConstants.BACK}

@@ -166,6 +166,12 @@ const columnMapping = {
         key: 'numberOfMeetingsAttended',
         searchable: true,
     },
+    countOfMembership: {
+        title: 'Count of Membership',
+        dataIndex: 'countOfMembership',
+        key: 'countOfMembership',
+        searchable: true,
+    },
     decisions: {
         title: 'Decisions',
         dataIndex: 'decisions',

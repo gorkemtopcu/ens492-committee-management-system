@@ -34,6 +34,7 @@ const CommitteesManagement = () => {
         dataToSet.forEach((item) => {
           item.category = Categories[item.category - 1];
         });
+        console.log(dataToSet);
         setData(dataToSet);
       })
       .catch(error => {

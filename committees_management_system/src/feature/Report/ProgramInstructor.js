@@ -9,6 +9,9 @@ import AssignmentsService from 'product/service/assignments';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import TableExpandable from 'product/components/TableExpandable';
 import Filter from 'product/components/Filter';
+import ReportUtils from 'product/utils/report_utils';
+import ExportButtons from 'product/components/ExportButtons';
+
 
 const ProgramInstructor = () => {
   const [reportData, setReportData] = useState([]);
@@ -51,6 +54,7 @@ const ProgramInstructor = () => {
         const instructors = item.instructors.map(i => i.committees.map(c => ({
           fullName: i.fullName,
           committee: c.committee,
+          countOfMembership: c.terms.length,
           terms: c.terms,
         })));
         return { key, program, instructors };
@@ -87,11 +91,35 @@ const ProgramInstructor = () => {
     setIsFilterMode(true);
   };
 
+  const getExportData = () => {
+    if (!reportData) { return null; }
+    return reportData.flatMap(p =>
+      p.instructors.flatMap(i =>
+        i.map(c => ({
+          "Faculty Member": c.fullName,
+          "Program": p.program,
+          "Committee": c.committee,
+          "Count of Membership": c.countOfMembership,
+          "Terms": c.terms.join(', '),
+        }))
+      )
+    );
+  }
+
+  const exportToExcel = () => {
+    ReportUtils.exportExcel(getExportData, 'program_instructors.xlsx');
+  };
+
+  const copyToClipboard = () => {
+    ReportUtils.copyClipboard(getExportData);
+  };
+
   const outsideColumns = [columnMapping.program];
 
   const insideColumns = [
     columnMapping.fullName,
     columnMapping.committee,
+    columnMapping.countOfMembership,
     columnMapping.terms,
   ];
 
@@ -123,6 +151,7 @@ const ProgramInstructor = () => {
       )}
       {!isFilterMode && (
         <div>
+          <ExportButtons handleCopy={copyToClipboard} handleExcel={exportToExcel} />
           <TableExpandable
             outsideColumns={outsideColumns}
             insideColumns={insideColumns}

@@ -22,6 +22,7 @@ public class CommitteeTermPayload {
     public static class Instructor {
         private String fullName;
         private List<String> terms;
+        private String program;
     }
 
 }
