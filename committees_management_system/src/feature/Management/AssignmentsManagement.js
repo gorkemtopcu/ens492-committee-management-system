@@ -82,6 +82,7 @@ const AssignmentsManagement = () => {
           instructors: item.instructors.map(instructor => ({
             fullName: instructor.fullName,
             program: instructor.program,
+            committee: item.committee,
           }))
         }));
         setReportData(organizedData);
@@ -165,7 +166,7 @@ const AssignmentsManagement = () => {
 
   const formFields = [
     {
-      name: 'category', label: 'Category', type: 'select', required: true,
+      name: 'committee', label: 'Committees', type: 'select', required: true,
       options: committees.map(committee => ({ label: committee.committee, value: committee.id }))
     },
     {

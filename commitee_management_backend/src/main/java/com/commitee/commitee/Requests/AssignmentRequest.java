@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AssignmentRequest {
-  Integer committee;
-  Integer fullName;
+  Integer committeeId;
+  Integer suid;
   Integer term;
   Integer role;
 }

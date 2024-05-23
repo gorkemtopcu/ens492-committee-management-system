@@ -62,8 +62,8 @@ public class AssignmentController {
     @PostMapping("/add")
     public ResponseEntity<?> addAssignment(@RequestBody AssignmentRequest request) {
         return new ResponseEntity<>(assignmentService.addAssignment(
-                request.getCommittee(),
-                request.getFullName(),
+                request.getCommitteeId(),
+                request.getSuid(),
                 request.getTerm(),
                 request.getRole()),
                 HttpStatus.OK);

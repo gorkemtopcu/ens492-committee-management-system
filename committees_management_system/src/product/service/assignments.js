@@ -22,7 +22,9 @@ const AssignmentsService = {
 
     deleteAssignment: async (record, term) => {
         try {
+            console.log(record);
             const url = `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.DELETE_ASSIGNMENT}${record.committee}/${record.fullName}/${term}`;
+            console.log(url);
             console.log(url);
             return await axios.delete(url);
         } catch (error) {
@@ -69,20 +71,23 @@ const AssignmentsService = {
 
     add: async (record) => {
         try {
-            console.log(record);
-            return await axios.post(ServiceConstants.ASSIGNMENTS + ServiceConstants.ADD, {
-                params: {
-                    term: record. term,
-                    committee: record.committee,
-                    role: record.role,
-                    fullName: record.fullName,
-                }
-            });
+            const params = {
+                term: record.term,
+                committeeId: record.committee,
+                role: record.role,
+                suid: record.fullName,
+            };
+                const response = await axios.post(
+                `${ServiceConstants.ASSIGNMENTS}${ServiceConstants.ADD}`,
+                params
+            );
+            
+            return response.data; // Return the data from the response
         } catch (error) {
             console.error('Error adding data:', error);
+            throw error; // Re-throw the error to be handled by the caller
         }
     }
-
 
 
 
