@@ -4,8 +4,6 @@ import { columnMapping } from 'product/constants/ColumnMapping';
 import PopupForm from 'product/components/PopupForm';
 import ProductHeader from 'product/components/ProductHeader';
 import { Spin, notification } from 'antd';
-
-import UNIVERSITY_PROGRAMS from 'product/constants/ProgramConstants';
 import MembersService from 'product/service/members';
 import StringConstants from 'product/constants/StringConstants';
 
@@ -15,9 +13,11 @@ const MembersManagement = () => {
     const [initialValues, setInitialValues] = useState(null);
     const [popupTitle, setPopupTitle] = useState(null);
     const [loading, setLoading] = useState(false);
+    const [programs, setPrograms] = useState([]);
 
     useEffect(() => {
         fetchData();
+        fetchPrograms();
     }, []);
 
     const fetchData = async () => {
@@ -34,6 +34,20 @@ const MembersManagement = () => {
                 setLoading(false);
             });
     };
+
+    const fetchPrograms = async () => {
+        setLoading(true);
+        MembersService.getAll()
+            .then(response => {
+                setPrograms(response.data.map(e => e.program));
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
+    }
 
     const handleEdit = (record) => {
         setPopupTitle("Edit Member");
@@ -105,7 +119,7 @@ const MembersManagement = () => {
                     { name: 'email', label: 'Email of User', type: 'text', required: false },
                     {
                         name: 'program', label: 'Program Name', type: 'select', required: false, options:
-                            UNIVERSITY_PROGRAMS.map(program => ({ label: program, value: program }))
+                            programs.map(program => ({ label: program, value: program }))
                     },
                     {
                         name: 'exclude', label: 'Exclude', type: 'select', required: true, options:
