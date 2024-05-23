@@ -36,7 +36,7 @@ const UserProfileWithNotification = () => {
       </Card>
       <Modal
         title="Popup Form"
-        visible={showPopup}
+        open={showPopup}
         onCancel={handlePopupClose}
         footer={null}
       >

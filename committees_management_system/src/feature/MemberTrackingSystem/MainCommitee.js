@@ -6,6 +6,8 @@ import { Button, Spin } from 'antd';
 import StringConstants from 'product/constants/StringConstants';
 import ActiveMemberService from 'product/service/active_member';
 import { PlusOutlined } from '@ant-design/icons';
+import ReportUtils from 'product/utils/report_utils';
+import ExportButtons from 'product/components/ExportButtons';
 
 const MainCommitee = () => {
 
@@ -13,7 +15,7 @@ const MainCommitee = () => {
     const [retireModalVisible, setRetireModalVisible] = useState(false);
     const [initialValues, setInitialValues] = useState(null);
     const [fullName, setFullName] = useState(null);
-    const [loading, setLoading] = useState(false); 
+    const [loading, setLoading] = useState(false);
     const [memberModalVisible, setMemberModalVisible] = useState(false);
 
 
@@ -22,19 +24,19 @@ const MainCommitee = () => {
     }, []);
 
     const fetchData = async () => {
-        setLoading(true); // Set loading to true before fetching data
+        setLoading(true);
         ActiveMemberService.getAll()
-        .then(response => {
+            .then(response => {
                 setData(response.data);
             })
             .catch(error => {
                 alert(StringConstants.ERROR);
             })
             .finally(() => {
-                setLoading(false); // Set loading to false after data is fetched
+                setLoading(false);
             });
     };
-    
+
     const onAddButtonClicked = () => {
         setMemberModalVisible(true);
 
@@ -46,20 +48,20 @@ const MainCommitee = () => {
         setMemberModalVisible(false);
     };
 
-    const handleRetire = (values) => { 
+    const handleRetire = (values) => {
         if (values.confirmation && values.confirmation.toUpperCase() === fullName.toUpperCase()) {
             const updatedData = data.filter(item => item.id !== initialValues.id);
             setData(updatedData);
         }
         console.log(initialValues.suid);
         ActiveMemberService.retirementRequestById(initialValues.suid)
-        .then(() => {
-            fetchData();
-        })
-        .catch(error => {
-          console.error('Error adding data:', error);
-        });
-        setRetireModalVisible(false); // Close the modal after handling retirement
+            .then(() => {
+                fetchData();
+            })
+            .catch(error => {
+                console.error('Error adding data:', error);
+            });
+        setRetireModalVisible(false);
     };
 
 
@@ -78,15 +80,36 @@ const MainCommitee = () => {
             suid: values.suid,
             duration: values.duration,
         };
-        
+
         ActiveMemberService.add(newActiveMemberRequest)
-        .then(() => {
-            fetchData();
-        })
-        .catch(error => {
-          console.error('Error adding data:', error);
-        });
-      handleCancel();    };
+            .then(() => {
+                fetchData();
+            })
+            .catch(error => {
+                console.error('Error adding data:', error);
+            });
+        handleCancel();
+    };
+
+    const getExportData = () => {
+        if (!data) { return null; }
+        return data.flatMap(m => ({
+            "Name": m.fullName,
+            "Email": m.email,
+            "Program": m.program,
+            "Duration": m.duration,
+            "Started at": m.startedAt,
+            "Expected Retirement": m.expectedRetirement
+        }));
+    }
+
+    const exportExcel = () => {
+        ReportUtils.exportExcel(getExportData, 'main_committee.xlsx');
+    };
+
+    const copyClipboard = () => {
+        ReportUtils.copyClipboard(getExportData);
+    };
 
     const tableFields = [
         columnMapping.suid,
@@ -100,8 +123,8 @@ const MainCommitee = () => {
     ];
 
     const addMemberFields = [
-            { name: 'suid', label: 'SU ID', type: 'text', required: true },
-            { name: 'duration', label: 'Duration', type: 'text', required: true },
+        { name: 'suid', label: 'SU ID', type: 'text', required: true },
+        { name: 'duration', label: 'Duration', type: 'text', required: true },
     ];
 
     return (
@@ -109,6 +132,7 @@ const MainCommitee = () => {
             <div style={{ marginBottom: '20px' }}>
                 <Button type="primary" icon={<PlusOutlined />} onClick={onAddButtonClicked}>Add New Member</Button>
             </div>
+            <ExportButtons handleCopy={copyClipboard} handleExcel={exportExcel} />
             <TableSearch columns={tableFields} data={data} />
             <PopupForm
                 title={StringConstants.RETIRE_MEMBER}
@@ -127,7 +151,7 @@ const MainCommitee = () => {
                 ]}
 
             />
-             <PopupForm
+            <PopupForm
                 title={StringConstants.ADD_MEMBER}
                 open={memberModalVisible}
                 initialValues={null}

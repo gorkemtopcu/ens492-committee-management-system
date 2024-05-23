@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import StringConstants from 'product/constants/StringConstants';
-import { Spin } from 'antd';
+import { Spin, notification } from 'antd';
 import RetirementRequestService from 'product/service/retirement_request';
 import PopupForm from 'product/components/PopupForm';
 import RetirementDocumentsService from 'product/service/retirement_documents';
 import FileUtils from 'product/utils/file_utils';
+import ReportUtils from 'product/utils/report_utils';
+import ExportButtons from 'product/components/ExportButtons';
 
 const RetirementHistory = () => {
     const [loading, setLoading] = useState(false);
@@ -61,11 +63,14 @@ const RetirementHistory = () => {
                     await addDocument(documentData);
                 }
             }
+            notification.success({
+                message: StringConstants.SUCCESS,
+                description: 'Retirement edited successfully',
+            });
             setModalInitialValues(null);
             setModalVisible(false);
             fetchData();
         } catch (error) {
-            alert(StringConstants.ERROR);
             console.error('Error finishing retirement:', error);
         } finally {
             setLoading(false);
@@ -87,6 +92,7 @@ const RetirementHistory = () => {
                 });
             })
             .catch(error => {
+                alert(StringConstants.ERROR);
                 console.error('Error adding data:', error);
             })
             .finally(() => {
@@ -94,6 +100,25 @@ const RetirementHistory = () => {
                 setModalVisible(true);
             });
     }
+
+    const getExportData = () => {
+        if (!data) { return null; }
+        return data.flatMap(m => ({
+            "Name": m.fullName,
+            "Email": m.email,
+            "Program": m.program,
+            "Duration": m.duration,
+            "Early Retirement": m.earlyRetirement ? "Yes" : "No",
+        }));
+    }
+
+    const exportExcel = () => {
+        ReportUtils.exportExcel(getExportData, 'retirement_history.xlsx');
+    };
+
+    const copyClipboard = () => {
+        ReportUtils.copyClipboard(getExportData);
+    };
 
     const tableFields = [
         columnMapping.fullName,
@@ -112,6 +137,7 @@ const RetirementHistory = () => {
 
     return (
         <Spin spinning={loading}>
+            <ExportButtons handleCopy={copyClipboard} handleExcel={exportExcel} />
             <TableSearch columns={tableFields} data={data} />
             <PopupForm
                 title={StringConstants.RETIREMENT_PROCESS}

@@ -9,6 +9,8 @@ import AssignmentsService from 'product/service/assignments';
 import TableExpandable from 'product/components/TableExpandable';
 import PrimaryButton from 'product/components/PrimaryButton';
 import { columnMapping } from 'product/constants/ColumnMapping';
+import ExportButtons from 'product/components/ExportButtons';
+import ReportUtils from 'product/utils/report_utils';
 
 
 const CommitteesAssignment = () => {
@@ -56,6 +58,7 @@ const CommitteesAssignment = () => {
                     const instructors = item.instructors.map(instructor => ({
                         fullName: instructor.fullName,
                         committee: instructor.committees,
+                        countOfMembership: instructor.committees.length,
                     }));
                     return { key, program, instructors };
                 });
@@ -86,8 +89,29 @@ const CommitteesAssignment = () => {
     const handleBackButtonClick = () => {
         setIsFilterMode(true);
     }
+
+    const getExportData = () => {
+        if (!reportData) { return null; }
+        return reportData.flatMap(p =>
+            p.instructors.flatMap(i =>
+            ({
+                "Faculty Member": i.fullName,
+                "Count of Membership": i.countOfMembership,
+                "Committees": i.committee.join(', '),
+            }))
+        );
+    }
+
+    const exportToExcel = () => {
+        ReportUtils.exportExcel(getExportData, 'committees_assignment.xlsx');
+    };
+
+    const copyToClipboard = () => {
+        ReportUtils.copyClipboard(getExportData);
+    };
+
     const outsideColumns = [columnMapping.program];
-    const insideColumns = [columnMapping.fullName, columnMapping.multipleCommittees];
+    const insideColumns = [columnMapping.fullName, columnMapping.countOfMembership, columnMapping.multipleCommittees];
 
     return (
 
@@ -116,6 +140,7 @@ const CommitteesAssignment = () => {
                 />
             )}
             {!isFilterMode && (<div>
+                <ExportButtons handleExcel={exportToExcel} handleCopy={copyToClipboard} />
                 <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} dataSource={reportData} getNestedData={record => record.instructors} />
                 <PrimaryButton
                     title={StringConstants.BACK}

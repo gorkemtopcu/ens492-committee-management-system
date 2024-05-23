@@ -10,6 +10,8 @@ import { columnMapping } from 'product/constants/ColumnMapping';
 import Filter from 'product/components/Filter';
 import TableSearch from 'product/components/TableSearch';
 import MeetingsService from 'product/service/meetings';
+import ReportUtils from 'product/utils/report_utils';
+import ExportButtons from 'product/components/ExportButtons';
 
 const MeetingParticipation = () => {
     const [members, setMembers] = useState([]);
@@ -82,6 +84,25 @@ const MeetingParticipation = () => {
         setIsFilterMode(false);
     };
 
+    const getExportData = () => {
+        if (!reportData) { return null; }
+        return reportData.map(mp => ({
+            "Name": mp.fullName,
+            "SUID": mp.suid,
+            "Term": mp.term,
+            "Number of Meetings": mp.numberOfMeetings,
+            "Number of Meetings Attended": mp.numberOfMeetingsAttended,
+        }));
+    }
+
+    const exportExcel = () => {
+        ReportUtils.exportExcel(getExportData, 'meeting_participation.xlsx');
+    };
+
+    const copyClipboard = () => {
+        ReportUtils.copyClipboard(getExportData);
+    };
+
     const namesOptions = members.map(item => ({
         label: item.fullName,
         value: item.fullName,
@@ -116,6 +137,7 @@ const MeetingParticipation = () => {
             )}
             {!isFilterMode && (
                 <div>
+                    <ExportButtons handleCopy={copyClipboard} handleExcel={exportExcel} />
                     <TableSearch
                         columns={insideColumns}
                         data={reportData}
