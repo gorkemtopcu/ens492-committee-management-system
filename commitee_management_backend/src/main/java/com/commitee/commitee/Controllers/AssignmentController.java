@@ -2,6 +2,7 @@ package com.commitee.commitee.Controllers;
 
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Payload.*;
+import com.commitee.commitee.Requests.AssignmentRequest;
 import com.commitee.commitee.Services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,24 @@ public class AssignmentController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
+    @DeleteMapping("/deleteAssignment/{committee}/{instructor}/{term}")
+    public ResponseEntity<?> deleteAssignment(
+            @PathVariable String committee,
+            @PathVariable String instructor,
+            @PathVariable Integer term) {
+        return new ResponseEntity<>(assignmentService.deleteAssignment(committee, instructor, term),HttpStatus.OK);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<?> addAssignment(@RequestBody AssignmentRequest request) {
+        return new ResponseEntity<>(assignmentService.addAssignment(
+                request.getCommitteeId(),
+                request.getSuid(),
+                request.getTerm(),
+                request.getRole()),
+                HttpStatus.OK);
+
+    }
 
     @GetMapping("/getByCommitteeAndTerm")
     public ResponseEntity<List<CommitteeTermPayload>> getByCommitteeAndTerm(
@@ -57,7 +76,6 @@ public class AssignmentController {
         List<CommitteeTermPayload> result = assignmentService.getByCommitteeAndTerm(committees, terms);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
-
 
     @GetMapping("/getCommitteeAssignment")
     public ResponseEntity<List<CommitteeAssignmentPayload>> getCommitteeAssignment(
