@@ -5,7 +5,6 @@ import StringConstants from 'product/constants/StringConstants';
 import ProgramService from 'product/service/programs';
 import React, { useEffect, useState } from 'react';
 import Terms from 'assets/jsons/report/terms.json';
-import MeetingsService from 'product/service/meetings';
 import AssignmentsService from 'product/service/assignments';
 import TableExpandable from 'product/components/TableExpandable';
 import PrimaryButton from 'product/components/PrimaryButton';
@@ -15,7 +14,7 @@ import { columnMapping } from 'product/constants/ColumnMapping';
 const CommitteesAssignment = () => {
 
     const [reportData, setReportData] = useState([]);
-    const [programData, setprogramData] = useState([]);
+    const [programData, setProgramData] = useState([]);
     const [selectedProgram, setSelectedCommittees] = useState([]);
     const [selectedTerms, setSelectedTerms] = useState([]);
     const [isLoading, setLoading] = useState(false);
@@ -27,46 +26,48 @@ const CommitteesAssignment = () => {
     }, []);
 
     const fetchPrograms = async () => {
-        try {
-            setLoading(true);
-            const response = await ProgramService.getAll();
-            const formattedData = response.data.map(program => ({
-                value: program.program,
-                label: program.programFull
-            }));
-            setprogramData(formattedData);
-            setLoading(false);
-        } catch (error) {
-            alert(StringConstants.ERROR);
-            setLoading(false);
-        }
+        setLoading(true);
+        ProgramService.getAll()
+            .then(response => {
+                const formattedData = response.data.map(program => ({
+                    value: program.program,
+                    label: program.programFull
+                }));
+                setProgramData(formattedData);
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            })
+            .finally(() => {
+                setLoading(false);
+            });
     };
 
     const fetchReportData = async () => {
-        try {
-            setLoading(true);
-            const response = await AssignmentsService.getCommitteeAssignment(
-                selectedProgram.map(c => c.value),
-                selectedTerms.map(t => t.value)
-            );
-
-            const organizedData = response.data.map(item => {
-                const key = item.program;
-                const program = item.program;
-                const instructors = item.instructors.map(instructor => ({
-                    fullName: instructor.fullName,
-                    committee: instructor.committees,
-                }));
-                return { key, program, instructors };
+        setLoading(true);
+        AssignmentsService.getCommitteeAssignment(
+            selectedProgram.map(c => c.value),
+            selectedTerms.map(t => t.value)
+        )
+            .then(response => {
+                const organizedData = response.data.map(item => {
+                    const key = item.program;
+                    const program = item.program;
+                    const instructors = item.instructors.map(instructor => ({
+                        fullName: instructor.fullName,
+                        committee: instructor.committees,
+                    }));
+                    return { key, program, instructors };
+                });
+                console.log(organizedData);
+                setReportData(organizedData);
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            })
+            .finally(() => {
+                setLoading(false);
             });
-            console.log(organizedData);
-            setReportData(organizedData);
-            setLoading(false);
-        } catch (error) {
-            alert(StringConstants.ERROR);
-            setLoading(false);
-        }
-        
     };
 
     const handleSelecteProgramChange = (programs) => {
@@ -89,9 +90,9 @@ const CommitteesAssignment = () => {
     const insideColumns = [columnMapping.fullName, columnMapping.multipleCommittees];
 
     return (
-        
+
         <Spin spinning={isLoading}>
-            <ProductHeader title= {StringConstants.COMMITTEE_ASSIGNMENT} />
+            <ProductHeader title={StringConstants.COMMITTEE_ASSIGNMENT} />
             {isFilterMode && (
                 <Filter
                     filterProps={[
@@ -115,7 +116,7 @@ const CommitteesAssignment = () => {
                 />
             )}
             {!isFilterMode && (<div>
-                <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} dataSource={reportData} getNestedData={record => record.instructors}/>
+                <TableExpandable outsideColumns={outsideColumns} insideColumns={insideColumns} dataSource={reportData} getNestedData={record => record.instructors} />
                 <PrimaryButton
                     title={StringConstants.BACK}
                     onClick={handleBackButtonClick}

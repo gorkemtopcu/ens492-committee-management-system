@@ -3,7 +3,7 @@ import TableSearch from 'product/components/TableSearch';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import PopupForm from 'product/components/PopupForm';
 import ProductHeader from 'product/components/ProductHeader';
-import { Spin } from 'antd';
+import { Spin, notification } from 'antd';
 
 import UNIVERSITY_PROGRAMS from 'product/constants/ProgramConstants';
 import MembersService from 'product/service/members';
@@ -65,7 +65,10 @@ const MembersManagement = () => {
         setLoading(true);
         MembersService.update(updatedMember)
             .then(response => {
-                console.log(response);
+                notification.success({
+                    message: StringConstants.SUCCESS,
+                    description: 'Member editted successfully',
+                });
                 fetchData();
             })
             .catch(error => {

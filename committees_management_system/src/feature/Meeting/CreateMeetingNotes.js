@@ -6,6 +6,7 @@ import MembersService from 'product/service/members';
 import StringConstants from 'product/constants/StringConstants';
 import CommitteeService from 'product/service/committees';
 import MeetingsService from 'product/service/meetings';
+import MeetingPlaces from 'assets/jsons/Meetings/MeetingPlaces.json'
 
 const CreateMeetingNotes = () => {
     const [committees, setCommittees] = useState([]);
@@ -57,13 +58,12 @@ const CreateMeetingNotes = () => {
     useEffect(() => {
         fetchCommittees();
         fetchMembers();
-
     }, []);
 
     const formFields = [
         { name: 'committee', label: 'Committee', type: 'select', required: true, options: committees },
         { name: 'date', label: 'Date', type: 'date', required: true },
-        { name: 'place', label: 'Place', type: 'text', required: false },
+        { name: 'place', label: 'Place', type: 'select', required: false, options: MeetingPlaces.map(p => ({ value: p, label: p })) },
         { name: 'subject', label: 'Subject', type: 'textarea', required: true },
         { name: 'decisions', label: 'Decisions', type: 'textarea', required: true },
         { name: 'participants', label: 'Participants', type: 'multiSelect', required: true, options: members },
@@ -72,7 +72,7 @@ const CreateMeetingNotes = () => {
         { name: 'nextMeetingDate', label: 'Next Meeting Date', type: 'date', required: true },
     ];
 
-    const handleFinish = async (values, form, setFileList) => {
+    const handleFinish = async (values, form) => {
         setCreateMeetingLoading(true);
         const data = {
             "committee": values.committee,
@@ -84,10 +84,8 @@ const CreateMeetingNotes = () => {
             "decisions": values.decisions,
             "attachment": `[${values.attachment.map(element => `"${element.name}"`).join(', ')}]`,
             "nextMeetingDate": values.nextMeetingDate,
-            // createdBy will be implemented after login operations
+            // TODO: createdBy will be implemented after login operations
         };
-
-        console.log("Form data:", data);
 
         const isCreated = await createMeetingNote(data);
         if (!isCreated) {
@@ -104,7 +102,6 @@ const CreateMeetingNotes = () => {
         });
 
         setCreateMeetingLoading(false);
-        setFileList([]);
     };
 
     const handleCancel = (form, setFileList) => {

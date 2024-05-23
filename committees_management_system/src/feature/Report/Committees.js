@@ -36,30 +36,31 @@ const Committees = () => {
     };
 
     const fetchReportData = async () => {
-        try {
-            setLoading(true);
-            const response = await AssignmentsService.getByCommitteeAndTerm(
-                selectedCommittees.map(c => c.value),
-                selectedTerms.map(t => t.value)
-            );
-
-            const organizedData = response.data.map(item => {
-                const key = item.committee;
-                const committee = item.committee;
-                const instructors = item.instructors.map(instructor => ({
-                    fullName: instructor.fullName,
-                    terms: instructor.terms,
-                }));
-                return { key, committee, instructors };
+        setLoading(true);
+        AssignmentsService.getByCommitteeAndTerm(
+            selectedCommittees.map(c => c.value),
+            selectedTerms.map(t => t.value)
+        )
+            .then(response => {
+                const organizedData = response.data.map(item => {
+                    const key = item.committee;
+                    const committee = item.committee;
+                    const instructors = item.instructors.map(instructor => ({
+                        fullName: instructor.fullName,
+                        terms: instructor.terms,
+                    }));
+                    return { key, committee, instructors };
+                });
+                console.log(organizedData);
+                setReportData(organizedData);
+            })
+            .catch(error => {
+                alert(StringConstants.ERROR);
+            })
+            .finally(() => {
+                setLoading(false);
             });
 
-            console.log(organizedData);
-            setReportData(organizedData);
-            setLoading(false);
-        } catch (error) {
-            alert(StringConstants.ERROR);
-            setLoading(false);
-        }
     };
 
     useEffect(() => {

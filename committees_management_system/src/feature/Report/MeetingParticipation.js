@@ -6,7 +6,6 @@ import PrimaryButton from 'product/components/PrimaryButton';
 import StringConstants from 'product/constants/StringConstants';
 import MembersService from 'product/service/members';
 import { Spin } from 'antd';
-import TableExpandable from 'product/components/TableExpandable';
 import { columnMapping } from 'product/constants/ColumnMapping';
 import Filter from 'product/components/Filter';
 import TableSearch from 'product/components/TableSearch';
@@ -15,7 +14,6 @@ import MeetingsService from 'product/service/meetings';
 const MeetingParticipation = () => {
     const [members, setMembers] = useState([]);
     const [selectedMembers, setSelectedMembers] = useState([]);
-    const [isButtonEnabled, setIsButtonEnabled] = useState(false);
     const [reportData, setReportData] = useState([]);
     const [isLoading, setLoading] = useState(false);
     const [selectedTerms, setSelectedTerms] = useState([]);
@@ -28,14 +26,19 @@ const MeetingParticipation = () => {
     }, []);
 
     const fetchData = async () => {
+        setLoading(true);
         MembersService.getAll()
             .then(response => setMembers(response.data))
             .catch(error => {
                 alert(StringConstants.ERROR);
+            })
+            .finally(() => {
+                setLoading(false);
             });
     };
 
     const fetchReportData = async () => {
+        setLoading(true);
         MeetingsService.getByMemberIdAndTerm
             (
                 selectedMembers.map(m => m.suid),
@@ -56,13 +59,14 @@ const MeetingParticipation = () => {
             })
             .catch(error => {
                 alert(StringConstants.ERROR);
+            }).finally(() => {
+                setLoading(false);
             });
     };
 
     const handleChange = (selectedValues) => {
         const selectedMemberObjects = members.filter(member => selectedValues.includes(member.fullName));
         setSelectedMembers(selectedMemberObjects);
-        setIsButtonEnabled(selectedValues.length > 0);
     };
 
     const handleBackButtonClick = () => {
@@ -112,10 +116,10 @@ const MeetingParticipation = () => {
             )}
             {!isFilterMode && (
                 <div>
-                   <TableSearch
+                    <TableSearch
                         columns={insideColumns}
-                        data={reportData}                        
-                   />
+                        data={reportData}
+                    />
                     <PrimaryButton
                         title={StringConstants.BACK}
                         onClick={handleBackButtonClick}
