@@ -87,7 +87,21 @@ const AssignmentsService = {
             console.error('Error adding data:', error);
             throw error; // Re-throw the error to be handled by the caller
         }
-    }
+    },
+
+    duplicateTerm: async (fromTerm, toTerm) => {
+        try {
+            //Create param
+            const params = {
+                fromTerm: fromTerm,
+                toTerm: toTerm
+            };
+
+            return await axios.post(ServiceConstants.ASSIGNMENTS + ServiceConstants.DUPLICATE_TERM, params);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    },
 
 
 

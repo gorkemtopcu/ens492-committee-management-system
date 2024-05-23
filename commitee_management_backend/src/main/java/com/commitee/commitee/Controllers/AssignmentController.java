@@ -3,6 +3,7 @@ package com.commitee.commitee.Controllers;
 import com.commitee.commitee.Entities.Assignment;
 import com.commitee.commitee.Payload.*;
 import com.commitee.commitee.Requests.AssignmentRequest;
+import com.commitee.commitee.Requests.DuplicateTermRequest;
 import com.commitee.commitee.Services.AssignmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -96,6 +97,9 @@ public class AssignmentController {
         return ResponseEntity.ok(result);
     }
 
-
+    @PostMapping("/duplicateTerm")
+    public ResponseEntity<?> duplicateTerm(@RequestBody DuplicateTermRequest request) {
+        return new ResponseEntity<>(assignmentService.duplicateTerm(request.getFromTerm(), request.getToTerm()), HttpStatus.OK);
+    }
 
 }

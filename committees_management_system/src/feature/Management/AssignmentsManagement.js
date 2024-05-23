@@ -23,11 +23,16 @@ const AssignmentsManagement = () => {
   const [isFilterMode, setIsFilterMode] = useState(true);
   const [committees, setCommittees] = useState([]);
   const [members, setMembers] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [addModalVisible, setAddModalVisible] = useState(false);
   const [initialValues, setInitialValues] = useState(null);
   const [roles, setRoles] = useState([]);
+  const [duplicateModalVisible, setDuplicateModalVisible] = useState(false);
 
   const isFilterable = () => selectedTerms.length > 0;
+  //Create a function to get last term from list of terms
+  const getLastTerm = () => {
+    return Terms[0];
+  };
 
   const fetchMembers = async () => {
     setLoading(true);
@@ -133,17 +138,21 @@ const AssignmentsManagement = () => {
     console.log(record);
   };
 
+  const onDuplicateButtonClicked = () => {
+    setDuplicateModalVisible(true);
+  };
+
   const onAddButtonClicked = () => {
     fethCommittees();
     fetchMembers();
     fetchRoles();
-    setModalVisible(true);
-    console.log('Add button clicked');
-  }
+    setAddModalVisible(true);
+  };
 
   const handleCancel = () => {
-    setModalVisible(false);
-  };
+    setAddModalVisible(false);
+    setDuplicateModalVisible(false);
+    };
 
   const handleCreateAssigment = (values) => {
     if (!values) {
@@ -152,7 +161,7 @@ const AssignmentsManagement = () => {
     AssignmentsService.add(values)
       .then(() => {
         fetchReportData();
-        setModalVisible(false);
+        setAddModalVisible(false);
       })
       .catch(error => {
         console.error('Error creating assignment:', error);
@@ -161,10 +170,45 @@ const AssignmentsManagement = () => {
     console.log(values);
   };
 
+  const handleDuplicateTerm = (record) => {
+    if (!record) {
+        return;
+    }
+
+    Modal.confirm({
+        title: 'Confirm Duplicate',
+        content: `Are you sure you want to duplicate term ${record.term} to last term ${getLastTerm()}?`,
+        okText: 'Yes',
+        okType: 'primary',
+        cancelText: 'No',
+        onOk() {
+            setLoading(true);
+            AssignmentsService.duplicateTerm(record.term, getLastTerm())
+                .then(() => {
+                    fetchReportData();
+                    setDuplicateModalVisible(false);
+                })
+                .catch(error => {
+                    console.error('Error duplicating term:', error);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        },
+        onCancel() {
+            console.log('Duplicate term operation canceled');
+        }
+    });
+
+    console.log(record);
+};
+
+      
+
   const outsideColumns = [columnMapping.committee];
   const insideColumns = [columnMapping.fullName, columnMapping.program, columnMapping.action(null, handleDeleteButtonClicked)];
 
-  const formFields = [
+  const addButtonFormFields = [
     {
       name: 'committee', label: 'Committees', type: 'select', required: true,
       options: committees.map(committee => ({ label: committee.committee, value: committee.id }))
@@ -181,6 +225,13 @@ const AssignmentsManagement = () => {
       name: 'role', label: 'Role', type: 'select', required: true,
       options: roles.map(role => ({ label: role.role, value: role.id }))
     }
+  ];
+
+  const duplicateButtonFromFields = [
+    {
+      name: 'term', label: 'Term', type: 'select', required: true,
+      options: Terms.map(term => ({ value: term, label: term }))
+    },
   ];
 
   return (
@@ -203,9 +254,14 @@ const AssignmentsManagement = () => {
       )}
       {!isFilterMode && (
         <div>
-        <div style={{ marginBottom: '20px' }}>
-          <Button type="primary" icon={<PlusOutlined />} onClick={onAddButtonClicked}>Add New Assignment</Button>
-        </div>
+          <div style={{ display: 'flex', marginBottom: 16 }}>
+            <div style={{ marginBottom: '20px', marginRight: '10px' }}>
+              <Button type="primary" icon={<PlusOutlined />} onClick={onAddButtonClicked}>New Assignment</Button>
+            </div>
+            <div style={{ marginBottom: '20px' }}>
+              <Button type="primary" icon={<PlusOutlined />} onClick={onDuplicateButtonClicked}>Duplicate Term</Button>
+            </div>
+         </div>
           <TableExpandable
             outsideColumns={outsideColumns}
             insideColumns={insideColumns}
@@ -219,11 +275,19 @@ const AssignmentsManagement = () => {
           />
             <PopupForm
               title={StringConstants.ADD_ASSIGNMENT}
-              open={modalVisible}
+              open={addModalVisible}
               initialValues={initialValues}
               onCancel={handleCancel}
               onFinish={handleCreateAssigment}
-              fields={formFields}
+              fields={addButtonFormFields}
+            />
+          <PopupForm
+              title={StringConstants.DUPLICATE_TERM}
+              open={duplicateModalVisible}
+              initialValues={initialValues}
+              onCancel={handleCancel}
+              onFinish={handleDuplicateTerm}
+              fields={duplicateButtonFromFields}
             />
         </div>
       )}
