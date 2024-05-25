@@ -285,7 +285,7 @@ const columnMapping = {
         },
     },
     retire: (handleRetire) => ({
-        title: 'Retire',
+        title: 'Action',
         key: 'retire',
         render: (record) => (
             <Button
@@ -293,7 +293,7 @@ const columnMapping = {
                 style={{ color: COLORS.ERROR, borderColor: COLORS.ERROR }}
                 onClick={() => handleRetire(record)}
             >
-                Retire
+                Start Process
             </Button>
         ),
     }),
